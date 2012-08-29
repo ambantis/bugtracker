@@ -20,7 +20,7 @@ public class PostgresBugDAO implements BugDAO {
         try {
             connection = PostgresDAOFactory.createConnection();
             Statement statement = connection.createStatement();
-            String sqlStmt = "INSERT INTO bugs (summary, description) " +
+            String sqlStmt = "INSERT INTO bug (summary, description) " +
                     "VALUES (''" + summary + "', '" + description + "');";
             statement.execute(sqlStmt);
             connection.close();
