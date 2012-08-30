@@ -11,13 +11,14 @@
     <title></title>
 </head>
 <body>
-    <form id="newBugForm" action="processNewBug.do" method="get">
+    <form method="post" action="processNewBug.do">
         <p>Enter a new bug with this form</p>
         <label for="summary">Summary</label>
-        <textarea id="summary" cols="80" maxlength="100"></textarea>
-        <label for="comments">Description</label>
-        <textarea id="comments" cols="80" maxlength="500"></textarea>
+        <textarea name="summary" id="summary" cols="80" maxlength="100"></textarea>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" cols="80" maxlength="500"></textarea>
         <button type="submit">Submit</button>
     </form>
 </body>
 </html>
+
