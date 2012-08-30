@@ -8,9 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title></title>
+    <title>Bug Tracker Application</title>
   </head>
   <body>
-
+    <h1>Click the link below to create a new bug</h1>
+    <a href="/inputNewBug.do">New Bug</a>
   </body>
 </html>

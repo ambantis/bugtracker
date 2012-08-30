@@ -21,12 +21,9 @@ public class PostgresBugDAO implements BugDAO {
             connection = PostgresDAOFactory.createConnection();
             Statement statement = connection.createStatement();
             String sqlStmt = "INSERT INTO bug (summary, description) " +
-                    "VALUES (''" + summary + "', '" + description + "');";
+                    "VALUES (E'" + summary + "', E'" + description + "');";
             statement.execute(sqlStmt);
             connection.close();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            success = false;
         } catch (SQLException e) {
             e.printStackTrace();
             success = false;

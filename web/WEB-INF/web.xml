@@ -5,4 +5,27 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
 
+    <servlet>
+        <servlet-name>New Bug</servlet-name>
+        <jsp-file>/WEB-INF/inputNewBug.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>New Bug</servlet-name>
+        <url-pattern>/inputNewBug.do</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Process New Bug</servlet-name>
+        <jsp-file>/WEB-INF/processNewBug.jsp</jsp-file>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Process New Bug</servlet-name>
+        <url-pattern>/processNewBug.do</url-pattern>
+    </servlet-mapping>
+
+
+
 </web-app>
+
