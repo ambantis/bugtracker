@@ -20,6 +20,7 @@ public class PostgresBugDAO implements BugDAO {
         try {
             connection = PostgresDAOFactory.createConnection();
             Statement statement = connection.createStatement();
+            // TODO the sql statement for newBug doesn't work if there is an apostrophe in a field.
             String sqlStmt = "INSERT INTO bug (summary, description) " +
                     "VALUES (E'" + summary + "', E'" + description + "');";
             statement.execute(sqlStmt);
