@@ -10,10 +10,13 @@
 <html>
 <head>
     <title></title>
+    <style type="text/css">
+        p.show_bugs { font-family: monospace; }
+    </style>
 </head>
 <body>
     <%@ page import="com.x460dot11.tracker.TransactionShowAllBugHeaders" %>
-    <p>
+    <p class="show_bugs">
     <%
         TransactionShowAllBugHeaders trans = new TransactionShowAllBugHeaders();
         out.print(trans.processShowAllBugHeadersRequest());

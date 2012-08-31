@@ -8,12 +8,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import static org.apache.commons.lang3.StringUtils.repeat;
+
 /**
  * Created with IntelliJ IDEA.
- * User: ambantis
+ * User: Alexandros Bantis
  * Date: 8/28/12
  * Time: 9:37 PM
- * To change this template use File | Settings | File Templates.
  */
 public class PostgresBugDAO implements BugDAO {
 
@@ -52,6 +53,15 @@ public class PostgresBugDAO implements BugDAO {
         Connection connection = null;
         ResultSet resultSet = null;
         StringBuilder stringBuilder = null;
+        String space = "&nbsp";
+        int len;
+        String bug_id;
+        String due_date;
+        String assignee;
+        String priority;
+        String summary;
+        final int STD_FIELD_LEN = 10;
+        final int SUMMARY_FIELD_LEN = 35;
         try {
             connection = PostgresDAOFactory.createConnection();
             Statement statement = connection.createStatement();
@@ -61,17 +71,52 @@ public class PostgresBugDAO implements BugDAO {
 
             if (resultSet != null) {
                 stringBuilder = new StringBuilder();
+                stringBuilder.append("&nbspBUG_ID&nbsp&nbsp&nbsp|&nbspDUE_DATE&nbsp" +
+                        "|&nbspASSIGNEE&nbsp|&nbspPRIORITY&nbsp|&nbspSUMMARY<br>");
+                stringBuilder.append(repeat("=", 80));
+                stringBuilder.append("<br>");
+
                 while (resultSet.next()) {
-                    stringBuilder.append(" BUG_ID | DUE_DATE  | ASSIGNEE | PRIORITY | SUMMARY <br>");
-                    stringBuilder.append(resultSet.getString("bug_id"));
-                    stringBuilder.append(",");
-                    stringBuilder.append(resultSet.getString("due_date"));
-                    stringBuilder.append(",");
-                    stringBuilder.append(resultSet.getString("assignee"));
-                    stringBuilder.append(",");
-                    stringBuilder.append(resultSet.getString("priority"));
-                    stringBuilder.append(",");
-                    stringBuilder.append(resultSet.getString("summary"));
+                    bug_id = resultSet.getString("bug_id");
+                    due_date = resultSet.getString("due_date");
+                    assignee = resultSet.getString("assignee");
+                    priority = resultSet.getString("priority");
+                    summary = resultSet.getString("summary");
+
+                                        // bug_id can't be null per database schema
+                    stringBuilder.append(bug_id);
+                    stringBuilder.append(repeat(space, STD_FIELD_LEN - bug_id.length()));
+                    stringBuilder.append("|");
+
+                    if (due_date == null) {
+                        stringBuilder.append(repeat(space, STD_FIELD_LEN));
+                    } else {
+                        stringBuilder.append(due_date);
+                        stringBuilder.append(repeat(space, STD_FIELD_LEN - due_date.length()));
+                    }
+                    stringBuilder.append("|");
+
+                    if (assignee == null) {
+                        stringBuilder.append(repeat(space, STD_FIELD_LEN));
+                    } else {
+                        stringBuilder.append(assignee);
+                        stringBuilder.append(repeat(space, STD_FIELD_LEN - assignee.length()));
+                    }
+                    stringBuilder.append("|");
+
+                    if (priority == null) {
+                        stringBuilder.append(repeat(space, STD_FIELD_LEN));
+                    } else {
+                        stringBuilder.append(priority);
+                        stringBuilder.append(repeat(space, STD_FIELD_LEN - priority.length()));
+                    }
+                    stringBuilder.append("|");
+
+                    // summary can't be null per database schema
+                    len = (summary.length() > SUMMARY_FIELD_LEN) ? SUMMARY_FIELD_LEN : summary.length();
+                    stringBuilder.append(summary.substring(0, len));
+                    stringBuilder.append((len > SUMMARY_FIELD_LEN) ? "..." : "");
+
                     stringBuilder.append("<br>");
                 }
             }
