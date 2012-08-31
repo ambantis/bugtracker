@@ -32,5 +32,6 @@
 
     <h2>Click the link below to create a new bug</h2>
     <a href="/inputNewBug.do">New Bug</a>
+    <a href="/displayAllBugs.do">Show All Bugs</a>
   </body>
 </html>
