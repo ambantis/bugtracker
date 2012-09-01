@@ -1,12 +1,9 @@
 package com.x460dot11.data;
 
-import com.x460dot11.tracker.Bug;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import static org.apache.commons.lang3.StringUtils.repeat;
 
@@ -129,5 +126,49 @@ public class PostgresBugDAO implements BugDAO {
             return stringBuilder.toString();
         else
             return null;
+    }
+
+    @Override
+    public Bug getBug(int bugID) {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        String bug_id;
+        String due_date;
+        String assignee;
+        String priority;
+        String summary;
+        String description;
+        Bug bug = null;
+        try {
+            connection = PostgresDAOFactory.createConnection();
+            Statement statement = connection.createStatement();
+            String sqlStmt = "SELECT * FROM bug WHERE bug_id = " + bugID + ";";
+            statement.execute(sqlStmt);
+            resultSet = statement.getResultSet();
+
+            if (resultSet != null) {
+                resultSet.next();
+                bug_id = resultSet.getString("bug_id");
+                due_date = resultSet.getString("due_date");
+                assignee = resultSet.getString("assignee");
+                priority = resultSet.getString("priority");
+                summary = resultSet.getString("summary");
+                description = resultSet.getString("description");
+                if (due_date == null)
+                    due_date = "";
+                if (assignee == null)
+                    assignee = "";
+                if (priority == null)
+                    priority = "";
+                if (summary == null)
+                    summary = "";
+                if (description == null)
+                    description = "";
+                bug = new Bug(bug_id, priority, due_date, assignee, summary, description);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bug;
     }
 }

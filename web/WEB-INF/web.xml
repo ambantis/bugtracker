@@ -54,6 +54,16 @@
         <servlet-name>Process New Bug</servlet-name>
         <url-pattern>/processNewBug.do</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Display A Bug</servlet-name>
+        <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Display A Bug</servlet-name>
+        <url-pattern>/editBug.do</url-pattern>
+    </servlet-mapping>
 
 </web-app>
 

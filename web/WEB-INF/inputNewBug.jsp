@@ -1,4 +1,4 @@
-<%@ page import="com.x460dot11.tracker.User" %>
+<%@ page import="com.x460dot11.data.User" %>
 <%--
   Created by IntelliJ IDEA.
   User: ambantis

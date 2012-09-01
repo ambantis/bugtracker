@@ -1,4 +1,4 @@
-package com.x460dot11.tracker;
+package com.x460dot11.data;
 
 import java.io.Serializable;
 
@@ -11,12 +11,26 @@ import java.io.Serializable;
  */
 public class Bug implements Serializable {
     int bugID;
-    int priority;
-    String user;
+    String priority;
     String dueDate;
+    String assignee;
     String summary;
     String description;
     String finalResult;
+
+    public Bug(String bugID, String priority, String dueDate, String assignee,
+               String summary, String description) {
+        this.bugID = Integer.parseInt(bugID);
+        this.priority = priority;
+        this.dueDate = dueDate;
+        this.assignee = assignee;
+        this.summary = summary;
+        this.description = description;
+    }
+
+    public Bug() {
+    }
+
 
     public int getBugID() {
         return bugID;
@@ -26,20 +40,12 @@ public class Bug implements Serializable {
         this.bugID = bugID;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public String getDueDate() {
@@ -48,6 +54,14 @@ public class Bug implements Serializable {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
     }
 
     public String getSummary() {

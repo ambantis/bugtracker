@@ -1,4 +1,4 @@
-package com.x460dot11.tracker;
+package com.x460dot11.data;
 
 /**
  * Created with IntelliJ IDEA.

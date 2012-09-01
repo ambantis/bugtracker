@@ -11,4 +11,5 @@ public interface BugDAO {
     public boolean assignBug(int bugID, String user);
     public boolean updateBug(String due_date, int priority, String summary, String description);
     public String getAllBugHeaders();
+    public Bug getBug(int bugID);
 }

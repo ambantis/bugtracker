@@ -1,6 +1,6 @@
 package com.x460dot11.servlet;
 
-import com.x460dot11.tracker.User;
+import com.x460dot11.data.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

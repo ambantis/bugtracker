@@ -1,4 +1,4 @@
-package com.x460dot11.tracker;
+package com.x460dot11.transaction;
 
 import com.x460dot11.data.BugDAO;
 import com.x460dot11.data.DAOFactory;
