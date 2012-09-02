@@ -13,19 +13,14 @@
   </head>
   <body>
     <p>
-        The Request body username parameter is
-        <%= request.getParameter("username")%>
-        <br>
-        The request body password is
-        <%= request.getParameter("password")%>
-        <br>
-        The request body role is
-        <%= request.getParameter("role") %>
         <%
             User user = (User) session.getAttribute("user");
             out.println("The session user is " + user.getUsername());
+            out.print("<br>");
             out.println("The session role is " + user.getRole());
+            out.print("<br>");
             out.println("The session id is " + session.getId());
+            out.print("<br>");
             out.println("Is the session new?: " + session.isNew());
         %>
     </p>

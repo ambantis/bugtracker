@@ -18,11 +18,18 @@ import java.io.IOException;
 public class ServletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String role = request.getParameter("role");
+        String username;
+        String role;
 
-        // TODO create login authentication
+        username = request.getUserPrincipal().getName();
+        if (request.isUserInRole("bug-qa"))
+            role = "qa";
+        else if (request.isUserInRole("bug-mngr"))
+            role = "manager";
+        else if (request.isUserInRole("bug-dev"))
+            role = "developer";
+        else
+            return;
 
         User user = new User(username, role);
         HttpSession session = request.getSession();
@@ -30,9 +37,5 @@ public class ServletLogin extends HttpServlet {
 
         RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
         view.forward(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
     }
 }

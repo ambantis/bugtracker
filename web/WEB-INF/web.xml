@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-           version="2.5">
+         version="2.5">
 
     <servlet>
         <servlet-name>Login</servlet-name>
@@ -40,12 +40,12 @@
         <servlet-name>Display All Bugs</servlet-name>
         <jsp-file>/WEB-INF/displayAllBugs.jsp</jsp-file>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>Display All Bugs</servlet-name>
         <url-pattern>/displayAllBugs.do</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>Process New Bug</servlet-name>
         <jsp-file>/WEB-INF/processNewBug.jsp</jsp-file>
@@ -55,7 +55,7 @@
         <servlet-name>Process New Bug</servlet-name>
         <url-pattern>/processNewBug.do</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>Display A Bug</servlet-name>
         <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
@@ -78,9 +78,44 @@
         <url-pattern>/processEditBug.do</url-pattern>
     </servlet-mapping>
 
+    <login-config>
+        <auth-method>BASIC</auth-method>
+    </login-config>
+    
+    <security-role>
+        <role-name>bug-qa</role-name>
+    </security-role>
+    <security-role>
+        <role-name>bug-mngr</role-name>
+    </security-role>
+    <security-role>
+        <role-name>bug-dev</role-name>
+    </security-role>
+    
+    <security-constraint>
+        <web-resource-collection>
+
+            <web-resource-name>UpdateRecipes</web-resource-name>
+            <url-pattern>/*</url-pattern>
+
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>bug-qa</role-name>
+            <role-name>bug-mngr</role-name>
+            <role-name>bug-dev</role-name>
+        </auth-constraint>
 
 
-
+    </security-constraint>
+    
+    
+    
+    
+    
+    
 
 </web-app>
-
