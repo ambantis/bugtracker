@@ -7,6 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+
 <html>
   <head>
     <title>Bug Tracker Application</title>
@@ -24,7 +26,7 @@
             out.println("Is the session new?: " + session.isNew());
         %>
     </p>
-
+    <h3><c:out value="look ma, jstl works!"></c:out></h3>
     <h2>Click the link below to create a new bug</h2>
     <a href="/inputNewBug.do">New Bug</a>
     <a href="/displayAllBugs.do">Show All Bugs</a>
