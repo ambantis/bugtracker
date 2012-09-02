@@ -22,7 +22,7 @@ public class PostgresBugDAO implements BugDAO {
         try {
             connection = PostgresDAOFactory.createConnection();
             Statement statement = connection.createStatement();
-            // TODO the sql statement for newBug doesn't work if there is an apostrophe in a field.
+            // TODO implement org.apache.commons.lang.StringEscapeUtils for all SQL statements
             String sqlStmt = "INSERT INTO bug (summary, description) " +
                     "VALUES (E'" + summary + "', E'" + description + "');";
             statement.execute(sqlStmt);
@@ -165,10 +165,41 @@ public class PostgresBugDAO implements BugDAO {
                 if (description == null)
                     description = "";
                 bug = new Bug(bug_id, priority, due_date, assignee, summary, description);
+                connection.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return bug;
+    }
+
+    @Override
+    public boolean editBug(Bug bug) {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        int bug_id = bug.getBugID();
+        String due_date = bug.getDueDate();
+        String assignee = bug.getAssignee();
+        String priority = bug.getPriority();
+        String summary = bug.getSummary();
+        String description = bug.getDescription();
+        try {
+            connection = PostgresDAOFactory.createConnection();
+            Statement statement = connection.createStatement();
+            String sqlStmt = "UPDATE bug " +
+                    "SET due_date = \'" + due_date + "\', " +
+                    "assignee = \'" + assignee + "\', "  +
+                    "priority = \'" + priority + "\', " +
+                    "summary = \'" + summary + "\', " +
+                    "description = \'" + description + "\' " +
+                    "WHERE bug_id = \'" + bug_id + "\';";
+            statement.execute(sqlStmt);
+            connection.close();
+
+    } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

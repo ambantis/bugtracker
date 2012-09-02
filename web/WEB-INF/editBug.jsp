@@ -10,36 +10,49 @@
 <html>
 <head>
     <title>Edit A Bug</title>
+    <style type="text/css">
+        .noWrite {
+            color: grey;
+            background-color: #F0F0F0;
+        }
+
+    </style>
 </head>
 <body>
 
-    <%! Bug bug = new Bug(); %>
-    <%bug = new TransactionGetBug().doGetBug(request.getParameter("b_id")); %>
-    <%=  request.getParameter("b_id") %>
+    <%! Bug bug; %>
+    <% bug = new TransactionGetBug().doGetBug(request.getParameter("b_id")); %>
+
 
     <h2>Update Information and then press submit</h2>
-    <form method="post" action="changeBug.do">
+    <form method="post" action="processEditBug.do">
         <label for="bug_id">Bug ID</label>
-        <input id="bug_id" name="bug_id" value="<%= bug.getBugID()%>" disabled="disabled">
+        <input class="noWrite"
+               id="bug_id"
+               name="bug_id"
+               value="<% out.print(bug.getBugID()); %>"
+               readonly="readonly">
         <br>
         <label for="due_date">Due Date</label>
-        <input id="due_date" name="due_date" value="<%= bug.getDueDate()%>">
+        <input id="due_date"
+               name="due_date"
+               value="<% out.print(bug.getDueDate()); %>">
         <br>
         <label for="assignee">Assignee</label>
-        <input id="assignee" name="assignee" value="<%= bug.getAssignee() %>">
+        <input id="assignee"
+               name="assignee"
+               value="<% out.print(bug.getAssignee()); %>">
         <br>
         <label for="priority">Priority</label>
-        <input id="priority" name="priority" value="<%= bug.getPriority()%>">
+        <input id="priority"
+               name="priority"
+               value="<% out.print(bug.getPriority()); %>">
         <br>
-        <label for="summary">Summary</label>
-        <textarea id="summary" name="summary" disabled="disabled">
-            <%= bug.getSummary()%>
-        </textarea>
+        <label class="noWrite" for="summary">Summary</label>
+        <textarea class="noWrite" id="summary" name="summary" readonly="readonly"><% out.print(bug.getSummary()); %></textarea>
         <br>
         <label for="description">Description</label>
-        <textarea id="description" name="description" disabled="disabled">
-            <%= bug.getDescription() %>
-        </textarea>
+        <textarea class="noWrite" id="description" name="description" readonly="readonly"><% out.print(bug.getDescription()); %></textarea>
         <br>
         <label for="new_comment">New Comment</label>
         <textarea id="new_comment" name="new_comment"></textarea>

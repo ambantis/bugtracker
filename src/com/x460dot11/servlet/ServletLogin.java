@@ -4,7 +4,6 @@ import com.x460dot11.data.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,13 +11,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ambantis
+ * User: Alexandros Bantis
  * Date: 8/31/12
  * Time: 7:39 AM
- * To change this template use File | Settings | File Templates.
  */
-@WebServlet(name = "ServletLogin")
 public class ServletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -16,6 +16,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Welcome Page</servlet-name>
+        <jsp-file>/WEB-INF/welcome.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Welcome Page</servlet-name>
+        <url-pattern>/welcome.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>New Bug</servlet-name>
         <jsp-file>/WEB-INF/inputNewBug.jsp</jsp-file>
     </servlet>
@@ -25,15 +35,6 @@
         <url-pattern>/inputNewBug.do</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>Welcome Page</servlet-name>
-        <jsp-file>/WEB-INF/welcome.jsp</jsp-file>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Welcome Page</servlet-name>
-        <url-pattern>/welcome.do</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>Display All Bugs</servlet-name>
@@ -59,11 +60,27 @@
         <servlet-name>Display A Bug</servlet-name>
         <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>Display A Bug</servlet-name>
         <url-pattern>/editBug.do</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <description>Processes request to edit a bug</description>
+        <display-name>Process Edit Bug</display-name>
+        <servlet-name>ServletProcessEditBug</servlet-name>
+        <servlet-class>com.x460dot11.servlet.ServletProcessEditBug</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletProcessEditBug</servlet-name>
+        <url-pattern>/processEditBug.do</url-pattern>
+    </servlet-mapping>
+
+
+
+
 
 </web-app>
 
