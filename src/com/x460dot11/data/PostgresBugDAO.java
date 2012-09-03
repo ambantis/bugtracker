@@ -132,12 +132,13 @@ public class PostgresBugDAO implements BugDAO {
     public Bug getBug(int bugID) {
         Connection connection = null;
         ResultSet resultSet = null;
-        String bug_id;
+        int bug_id;
         String due_date;
         String assignee;
-        String priority;
+        int priority;
         String summary;
         String description;
+        String final_result;
         Bug bug = null;
         try {
             connection = PostgresDAOFactory.createConnection();
@@ -148,23 +149,22 @@ public class PostgresBugDAO implements BugDAO {
 
             if (resultSet != null) {
                 resultSet.next();
-                bug_id = resultSet.getString("bug_id");
+                bug_id = Integer.parseInt(resultSet.getString("bug_id"));
                 due_date = resultSet.getString("due_date");
                 assignee = resultSet.getString("assignee");
-                priority = resultSet.getString("priority");
+                priority = Integer.parseInt(resultSet.getString("priority"));
                 summary = resultSet.getString("summary");
                 description = resultSet.getString("description");
+                final_result = resultSet.getString("final_result");
                 if (due_date == null)
                     due_date = "";
                 if (assignee == null)
                     assignee = "";
-                if (priority == null)
-                    priority = "";
                 if (summary == null)
                     summary = "";
                 if (description == null)
                     description = "";
-                bug = new Bug(bug_id, priority, due_date, assignee, summary, description);
+                bug = new Bug(bug_id, priority, due_date, assignee, summary, description, final_result);
                 connection.close();
             }
         } catch (SQLException e) {
@@ -180,7 +180,7 @@ public class PostgresBugDAO implements BugDAO {
         int bug_id = bug.getBugID();
         String due_date = bug.getDueDate();
         String assignee = bug.getAssignee();
-        String priority = bug.getPriority();
+        int priority = bug.getPriority();
         String summary = bug.getSummary();
         String description = bug.getDescription();
         try {

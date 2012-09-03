@@ -21,15 +21,16 @@ public class ServletProcessEditBug extends HttpServlet {
 
         // TODO edit bug process needs to lock record to prevent concurrent edits.
 
-        String bug_id = request.getParameter("bug_id");
+        int bug_id = Integer.parseInt(request.getParameter("bug_id"));
         String due_date = request.getParameter("due_date");
         String assignee = request.getParameter("assignee");
-        String priority = request.getParameter("priority");
+        int priority = Integer.parseInt(request.getParameter("priority"));
         String summary = request.getParameter("summary");
         String description = request.getParameter("description") + " " +
                 request.getParameter("new_comment");
+        String final_result = "";
 
-        Bug bug = new Bug(bug_id, priority, due_date, assignee, summary, description);
+        Bug bug = new Bug(bug_id, priority, due_date, assignee, summary, description, final_result);
         TransactionEditBug trans = new TransactionEditBug();
         boolean success = trans.doEditBug(bug);
 

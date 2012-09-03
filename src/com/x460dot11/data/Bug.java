@@ -1,17 +1,14 @@
 package com.x460dot11.data;
 
-import java.io.Serializable;
-
 /**
  * Created with IntelliJ IDEA.
- * User: ambantis
+ * User: Alexandros Bantis
  * Date: 8/28/12
- * Time: 9:58 PM
- * To change this template use File | Settings | File Templates.
+ * Time: 9:58 PM.
  */
-public class Bug implements Serializable {
+public class Bug {
     int bugID;
-    String priority;
+    int priority;
     String dueDate;
     String assignee;
     String summary;
@@ -19,17 +16,30 @@ public class Bug implements Serializable {
     String finalResult;
 
     public Bug(String bugID, String priority, String dueDate, String assignee,
-               String summary, String description) {
+               String summary, String description, String finalResult) {
         this.bugID = Integer.parseInt(bugID);
+        this.priority = Integer.parseInt(priority);
+        this.dueDate = dueDate;
+        this.assignee = assignee;
+        this.summary = summary;
+        this.description = description;
+        this.finalResult = finalResult;
+    }
+
+    public Bug(int bugID, int priority, String dueDate, String assignee,
+               String summary, String description, String finalResult) {
+        this.bugID = bugID;
         this.priority = priority;
         this.dueDate = dueDate;
         this.assignee = assignee;
         this.summary = summary;
         this.description = description;
+        this.finalResult = finalResult;
     }
 
     public Bug() {
     }
+
 
 
     public int getBugID() {
@@ -40,11 +50,11 @@ public class Bug implements Serializable {
         this.bugID = bugID;
     }
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(int priority) {
         this.priority = priority;
     }
 

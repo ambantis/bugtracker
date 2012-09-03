@@ -5,11 +5,16 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
+
+
+    <!-- ===================================================================-->
+<!-- SERVLET DEFINITIONS                                                -->
+<!-- ===================================================================-->
+
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>com.x460dot11.servlet.ServletLogin</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login.do</url-pattern>
@@ -19,7 +24,6 @@
         <servlet-name>Welcome Page</servlet-name>
         <jsp-file>/WEB-INF/welcome.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Welcome Page</servlet-name>
         <url-pattern>/welcome.do</url-pattern>
@@ -29,7 +33,6 @@
         <servlet-name>New Bug</servlet-name>
         <jsp-file>/WEB-INF/inputNewBug.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>New Bug</servlet-name>
         <url-pattern>/inputNewBug.do</url-pattern>
@@ -40,7 +43,6 @@
         <servlet-name>Display All Bugs</servlet-name>
         <jsp-file>/WEB-INF/displayAllBugs.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Display All Bugs</servlet-name>
         <url-pattern>/displayAllBugs.do</url-pattern>
@@ -50,7 +52,6 @@
         <servlet-name>Process New Bug</servlet-name>
         <jsp-file>/WEB-INF/processNewBug.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Process New Bug</servlet-name>
         <url-pattern>/processNewBug.do</url-pattern>
@@ -60,7 +61,6 @@
         <servlet-name>Display A Bug</servlet-name>
         <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Display A Bug</servlet-name>
         <url-pattern>/editBug.do</url-pattern>
@@ -72,16 +72,47 @@
         <servlet-name>ServletProcessEditBug</servlet-name>
         <servlet-class>com.x460dot11.servlet.ServletProcessEditBug</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>ServletProcessEditBug</servlet-name>
         <url-pattern>/processEditBug.do</url-pattern>
     </servlet-mapping>
 
+    <!-- ===================================================================-->
+    <!-- CONTEXT LISTENER & PARAMETERS                                      -->
+    <!-- ===================================================================-->
+
+    <listener>
+        <listener-class>com.x460dot11.listener.ContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>db-driver</param-name>
+        <param-value>org.postgresql.Driver</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>db-url</param-name>
+        <param-value>jdbc:postgresql://50.112.254.147:5432/bugdb</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>db-user</param-name>
+        <param-value>roach</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>db-password</param-name>
+        <param-value>motel</param-value>
+    </context-param>
+
+    <!-- ===================================================================-->
+    <!-- SECURITY DEFINITIONS                                               -->
+    <!-- ===================================================================-->
+
     <login-config>
         <auth-method>BASIC</auth-method>
     </login-config>
-    
+
     <security-role>
         <role-name>bug-qa</role-name>
     </security-role>
@@ -108,14 +139,6 @@
             <role-name>bug-mngr</role-name>
             <role-name>bug-dev</role-name>
         </auth-constraint>
-
-
     </security-constraint>
-    
-    
-    
-    
-    
-    
 
 </web-app>
