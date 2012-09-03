@@ -40,9 +40,13 @@
     <h2>Edit A Bug</h2>
     <p>Enter bug id to update a bug</p>
     <form method="get" action="editBug.do">
-        <label for="b_id">Bug ID Number</label>
-        <input name="b_id" id="b_id">
-        <button type="submit">Submit</button>
+        <label for="pick_id">Pick ID</label>
+        <select id="pick_id">
+            <c:forEach var="bug" items="${bugs}">
+                <option value="${bug.bugID}">BugID ${bug.bugID}</option>
+            </c:forEach>
+        </select>
+       <button type="submit">Submit</button>
     </form>
 
 
