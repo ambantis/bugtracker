@@ -45,8 +45,6 @@ public class ServletLogin extends HttpServlet {
         Connection connection = (Connection) getServletContext().getAttribute("connection");
         try {
             ArrayList<Bug> bugs = Hibernator.initializeBugList(connection);
-            Bug bug = bugs.get(0);
-//            session.setAttribute("bug", bug);
             session.setAttribute("bugs", bugs);
         } catch (SQLException e) {
             e.printStackTrace();
