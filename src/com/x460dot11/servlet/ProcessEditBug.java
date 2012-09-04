@@ -1,6 +1,7 @@
 package com.x460dot11.servlet;
 
 import com.x460dot11.data.Bug;
+import com.x460dot11.data.Database;
 import com.x460dot11.transaction.TransactionEditBug;
 
 import javax.servlet.RequestDispatcher;
@@ -9,13 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * User: Alexandros Bantis
  * Date: 9/1/12
  * Time: 1:10 PM
  */
-public class ServletProcessEditBug extends HttpServlet {
+public class ProcessEditBug extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -31,16 +33,13 @@ public class ServletProcessEditBug extends HttpServlet {
         String final_result = "";
 
         Bug bug = new Bug(bug_id, priority, due_date, assignee, summary, description, final_result);
-        TransactionEditBug trans = new TransactionEditBug();
-        boolean success = trans.doEditBug(bug);
-
-        if (success == true) {
-            RequestDispatcher view = request.getRequestDispatcher("/displayAllBugs.do");
-            view.forward(request, response);
-        } else {
-            // TODO error logic needs to redirect to error page if update fails
+        try {
+            Database.getInstance().updateBug(bug);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
+            RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
+            view.forward(request, response);
     }
-
 }

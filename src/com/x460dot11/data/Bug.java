@@ -7,13 +7,13 @@ package com.x460dot11.data;
  * Time: 9:58 PM.
  */
 public class Bug {
-    int bugID;
-    int priority;
-    String dueDate;
-    String assignee;
-    String summary;
-    String description;
-    String finalResult;
+    private int bugID;
+    private int priority;
+    private String dueDate;
+    private String assignee;
+    private String summary;
+    private String description;
+    private String finalResult;
 
     public Bug(String bugID, String priority, String dueDate, String assignee,
                String summary, String description, String finalResult) {
@@ -38,9 +38,10 @@ public class Bug {
     }
 
     public Bug() {
+        bugID = -1;
+        priority = -1;
+        dueDate = "1970-01-01";
     }
-
-
 
     public int getBugID() {
         return bugID;

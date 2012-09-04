@@ -1,7 +1,6 @@
 package com.x460dot11.listener;
 
-import com.x460dot11.data.Bug;
-import com.x460dot11.data.Hibernator;
+import com.x460dot11.data.Database;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -9,7 +8,6 @@ import javax.servlet.ServletContextListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,11 +29,7 @@ public class ContextListener implements ServletContextListener {
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, user, password);
-            servletContext.setAttribute("connection", connection);
-//            bugs = Hibernator.initializeBugList(connection);
-//            Bug bug = bugs.get(0);
-//            servletContext.setAttribute("bug", bug);
-//            servletContext.setAttribute("bugs", bugs);
+            Database.getInstance().init(connection);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -45,6 +39,7 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
+
         Connection connection = (Connection) event.getServletContext().getAttribute("connection");
         try {
             connection.close();

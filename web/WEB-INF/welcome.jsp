@@ -1,4 +1,3 @@
-<%@ page import="com.x460dot11.data.User" %>
 <%--
   Created by IntelliJ IDEA.
   User: ambantis
@@ -14,29 +13,14 @@
     <title>Bug Tracker Application</title>
   </head>
   <body>
-    <h3><c:out value="look ma, jstl works!"></c:out></h3>
-    <jsp:useBean id="user" class="com.x460dot11.data.User" scope="session"/>
-    You are logged in as: <jsp:getProperty name="user" property="username" />
-    <br>
-    ${user.role}
-    <br>
-    Your role is: <jsp:getProperty name="user" property="role"/>
-    <br>
-
-
-
-    <table>
-        <c:forEach var="bug" items="${bugs}">
-            <tr>
-                <td>the bug id is <c:out value="${bug.bugID}"/> </td>
-            </tr>
-        </c:forEach>
-    </table>
-
+    <h3>
+        Welcome <c:out value="${user.username}"/>
+        You are logged in as a <c:out value="${user.role}"/>
+    </h3>
 
     <br>
     <h2>Click the link below to create a new bug</h2>
-    <a href="/inputNewBug.do">New Bug</a>
-    <a href="/displayAllBugs.do">Show All Bugs</a>
+    <a href="inputNewBug.do">New Bug</a>
+    <a href="displayAllBugs.do">Show All Bugs</a>
   </body>
 </html>

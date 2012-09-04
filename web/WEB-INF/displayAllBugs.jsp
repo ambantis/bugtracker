@@ -9,10 +9,6 @@
 <html>
 <head>
     <title>Display All Bugs</title>
-    <style type="text/css">
-        p.show_bugs { font-family: monospace; }
-    </style>
-</head>
 <body>
     <table>
         <thead>
@@ -39,9 +35,9 @@
 
     <h2>Edit A Bug</h2>
     <p>Enter bug id to update a bug</p>
-    <form method="get" action="editBug.do">
+    <form method="get" action="displayBug.do">
         <label for="pick_id">Pick ID</label>
-        <select id="pick_id">
+        <select name="pick_id" id="pick_id">
             <c:forEach var="bug" items="${bugs}">
                 <option value="${bug.bugID}">BugID ${bug.bugID}</option>
             </c:forEach>
@@ -52,7 +48,8 @@
 
 
     <p>
-        <a href="/welcome.do">Return to Welcome Page</a>
+        <a href="welcome.do">Return to Welcome Page</a>
+        <a href="inputNewBug.do">New Bug</a>
         <br>
     </p>
 

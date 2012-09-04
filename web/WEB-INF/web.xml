@@ -13,7 +13,7 @@
 
     <servlet>
         <servlet-name>Login</servlet-name>
-        <servlet-class>com.x460dot11.servlet.ServletLogin</servlet-class>
+        <servlet-class>com.x460dot11.servlet.Welcome</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -50,7 +50,7 @@
 
     <servlet>
         <servlet-name>Process New Bug</servlet-name>
-        <jsp-file>/WEB-INF/processNewBug.jsp</jsp-file>
+        <servlet-class>com.x460dot11.servlet.ProcessNewBug</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Process New Bug</servlet-name>
@@ -59,23 +59,33 @@
 
     <servlet>
         <servlet-name>Display A Bug</servlet-name>
-        <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
+        <servlet-class>com.x460dot11.servlet.DisplayBug</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Display A Bug</servlet-name>
-        <url-pattern>/editBug.do</url-pattern>
+        <url-pattern>/displayBug.do</url-pattern>
     </servlet-mapping>
-
+    
     <servlet>
-        <description>Processes request to edit a bug</description>
-        <display-name>Process Edit Bug</display-name>
-        <servlet-name>ServletProcessEditBug</servlet-name>
-        <servlet-class>com.x460dot11.servlet.ServletProcessEditBug</servlet-class>
+        <servlet-name>Edit a Bug</servlet-name>
+        <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ServletProcessEditBug</servlet-name>
+        <servlet-name>Edit a Bug</servlet-name>
+        <url-pattern>/editBug.do</url-pattern>
+    </servlet-mapping>
+    
+    
+    
+    <servlet>
+        <servlet-name>ProcessEditBug</servlet-name>
+        <servlet-class>com.x460dot11.servlet.ProcessEditBug</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProcessEditBug</servlet-name>
         <url-pattern>/processEditBug.do</url-pattern>
     </servlet-mapping>
+    
 
     <!-- ===================================================================-->
     <!-- CONTEXT LISTENER & PARAMETERS                                      -->
