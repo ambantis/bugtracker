@@ -9,9 +9,12 @@
 <html>
 <head>
     <title>Edit A Bug</title>
-    <script type="text/javascript" src="shared/js/modernizr.com/Modernizr-2.5.3.forms.js"></script>
-    <script type="text/javascript" data-webforms2-support="date" data-lang="en"
-            src="shared/js/html5Forms.js"></script>
+    <script type="text/javascript"
+            src="shared/js/modernizr.com/Modernizr-2.5.3.forms.js">
+    </script>
+    <script type="text/javascript" data-webforms2-support="date,validation"
+            data-lang="en" src="shared/js/html5Forms.js">
+    </script>
 
     <style type="text/css">
         .noWrite {
@@ -41,9 +44,12 @@
                name="assignee"
                value="${v2bug.assignee}">
         <br>
-        <label for="priority">Priority</label>
+        <label for="priority">Priority (from 1-10, 10=highest</label>
         <input id="priority"
                name="priority"
+               required="required"
+               pattern="[1-9]|10?"
+               type="number"
                value="${v2bug.priority}">
         <br>
         <label class="noWrite" for="summary">Summary</label>
