@@ -19,7 +19,7 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
-        Connection connection = null;
+        Connection connection;
         String driver = servletContext.getInitParameter("db-driver");
         String url = servletContext.getInitParameter("db-url");
         String user = servletContext.getInitParameter("db-user");

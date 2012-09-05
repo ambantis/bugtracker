@@ -8,10 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title></title>
+    <title>Create New Bug</title>
 </head>
 <body>
-
     <form method="post" action="processNewBug.do">
         <p>Enter a new bug with this form</p>
         <label for="summary">Summary</label>

@@ -9,6 +9,10 @@
 <html>
 <head>
     <title>Edit A Bug</title>
+    <script type="text/javascript" src="shared/js/modernizr.com/Modernizr-2.5.3.forms.js"></script>
+    <script type="text/javascript" data-webforms2-support="date" data-lang="en"
+            src="shared/js/html5Forms.js"></script>
+
     <style type="text/css">
         .noWrite {
             color: grey;
@@ -29,6 +33,7 @@
         <label for="due_date">Due Date</label>
         <input id="due_date"
                name="due_date"
+               type="date"
                value="${v2bug.dueDate}">
         <br>
         <label for="assignee">Assignee</label>
