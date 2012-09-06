@@ -14,10 +14,12 @@
     <%--TODO:2012-09-05:ambantis:Change NewBug textarea fields to require input--%>
     <form method="post" action="processNewBug.do">
         <p>Enter a new bug with this form</p>
-        <label for="summary">Summary</label>
-        <textarea name="summary" id="summary" cols="80" maxlength="100"></textarea>
-        <label for="description">Description</label>
-        <textarea id="description" name="description" cols="80" maxlength="500"></textarea>
+        <table>
+        <tr><td><label for="summary">Summary</label></td></tr>
+        <tr><td><textarea name="summary" id="summary" cols="80" maxlength="100"></textarea></td></tr>
+        <tr><td><label for="description">Description</label></td></tr>
+        <tr><td><textarea id="description" name="description" cols="80" maxlength="500"></textarea></td></tr>
+        </table>
         <button type="submit">Submit</button>
     </form>
 </body>
