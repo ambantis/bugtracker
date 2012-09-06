@@ -23,6 +23,8 @@ public class Welcome extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+        // TODO:2012-09-05:ambantis:Use cookies to track session
+        // TODO:2012-09-05:ambantis:End session after x minutes or when server goes down
 
         ArrayList<Bug> bugs = Database.getInstance().getBugList();
         session.setAttribute("bugs", bugs);
@@ -41,6 +43,7 @@ public class Welcome extends HttpServlet {
         User user = new User(username, role);
         session.setAttribute("user", user);
 
+        // TODO:2012-09-05:ambantis:Implement page redirect based upon user role
         RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
         view.forward(request, response);
     }

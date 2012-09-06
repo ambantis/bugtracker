@@ -2,8 +2,6 @@ package com.x460dot11.servlet;
 
 import com.x460dot11.data.Bug;
 import com.x460dot11.data.Database;
-import com.x460dot11.transaction.TransactionEditBug;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +19,7 @@ public class ProcessEditBug extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // TODO edit bug process needs to lock record to prevent concurrent edits.
+
 
         int bug_id = Integer.parseInt(request.getParameter("bug_id"));
         String due_date = request.getParameter("due_date");

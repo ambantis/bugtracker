@@ -26,7 +26,7 @@ public class Database {
     }
 
     public void init(Connection newConnection) throws SQLException {
-        // TODO should through a 'database is down exception'
+        // TODO:2012-09-05:ambantis:Create DatabaseIsDownException
         connection = newConnection;
         bugs = new ArrayList<Bug>();
         initializeBugList();
@@ -69,7 +69,7 @@ public class Database {
             if (bug.getBugID() == id)
                 return bug;
         }
-        // TODO should return a bug not found exception
+        // TODO:2012-09-05:ambantis:Create BugNoFoundException
         return null;
     }
 
@@ -88,6 +88,7 @@ public class Database {
     }
 
     public void updateBug (Bug newBug) throws SQLException {
+        // TODO:2012-09-05:ambantis:Create SQL Transaction to prevent lost update
         Statement statement = connection.createStatement();
         String sqlStmt = "UPDATE bug SET " +
                 "due_date = \'" + newBug.getDueDate() + "\', " +

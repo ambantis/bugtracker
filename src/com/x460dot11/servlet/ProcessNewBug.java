@@ -19,9 +19,6 @@ import java.sql.SQLException;
 public class ProcessNewBug extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // TODO edit bug process needs to lock record to prevent concurrent edits.
-
         Bug bug = new Bug();
         String summary = request.getParameter("summary");
         String description = request.getParameter("description");

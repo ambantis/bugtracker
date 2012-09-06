@@ -11,6 +11,7 @@
     <title>Create New Bug</title>
 </head>
 <body>
+    <%--TODO:2012-09-05:ambantis:Change NewBug textarea fields to require input--%>
     <form method="post" action="processNewBug.do">
         <p>Enter a new bug with this form</p>
         <label for="summary">Summary</label>

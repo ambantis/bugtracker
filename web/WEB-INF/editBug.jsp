@@ -9,6 +9,8 @@
 <html>
 <head>
     <title>Edit A Bug</title>
+
+    <%--TODO:2012-09-05:ambantis:Replace html5Forms with jQuery--%>
     <script type="text/javascript"
             src="shared/js/modernizr.com/Modernizr-2.5.3.forms.js">
     </script>
@@ -22,6 +24,7 @@
             background-color: #F0F0F0;
         }
     </style>
+    <%--TODO:2012-09-05:ambantis:Add checkbox to close bug--%>
 </head>
 <body>
     <h2>Update Information and then press submit</h2>
@@ -44,7 +47,7 @@
                name="assignee"
                value="${v2bug.assignee}">
         <br>
-        <label for="priority">Priority (from 1-10, 10=highest</label>
+        <label for="priority">Priority (from 1-10, 10=highest)</label>
         <input id="priority"
                name="priority"
                required="required"
