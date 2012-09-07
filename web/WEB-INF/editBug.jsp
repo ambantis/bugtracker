@@ -55,17 +55,16 @@
                type="number"
                value="${v2bug.priority}">
         <br>
-        <label class="noWrite" for="summary">Summary</label>
-        <textarea class="noWrite" id="summary" name="summary" readonly="readonly">${v2bug.summary}</textarea>
-        <br>
-        <label for="description">Description</label>
-        <textarea class="noWrite" id="description" name="description" readonly="readonly">${v2bug.description}</textarea>
-        <br>
-        <label for="new_comment">New Comment</label>
-        <textarea id="new_comment" name="new_comment"></textarea>
-        <br>
-        <label for="final_result">Final Result</label>
-        <textarea class="noWrite" id="final_result" name="final_result" readonly="readonly"></textarea>
+        <table>
+        <tr><td><label class="noWrite" for="summary">Summary</label></td></tr>
+        <tr><td><textarea class="noWrite" id="summary" name="summary" cols="80" readonly="readonly">${v2bug.summary}</textarea></td></tr>
+        <tr><td><label for="description">Description</label></td></tr>
+        <tr><td><textarea class="noWrite" id="description" name="description" cols="80" readonly="readonly">${v2bug.description}</textarea></td></tr>
+        <tr><td><label for="new_comment">New Comment</label></td></tr>
+        <tr><td><textarea id="new_comment" name="new_comment" cols="80"></textarea></td></tr>
+        <tr><td><label for="final_result">Final Result</label></td></tr>
+        <tr><td><textarea class="noWrite" id="final_result" name="final_result"  cols="80" readonly="readonly"></textarea></td></tr>
+        </table>
         <br>
         <button type="submit">Submit</button>
     </form>
