@@ -14,13 +14,15 @@
   </head>
   <body>
     <h3>
-        Welcome <c:out value="${user.username}"/>
+        Welcome!!! <c:out value="${user.username}"/>
         You are logged in as a <c:out value="${user.role}"/>
     </h3>
 
-    <br>
-    <h2>Click the link below to create a new bug</h2>
-    <a href="inputNewBug.do">New Bug</a>
-    <a href="displayAllBugs.do">Show All Bugs</a>
+  <% 
+if(request.getAttribute("userRole")=="qa"){
+	out.println("<a href='inputNewBug.do'>Click to enter new Bug</a><br>");} 
+else {
+	out.println("<a href='displayAllBugs.do'>Click to display all Bugs</a><br>");}
+%>
   </body>
 </html>

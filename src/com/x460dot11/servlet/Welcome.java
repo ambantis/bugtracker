@@ -43,6 +43,8 @@ public class Welcome extends HttpServlet {
         User user = new User(username, role);
         session.setAttribute("user", user);
 
+        request.setAttribute("userRole", role);
+        
         // TODO:2012-09-05:ambantis:Implement page redirect based upon user role
         RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
         view.forward(request, response);
