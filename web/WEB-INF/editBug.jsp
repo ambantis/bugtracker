@@ -33,14 +33,14 @@
         <input class="noWrite"
                id="bug_id"
                name="bug_id"
-               value="${v2bug.bugID}"
+               value="${v2bug.bug_id}"
                readonly="readonly">
         <br>
         <label for="due_date">Due Date</label>
         <input id="due_date"
                name="due_date"
                type="date"
-               value="${v2bug.dueDate}">
+               value="${v2bug.due_date}">
         <br>
         <label for="assignee">Assignee</label>
         <input id="assignee"
@@ -58,8 +58,8 @@
         <table>
         <tr><td><label class="noWrite" for="summary">Summary</label></td></tr>
         <tr><td><textarea class="noWrite" id="summary" name="summary" cols="80" readonly="readonly">${v2bug.summary}</textarea></td></tr>
-        <tr><td><label for="description">Description</label></td></tr>
-        <tr><td><textarea class="noWrite" id="description" name="description" cols="80" readonly="readonly">${v2bug.description}</textarea></td></tr>
+        <tr><td><label for="history">Description</label></td></tr>
+        <tr><td><textarea class="noWrite" id="history" name="history" cols="80" readonly="readonly">${v2bug.history}</textarea></td></tr>
         <tr><td><label for="new_comment">New Comment</label></td></tr>
         <tr><td><textarea id="new_comment" name="new_comment" cols="80"></textarea></td></tr>
         <tr><td><label for="final_result">Final Result</label></td></tr>

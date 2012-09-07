@@ -41,7 +41,7 @@ public class ContextListener implements ServletContextListener {
 //        String smtpStartTls = servletContext.getInitParameter("mail.smtp.starttls.enable");
 //        String smtpHost = servletContext.getInitParameter("mail.smtp.host");
 //        String smtpPort = servletContext.getInitParameter("mail.smtp.port");
-        Gmail.getInstance().init();
+//        Gmail.getInstance().init();
     }
 
     @Override

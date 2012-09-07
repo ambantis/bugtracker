@@ -102,7 +102,7 @@
 
     <context-param>
         <param-name>db-url</param-name>
-        <param-value>jdbc:postgresql://50.112.254.147:5432/bugdb</param-value>
+        <param-value>jdbc:postgresql://54.245.109.81:5432/bugdb</param-value>
     </context-param>
 
     <context-param>

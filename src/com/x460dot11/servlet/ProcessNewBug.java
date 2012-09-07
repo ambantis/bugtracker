@@ -21,11 +21,11 @@ public class ProcessNewBug extends HttpServlet {
             throws ServletException, IOException {
         Bug bug = new Bug();
         String summary = request.getParameter("summary");
-        String description = request.getParameter("description");
+        String comment = request.getParameter("comment");
         bug.setSummary(summary);
-        bug.setDescription(description);
+        bug.setHistory(comment);
         try {
-            Database.getInstance().addBug(summary, description);
+            Database.getInstance().addBug(summary, comment);
         } catch (SQLException e) {
             e.printStackTrace();
         }

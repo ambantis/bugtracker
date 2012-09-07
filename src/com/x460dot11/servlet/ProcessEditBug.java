@@ -26,11 +26,23 @@ public class ProcessEditBug extends HttpServlet {
         String assignee = request.getParameter("assignee");
         int priority = Integer.parseInt(request.getParameter("priority"));
         String summary = request.getParameter("summary");
-        String description = request.getParameter("description") + " " +
-                request.getParameter("new_comment");
-        String final_result = "";
+        String prior_history = request.getParameter("history");
+        String new_history = request.getParameter("new_comment");
+        StringBuilder history = new StringBuilder();
+        history.append(prior_history);
+        history.append("\n\nNEW ENTRY: ");
+        history.append(new_history);
 
-        Bug bug = new Bug(bug_id, priority, due_date, assignee, summary, description, final_result);
+        //TODO:2012-09-07:ambantis:Include edit bug fields is_open and final_result
+
+        Bug bug = new Bug();
+        bug.setBug_id(bug_id);
+        bug.setDue_date(due_date);
+        bug.setAssignee(assignee);
+        bug.setPriority(priority);
+        bug.setSummary(summary);
+        bug.setHistory(history.toString());
+
         try {
             Database.getInstance().updateBug(bug);
         } catch (SQLException e) {

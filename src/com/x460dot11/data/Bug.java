@@ -7,48 +7,36 @@ package com.x460dot11.data;
  * Time: 9:58 PM.
  */
 public class Bug {
-    private int bugID;
-    private int priority;
-    private String dueDate;
+    private int bug_id;
+    private String due_date;
     private String assignee;
+    private int priority;
     private String summary;
-    private String description;
-    private String finalResult;
+    private String history;
+    private String final_result;
+    private boolean is_open;
 
-    public Bug(String bugID, String priority, String dueDate, String assignee,
-               String summary, String description, String finalResult) {
-        this.bugID = Integer.parseInt(bugID);
-        this.priority = Integer.parseInt(priority);
-        this.dueDate = dueDate;
+    public Bug(int bug_id, String due_date, String assignee, int priority, String summary,
+               String history, String final_result, boolean is_open) {
+        this.bug_id = bug_id;
+        this.due_date = due_date;
         this.assignee = assignee;
-        this.summary = summary;
-        this.description = description;
-        this.finalResult = finalResult;
-    }
-
-    public Bug(int bugID, int priority, String dueDate, String assignee,
-               String summary, String description, String finalResult) {
-        this.bugID = bugID;
         this.priority = priority;
-        this.dueDate = dueDate;
-        this.assignee = assignee;
         this.summary = summary;
-        this.description = description;
-        this.finalResult = finalResult;
+        this.history = history;
+        this.final_result = final_result;
+        this.is_open = is_open;
     }
 
     public Bug() {
-        bugID = -1;
-        priority = -1;
-        dueDate = "1970-01-01";
     }
 
-    public int getBugID() {
-        return bugID;
+    public int getBug_id() {
+        return bug_id;
     }
 
-    public void setBugID(int bugID) {
-        this.bugID = bugID;
+    public void setBug_id(int bug_id) {
+        this.bug_id = bug_id;
     }
 
     public int getPriority() {
@@ -59,12 +47,12 @@ public class Bug {
         this.priority = priority;
     }
 
-    public String getDueDate() {
-        return dueDate;
+    public String getDue_date() {
+        return due_date;
     }
 
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
+    public void setDue_date(String due_date) {
+        this.due_date = due_date;
     }
 
     public String getAssignee() {
@@ -83,19 +71,27 @@ public class Bug {
         this.summary = summary;
     }
 
-    public String getDescription() {
-        return description;
+    public String getHistory() {
+        return history;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setHistory(String history) {
+        this.history = history;
     }
 
-    public String getFinalResult() {
-        return finalResult;
+    public String getFinal_result() {
+        return final_result;
     }
 
-    public void setFinalResult(String finalResult) {
-        this.finalResult = finalResult;
+    public void setFinal_result(String final_result) {
+        this.final_result = final_result;
+    }
+
+    public boolean isIs_open() {
+        return is_open;
+    }
+
+    public void setIs_open(boolean is_open) {
+        this.is_open = is_open;
     }
 }

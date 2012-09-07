@@ -44,14 +44,13 @@ public class Welcome extends HttpServlet {
             return;
         User user = new User(username, role);
         session.setAttribute("user", user);
-
         request.setAttribute("userRole", role);
 
-        try {
-            Gmail.getInstance().sendTestMessage();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Gmail.getInstance().sendTestMessage();
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
 
 
         // TODO:2012-09-05:ambantis:Implement page redirect based upon user role

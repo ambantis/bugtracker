@@ -17,8 +17,8 @@
         <table>
         <tr><td><label for="summary">Summary</label></td></tr>
         <tr><td><textarea name="summary" id="summary" cols="80" maxlength="100"></textarea></td></tr>
-        <tr><td><label for="description">Description</label></td></tr>
-        <tr><td><textarea id="description" name="description" cols="80" maxlength="500"></textarea></td></tr>
+        <tr><td><label for="comment">Comment</label></td></tr>
+        <tr><td><textarea id="comment" name="comment" cols="80" maxlength="500"></textarea></td></tr>
         </table>
         <button type="submit">Submit</button>
     </form>
