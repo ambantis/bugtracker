@@ -1,6 +1,7 @@
 package com.x460dot11.listener;
 
 import com.x460dot11.data.Database;
+import com.x460dot11.mail.Gmail;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -35,6 +36,12 @@ public class ContextListener implements ServletContextListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+//        String smtpAuth = servletContext.getInitParameter("mail.smtp.auth");
+//        String smtpStartTls = servletContext.getInitParameter("mail.smtp.starttls.enable");
+//        String smtpHost = servletContext.getInitParameter("mail.smtp.host");
+//        String smtpPort = servletContext.getInitParameter("mail.smtp.port");
+        Gmail.getInstance().init();
     }
 
     @Override
