@@ -3,7 +3,7 @@ package com.x460dot11.servlet;
 import com.x460dot11.data.Bug;
 import com.x460dot11.data.Database;
 import com.x460dot11.data.User;
-import org.joda.time.LocalDateTime;
+import com.x460dot11.exception.LostUpdateException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,6 +52,8 @@ public class ProcessEditBug extends HttpServlet {
 
         try {
             Database.getInstance().updateBug(v1bug, v2bug);
+        } catch (LostUpdateException e) {
+            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }

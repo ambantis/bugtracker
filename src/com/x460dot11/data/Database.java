@@ -1,5 +1,7 @@
 package com.x460dot11.data;
 
+import com.x460dot11.exception.LostUpdateException;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +14,6 @@ import java.util.ArrayList;
  * Time: 2:33 PM
  */
 public class Database {
-    private static String sqlStmt;
     private ArrayList<Bug> bugs = null;
     private Connection connection = null;
     private static Database database = null;
@@ -58,7 +59,7 @@ public class Database {
                 summary = resultSet.getString("summary");
                 history = resultSet.getString("history");
                 final_result = resultSet.getString("final_result");
-                is_open = (resultSet.getString("is_open") == "TRUE");
+                is_open = (resultSet.getString("is_open").equals("TRUE"));
                 bug = new Bug(bug_id, due_date, assignee, priority, summary, history,
                         final_result, is_open);
                 bugs.add(bug);
@@ -97,9 +98,9 @@ public class Database {
     }
 
     public synchronized void updateBug (Bug v1bug, Bug v2bug) throws SQLException {
-        // TODO:2012-09-08:ambantis:Need to create throw a LostUpdateException
         if (!v1bug.hasSameValuesAs(getBug(v1bug.getBug_id())))
-            throw new SQLException("ERROR: lost update condition");
+            throw new LostUpdateException("ERROR: cannot update bug ID"  + v1bug.getBug_id() +
+                    " . Please refresh and try again");
 
         Statement statement = connection.createStatement();
         String sqlStmt = "UPDATE bug SET " +
