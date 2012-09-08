@@ -2,6 +2,7 @@ package com.x460dot11.servlet;
 
 import com.x460dot11.data.Bug;
 import com.x460dot11.data.Database;
+import com.x460dot11.data.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+
+import static com.x460dot11.util.Converter.formatNewComment;
 
 /**
  * User: Alexandros Bantis
@@ -20,8 +23,12 @@ public class ProcessNewBug extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Bug bug = new Bug();
+        User user = (User) request.getSession().getAttribute("user");
+        String history = "";
         String summary = request.getParameter("summary");
         String comment = request.getParameter("comment");
+        comment = formatNewComment(history, comment, user.getUsername());
+
         bug.setSummary(summary);
         bug.setHistory(comment);
         try {

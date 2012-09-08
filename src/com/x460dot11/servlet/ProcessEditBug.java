@@ -2,6 +2,9 @@ package com.x460dot11.servlet;
 
 import com.x460dot11.data.Bug;
 import com.x460dot11.data.Database;
+import com.x460dot11.data.User;
+import org.joda.time.LocalDateTime;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+
+import static com.x460dot11.util.Converter.formatNewComment;
 
 /**
  * User: Alexandros Bantis
@@ -26,12 +31,13 @@ public class ProcessEditBug extends HttpServlet {
         String assignee = request.getParameter("assignee");
         int priority = Integer.parseInt(request.getParameter("priority"));
         String summary = request.getParameter("summary");
-        String prior_history = request.getParameter("history");
-        String new_history = request.getParameter("new_comment");
-        StringBuilder history = new StringBuilder();
-        history.append(prior_history);
-        history.append("\n\nNEW ENTRY: ");
-        history.append(new_history);
+        String history = request.getParameter("history");
+        String comment = request.getParameter("new_comment");
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (comment.length() > 0) {
+            history = formatNewComment(history, comment, user.getUsername());
+        }
 
         //TODO:2012-09-07:ambantis:Include edit bug fields is_open and final_result
 
@@ -41,7 +47,7 @@ public class ProcessEditBug extends HttpServlet {
         bug.setAssignee(assignee);
         bug.setPriority(priority);
         bug.setSummary(summary);
-        bug.setHistory(history.toString());
+        bug.setHistory(history);
 
         try {
             Database.getInstance().updateBug(bug);
@@ -52,4 +58,5 @@ public class ProcessEditBug extends HttpServlet {
             RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
             view.forward(request, response);
     }
+
 }
