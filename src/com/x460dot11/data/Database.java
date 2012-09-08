@@ -49,26 +49,22 @@ public class Database {
         ResultSet resultSet = statement.getResultSet();
 
         while (resultSet.next()) {
-            bug_id = Integer.parseInt(resultSet.getString("bug_id"));
-
-            due_date = resultSet.getString("due_date");
-            assignee = resultSet.getString("assignee");
 
             try {
+                bug_id = Integer.parseInt(resultSet.getString("bug_id"));
+                due_date = resultSet.getString("due_date");
+                assignee = resultSet.getString("assignee");
                 priority = Integer.parseInt(resultSet.getString("priority"));
+                summary = resultSet.getString("summary");
+                history = resultSet.getString("history");
+                final_result = resultSet.getString("final_result");
+                is_open = (resultSet.getString("is_open") == "TRUE");
+                bug = new Bug(bug_id, due_date, assignee, priority, summary, history,
+                        final_result, is_open);
+                bugs.add(bug);
             } catch (NumberFormatException ex) {
-                priority = 0; // invalid number format
                 ex.printStackTrace();
             }
-
-            summary = resultSet.getString("summary");
-            history = resultSet.getString("history");
-            final_result = resultSet.getString("final_result");
-            is_open = (resultSet.getString("is_open") == "TRUE") ? true : false;
-
-            bug = new Bug(bug_id, due_date, assignee, priority, summary, history,
-                    final_result, is_open);
-            bugs.add(bug);
         }
     }
 
@@ -76,13 +72,14 @@ public class Database {
         return bugs;
     }
 
-    public Bug getBug(int id) {
+    public Bug getBug(int id) throws SQLException {
+        refreshBugList();
         for (Bug bug : bugs) {
             if (bug.getBug_id() == id)
                 return bug;
         }
         // TODO:2012-09-05:ambantis:Create BugNoFoundException
-        return null;
+        throw new SQLException("Bug not found");
     }
 
     public void refreshBugList () throws SQLException {
@@ -99,18 +96,21 @@ public class Database {
         refreshBugList();
     }
 
-    public void updateBug (Bug newBug) throws SQLException {
-        // TODO:2012-09-05:ambantis:Create SQL Transaction to prevent lost update
+    public void updateBug (Bug v1bug, Bug v2bug) throws SQLException {
+        // TODO:2012-09-08:ambantis:Need to create throw a LostUpdateException
+        if (!v1bug.hasSameValuesAs(getBug(v1bug.getBug_id())))
+            throw new SQLException("ERROR: lost update condition");
+
         Statement statement = connection.createStatement();
         String sqlStmt = "UPDATE bug SET " +
-                "due_date = \'" + newBug.getDue_date() + "\', " +
-                "assignee = $$" + newBug.getAssignee() + "$$, " +
-                "priority = " + newBug.getPriority() + ", " +
-                "summary = $$" + newBug.getSummary() + "$$, " +
-                "history = $$" + newBug.getHistory() + "$$, " +
-                "final_result = $$" + newBug.getFinal_result() + "$$, " +
-                "is_open = " + newBug.isIs_open() + " " +
-                "WHERE bug_id = " + newBug.getBug_id() + ";";
+                "due_date = \'" + v2bug.getDue_date() + "\', " +
+                "assignee = $$" + v2bug.getAssignee() + "$$, " +
+                "priority = " + v2bug.getPriority() + ", " +
+                "summary = $$" + v2bug.getSummary() + "$$, " +
+                "history = $$" + v2bug.getHistory() + "$$, " +
+                "final_result = $$" + v2bug.getFinal_result() + "$$, " +
+                "is_open = " + v2bug.isIs_open() + " " +
+                "WHERE bug_id = " + v2bug.getBug_id() + ";";
         statement.execute(sqlStmt);
         refreshBugList();
      }

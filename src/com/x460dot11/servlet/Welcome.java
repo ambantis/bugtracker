@@ -30,6 +30,7 @@ public class Welcome extends HttpServlet {
 
         ArrayList<Bug> bugs = Database.getInstance().getBugList();
         session.setAttribute("bugs", bugs);
+        session.setAttribute("bug", new Bug());
 
         String username;
         String role;

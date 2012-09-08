@@ -94,4 +94,34 @@ public class Bug {
     public void setIs_open(boolean is_open) {
         this.is_open = is_open;
     }
+
+    public boolean hasSameValuesAs(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Bug other = (Bug) obj;
+        if (this.bug_id != other.bug_id)
+            return false;
+        if (!this.due_date.equals(other.due_date))
+            return false;
+        if (!this.assignee.equals(other.assignee))
+            return false;
+        if (this.priority != other.priority)
+            return false;
+        if (!this.summary.equals(other.summary))
+            return false;
+        if (!this.history.equals(other.history))
+            return false;
+        if (!this.final_result.equals(other.final_result))
+            return false;
+        if (this.is_open != other.is_open)
+            return false;
+
+        return true;
+    }
+
+
 }

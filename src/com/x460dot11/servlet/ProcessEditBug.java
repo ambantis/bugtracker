@@ -34,6 +34,7 @@ public class ProcessEditBug extends HttpServlet {
         String history = request.getParameter("history");
         String comment = request.getParameter("new_comment");
         User user = (User) request.getSession().getAttribute("user");
+        Bug v1bug = (Bug) request.getSession().getAttribute("bug");
 
         if (comment.length() > 0) {
             history = formatNewComment(history, comment, user.getUsername());
@@ -41,16 +42,16 @@ public class ProcessEditBug extends HttpServlet {
 
         //TODO:2012-09-07:ambantis:Include edit bug fields is_open and final_result
 
-        Bug bug = new Bug();
-        bug.setBug_id(bug_id);
-        bug.setDue_date(due_date);
-        bug.setAssignee(assignee);
-        bug.setPriority(priority);
-        bug.setSummary(summary);
-        bug.setHistory(history);
+        Bug v2bug = new Bug();
+        v2bug.setBug_id(bug_id);
+        v2bug.setDue_date(due_date);
+        v2bug.setAssignee(assignee);
+        v2bug.setPriority(priority);
+        v2bug.setSummary(summary);
+        v2bug.setHistory(history);
 
         try {
-            Database.getInstance().updateBug(bug);
+            Database.getInstance().updateBug(v1bug, v2bug);
         } catch (SQLException e) {
             e.printStackTrace();
         }
