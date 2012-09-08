@@ -96,7 +96,7 @@ public class Database {
         refreshBugList();
     }
 
-    public void updateBug (Bug v1bug, Bug v2bug) throws SQLException {
+    public synchronized void updateBug (Bug v1bug, Bug v2bug) throws SQLException {
         // TODO:2012-09-08:ambantis:Need to create throw a LostUpdateException
         if (!v1bug.hasSameValuesAs(getBug(v1bug.getBug_id())))
             throw new SQLException("ERROR: lost update condition");
