@@ -90,7 +90,16 @@
         <servlet-name>Exit Page</servlet-name>
         <url-pattern>/exit.do</url-pattern>
     </servlet-mapping>
-    
+
+    <servlet>
+        <servlet-name>Invalidate Session</servlet-name>
+        <servlet-class>com.x460dot11.servlet.InvalidateSession</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Invalidate Session</servlet-name>
+        <url-pattern>/invalidate.do</url-pattern>
+    </servlet-mapping>
+
 
     <!-- ===================================================================-->
     <!-- CONTEXT LISTENER & PARAMETERS                                      -->

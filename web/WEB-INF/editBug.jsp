@@ -27,7 +27,9 @@
     <%--TODO:2012-09-05:ambantis:Add checkbox to close bug--%>
 </head>
 <body>
+
     <h2>Update Information and then press submit</h2>
+
     <form method="post" action="processEditBug.do">
         <label for="bug_id">Bug ID</label>
         <input class="noWrite"
@@ -40,19 +42,31 @@
         <input id="due_date"
                name="due_date"
                type="date"
-               value="${v2bug.due_date}">
+               value="${v2bug.due_date}"
+            <c:if test="${user.role ne 'manager'}">
+               class="noWrite"
+               readonly="readonly"
+            </c:if>>
         <br>
 
         <label for="assignee">Coder</label>
-        <select name="assignee" id="assignee">
-            <option value="${v2bug.assignee}" selected>${v2bug.assignee}</option>
+        <c:if test="${user.role ne 'manager'}">
+            <input id="assignee"
+                   name="assignee"
+                   value="${v2bug.assignee}"
+                   class="noWrite"
+                   readonly="readonly">
+        </c:if>
+        <c:if test="${user.role eq 'manager'}">
+            <select name="assignee" id="assignee">
+                <option value="${v2bug.assignee}" selected>${v2bug.assignee}</option>
                 <c:forEach var="coder" items="${coders}">
                     <c:if test="${coder != v2bug.assignee}">
-                        <option value="${coder}">${coder}
+                        <option value="${coder}">${coder}></option>
                     </c:if>
-                </option>
-            </c:forEach>
-        </select>
+                </c:forEach>
+            </select>
+        </c:if>
 
         <br>
         <label for="priority">Priority (from 1-10, 10=highest)</label>
@@ -61,8 +75,13 @@
                required="required"
                pattern="[1-9]|10?"
                type="number"
-               value="${v2bug.priority}">
-        <br>
+               value="${v2bug.priority}"
+            <c:if test="${user.role ne 'manager'}">
+               class="noWrite"
+               readonly="readonly"
+            </c:if>>
+
+       <br>
         <table>
         <tr><td><label class="noWrite" for="summary">Summary</label></td></tr>
         <tr><td><textarea class="noWrite" id="summary" name="summary" cols="80" readonly="readonly">${v2bug.summary}</textarea></td></tr>
@@ -75,6 +94,7 @@
         </table>
         <br>
         <button type="submit">Submit</button>
-    </form>
+    </f
+        +orm>
 </body>
 </html>

@@ -9,6 +9,8 @@
 <html>
 <head>
     <title>Display All Bugs</title>
+</head>
+
 <body>
     <table>
         <thead>
