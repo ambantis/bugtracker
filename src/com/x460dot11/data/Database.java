@@ -83,9 +83,9 @@ public class Database {
         statement.execute(sqlStmt);
         ResultSet resultSet = statement.getResultSet();
         if (resultSet.next())
-            return false;
-        else
             return true;
+        else
+            return false;
     }
 
     public ArrayList<Bug> getBugList () {
@@ -162,6 +162,12 @@ public class Database {
             sqlStmt.append(
                     "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
                             ", $$" + v2bug.getAssignee() + "$$, $$" + user.getUsername() + "$$); ");
+
+        if (!isOnEmailList(v2bug.getBug_id(), user.getUsername()))
+            sqlStmt.append(
+                    "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
+                            ", $$" + user.getUsername() + "$$, $$" + user.getUsername() + "$$); ");
+
         if (!v1bug.getAssignee().equals(v2bug.getAssignee()) &&
                 isOnEmailList(v1bug.getBug_id(), v1bug.getAssignee())) {
             sqlStmt.append(
