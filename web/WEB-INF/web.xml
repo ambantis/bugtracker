@@ -83,6 +83,15 @@
         <servlet-name>ProcessEditBug</servlet-name>
         <url-pattern>/processEditBug.do</url-pattern>
     </servlet-mapping>
+	
+	<servlet>
+        <servlet-name>Exit Page</servlet-name>
+        <jsp-file>/WEB-INF/exit.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Exit Page</servlet-name>
+        <url-pattern>/exit.do</url-pattern>
+    </servlet-mapping>
     
 
     <!-- ===================================================================-->
