@@ -32,7 +32,7 @@ public class ProcessNewBug extends HttpServlet {
         bug.setSummary(summary);
         bug.setHistory(comment);
         try {
-            Database.getInstance().addBug(summary, comment);
+            Database.getInstance().addBug(summary, comment, user);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -15,10 +15,10 @@
             <tr>
                 <th scope="col">BugID</th>
                 <th scope="col">Due Date</th>
+                <th scope="col">Close Date</th>
                 <th scope="col">Assignee</th>
                 <th scope="col">Priority</th>
                 <th scope="col">Summary</th>
-                <th scope="col">Is Open</th>
             </tr>
         </thead>
 
@@ -28,10 +28,10 @@
                     <td><c:out value="${bug.bug_id}"/></td>
 
                     <td><c:out value="${bug.due_date}"/></td>
+                    <td><c:out value="${bug.close_date}"/></td>
                     <td><c:out value="${bug.assignee}"/></td>
                     <td><c:out value="${bug.priority}"/></td>
                     <td><c:out value="${bug.summary}"/></td>
-                    <td><c:out value="${bug.is_open}"/></td>
                 </tr>
             </c:forEach>
         </tbody>

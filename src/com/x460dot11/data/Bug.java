@@ -1,5 +1,7 @@
 package com.x460dot11.data;
 
+import org.joda.time.LocalDate;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Alexandros Bantis
@@ -8,24 +10,24 @@ package com.x460dot11.data;
  */
 public class Bug {
     private int bug_id;
-    private String due_date;
+    private LocalDate due_date;
+    private LocalDate close_date;
     private String assignee;
     private int priority;
     private String summary;
     private String history;
     private String final_result;
-    private boolean is_open;
 
-    public Bug(int bug_id, String due_date, String assignee, int priority, String summary,
-               String history, String final_result, boolean is_open) {
+    public Bug(int bug_id, LocalDate due_date, LocalDate close_date, String assignee, int priority,
+               String summary, String history, String final_result) {
         this.bug_id = bug_id;
         this.due_date = due_date;
+        this.close_date = close_date;
         this.assignee = assignee;
         this.priority = priority;
         this.summary = summary;
         this.history = history;
         this.final_result = final_result;
-        this.is_open = is_open;
     }
 
     public Bug() {
@@ -47,12 +49,20 @@ public class Bug {
         this.priority = priority;
     }
 
-    public String getDue_date() {
+    public LocalDate getDue_date() {
         return due_date;
     }
 
-    public void setDue_date(String due_date) {
+    public void setDue_date(LocalDate due_date) {
         this.due_date = due_date;
+    }
+
+    public LocalDate getClose_date() {
+        return close_date;
+    }
+
+    public void setClose_date(LocalDate close_date) {
+        this.close_date = close_date;
     }
 
     public String getAssignee() {
@@ -87,14 +97,6 @@ public class Bug {
         this.final_result = final_result;
     }
 
-    public boolean isIs_open() {
-        return is_open;
-    }
-
-    public void setIs_open(boolean is_open) {
-        this.is_open = is_open;
-    }
-
     public boolean hasSameValuesAs(Object obj) {
         if (this == obj)
             return true;
@@ -103,21 +105,36 @@ public class Bug {
         if (getClass() != obj.getClass())
             return false;
         Bug other = (Bug) obj;
-        if (this.bug_id != other.bug_id)
+        if (this.bug_id != other.getBug_id())
             return false;
-        if (!this.due_date.equals(other.due_date))
+
+        if (this.due_date == null || other.getDue_date() == null) {
+            if (this.due_date == null && other.getDue_date() != null)
+                return false;
+            if (this.due_date != null && other.getDue_date() == null)
+                return false;
+        } else if (!this.due_date.equals(other.getDue_date())) {
             return false;
-        if (!this.assignee.equals(other.assignee))
+        }
+
+        if (this.close_date == null || other.getClose_date() == null) {
+            if (this.close_date == null && other.getClose_date() != null)
+                return false;
+            if (this.close_date != null && other.getClose_date() == null)
+                return false;
+        } else if (!this.close_date.equals(other.getClose_date())) {
             return false;
-        if (this.priority != other.priority)
+        }
+
+        if (!this.assignee.equals(other.getAssignee()))
             return false;
-        if (!this.summary.equals(other.summary))
+        if (this.priority != other.getPriority())
             return false;
-        if (!this.history.equals(other.history))
+        if (!this.summary.equals(other.getSummary()))
             return false;
-        if (!this.final_result.equals(other.final_result))
+        if (!this.history.equals(other.getHistory()))
             return false;
-        if (this.is_open != other.is_open)
+        if (!this.final_result.equals(other.getFinal_result()))
             return false;
 
         return true;

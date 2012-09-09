@@ -1,7 +1,7 @@
 package com.x460dot11.data;
 
 import com.x460dot11.exception.LostUpdateException;
-
+import org.joda.time.LocalDate;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,13 +36,14 @@ public class Database {
     private void initializeBugList () throws SQLException {
         Bug bug;
         int bug_id;
-        String due_date;
+        String date;
+        LocalDate due_date;
+        LocalDate close_date;
         String assignee;
         int priority;
         String summary;
         String history;
         String final_result;
-        boolean is_open;
 
         Statement statement = connection.createStatement();
         String sqlStmt = "SELECT * FROM bug ORDER BY bug_id;";
@@ -53,20 +54,38 @@ public class Database {
 
             try {
                 bug_id = Integer.parseInt(resultSet.getString("bug_id"));
-                due_date = resultSet.getString("due_date");
+
+                due_date = ((date = resultSet.getString("due_date")) == null)
+                        ? null : LocalDate.parse(date);
+                close_date = ((date = resultSet.getString("close_date")) == null)
+                        ? null : LocalDate.parse(date);
                 assignee = resultSet.getString("assignee");
                 priority = Integer.parseInt(resultSet.getString("priority"));
                 summary = resultSet.getString("summary");
                 history = resultSet.getString("history");
                 final_result = resultSet.getString("final_result");
-                is_open = (resultSet.getString("is_open").equals("TRUE"));
-                bug = new Bug(bug_id, due_date, assignee, priority, summary, history,
-                        final_result, is_open);
+                bug = new Bug(bug_id, due_date, close_date, assignee, priority,
+                        summary, history, final_result);
                 bugs.add(bug);
-            } catch (NumberFormatException ex) {
-                ex.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
         }
+    }
+
+    public boolean isOnEmailList (int id, String username) throws SQLException {
+
+        Statement statement = connection.createStatement();
+        String sqlStmt = "SELECT bug_id, username FROM email WHERE bug_id = " + id +
+                " AND username = $$" + username + "$$;";
+        statement.execute(sqlStmt);
+        ResultSet resultSet = statement.getResultSet();
+        if (resultSet.next())
+            return false;
+        else
+            return true;
     }
 
     public ArrayList<Bug> getBugList () {
@@ -88,31 +107,69 @@ public class Database {
         initializeBugList();
     }
 
-    public void addBug (String newSummary, String newComment) throws SQLException {
+    public synchronized void addBug (String newSummary, String newComment, User user)
+            throws SQLException {
         Statement statement = connection.createStatement();
         String sqlStmt =
-                "INSERT INTO bug (summary, history) " +
-                "VALUES ($$" + newSummary + "$$, $$" + newComment + "$$);";
+                "BEGIN; " +
+                "INSERT INTO bug (summary, history, created_by, modified_by) " +
+                "VALUES ($$" + newSummary + "$$, $$" + newComment + "$$, $$" +
+                 user.getUsername() + "$$, $$" + user.getUsername() + "$$); " +
+                "INSERT INTO email (bug_id, username, created_by) VALUES ((SELECT MAX(bug_id) " +
+                 "FROM bug), $$" + user.getUsername() + "$$, $$" +  user.getUsername() + "$$); " +
+                 "COMMIT;";
         statement.execute(sqlStmt);
         refreshBugList();
     }
 
-    public synchronized void updateBug (Bug v1bug, Bug v2bug) throws SQLException {
+    public synchronized void updateBug (Bug v1bug, Bug v2bug, User user)
+            throws SQLException, LostUpdateException {
         if (!v1bug.hasSameValuesAs(getBug(v1bug.getBug_id())))
             throw new LostUpdateException("ERROR: cannot update bug ID"  + v1bug.getBug_id() +
                     " . Please refresh and try again");
 
         Statement statement = connection.createStatement();
-        String sqlStmt = "UPDATE bug SET " +
-                "due_date = \'" + v2bug.getDue_date() + "\', " +
+        StringBuilder sqlStmt = new StringBuilder();
+        sqlStmt.append(
+                "BEGIN; ");
+        sqlStmt.append(
+                "INSERT INTO archive (SELECT * FROM bug WHERE bug_id = " + v2bug.getBug_id() + "); ");
+        sqlStmt.append(
+                "UPDATE bug SET ");
+
+        sqlStmt.append("due_date = ");
+        if (v2bug.getDue_date() == null)
+            sqlStmt.append("DEFAULT, ");
+        else
+            sqlStmt.append("$$" + v2bug.getDue_date().toString() + "$$, ");
+
+        sqlStmt.append("close_date = ");
+        if (v2bug.getClose_date() == null)
+            sqlStmt.append("DEFAULT, ");
+        else
+            sqlStmt.append("$$" + v2bug.getClose_date().toString() + "$$, ");
+
+        sqlStmt.append(
                 "assignee = $$" + v2bug.getAssignee() + "$$, " +
                 "priority = " + v2bug.getPriority() + ", " +
                 "summary = $$" + v2bug.getSummary() + "$$, " +
                 "history = $$" + v2bug.getHistory() + "$$, " +
                 "final_result = $$" + v2bug.getFinal_result() + "$$, " +
-                "is_open = " + v2bug.isIs_open() + " " +
-                "WHERE bug_id = " + v2bug.getBug_id() + ";";
-        statement.execute(sqlStmt);
+                "modified = now(), " +
+                "modified_by = $$" + user.getUsername() + "$$ " +
+                "WHERE bug_id = " + v2bug.getBug_id() + "; ");
+        if (!isOnEmailList(v2bug.getBug_id(), v2bug.getAssignee()))
+            sqlStmt.append(
+                    "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
+                            ", $$" + v2bug.getAssignee() + "$$, $$" + user.getUsername() + "$$); ");
+        if (!v1bug.getAssignee().equals(v2bug.getAssignee()) &&
+                isOnEmailList(v1bug.getBug_id(), v1bug.getAssignee())) {
+            sqlStmt.append(
+                    "DELETE FROM email WHERE bug_id = " + v1bug.getBug_id() + " AND username = $$" +
+                            v1bug.getAssignee() + "$$; ");
+        }
+        sqlStmt.append("COMMIT; ");
+        statement.execute(sqlStmt.toString());
         refreshBugList();
      }
 }
