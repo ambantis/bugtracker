@@ -34,10 +34,24 @@ CREATE TABLE archive(
   modified_by   CHARACTER VARYING(30)
 );
 
-CREATE TABLE email(
+CREATE TABLE contact(
   bug_id        INTEGER,
-  username      CHARACTER VARYING(30),
+  user_name     CHARACTER VARYING(15),
   created       TIMESTAMP WITH TIME ZONE DEFAULT now(),
   created_by    CHARACTER VARYING(30) NOT NULL,
   UNIQUE (bug_id, email)
 );
+
+CREATE TABLE users(
+  user_name     CHARACTER VARYING(15) NOT NULL PRIMARY KEY,
+  user_pass     CHARACTER VARYING(15) NOT NULL,
+  user_email    CHARACTER VARYING(30) NOT NULL
+);
+
+CREATE TABLE user_roles (
+  user_name     CHARACTER VARYING(15) NOT NULL,
+  role_name     CHARACTER VARYING(15) NOT NULL,
+  UNIQUE (user_name, role_name)
+);
+
+

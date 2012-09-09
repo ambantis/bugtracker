@@ -42,10 +42,18 @@
                type="date"
                value="${v2bug.due_date}">
         <br>
-        <label for="assignee">Assignee</label>
-        <input id="assignee"
-               name="assignee"
-               value="${v2bug.assignee}">
+
+        <label for="assignee">Coder</label>
+        <select name="assignee" id="assignee">
+            <option value="${v2bug.assignee}" selected>${v2bug.assignee}</option>
+                <c:forEach var="coder" items="${coders}">
+                    <c:if test="${coder != v2bug.assignee}">
+                        <option value="${coder}">${coder}
+                    </c:if>
+                </option>
+            </c:forEach>
+        </select>
+
         <br>
         <label for="priority">Priority (from 1-10, 10=highest)</label>
         <input id="priority"

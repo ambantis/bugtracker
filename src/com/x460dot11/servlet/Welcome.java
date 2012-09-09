@@ -25,10 +25,7 @@ public class Welcome extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        // TODO:2012-09-05:ambantis:Use cookies to track session
-        // TODO:2012-09-05:ambantis:End session after x minutes or when server goes down
-
-        ArrayList<Bug> bugs = Database.getInstance().getBugList();
+        ArrayList<Bug> bugs = Database.getInstance().getBugs();
         session.setAttribute("bugs", bugs);
         session.setAttribute("bug", new Bug());
 
@@ -45,11 +42,19 @@ public class Welcome extends HttpServlet {
             return;
         User user = new User(username, role);
         session.setAttribute("user", user);
+
+        ArrayList<String> coders = Database.getInstance().getCoders();
+        session.setAttribute("coders", coders);
+
 //        try {
 //            Gmail.getInstance().sendTestMessage();
 //        } catch (MessagingException e) {
 //            e.printStackTrace();
 //        }
+
+
+
+
 
 
         // TODO:2012-09-05:ambantis:Implement page redirect based upon user role

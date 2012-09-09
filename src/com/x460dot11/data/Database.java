@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 public class Database {
     private ArrayList<Bug> bugs = null;
+    private ArrayList<String> coders = null;
     private Connection connection = null;
     private static Database database = null;
 
@@ -30,8 +31,15 @@ public class Database {
         // TODO:2012-09-05:ambantis:Create DatabaseIsDownException
         connection = newConnection;
         bugs = new ArrayList<Bug>();
-        initializeBugList();
+        coders = new ArrayList<String>();
+        initialize();
     }
+
+    private void initialize() throws SQLException {
+        initializeBugList();
+        initializeCoderList();
+    }
+
 
     private void initializeBugList () throws SQLException {
         Bug bug;
@@ -75,6 +83,21 @@ public class Database {
         }
     }
 
+    private void initializeCoderList () throws SQLException {
+        Statement statement = connection.createStatement();
+        String sqlStmt =
+                "SELECT users.user_email FROM users, user_roles WHERE users.user_name = user_roles.user_name AND user_roles.role_name = $$coder$$;";
+
+        statement.execute(sqlStmt);
+        ResultSet resultSet = statement.getResultSet();
+
+        while (resultSet.next()) {
+            coders.add(resultSet.getString("user_email"));
+        }
+
+
+    }
+
     public boolean isOnEmailList (int id, String username) throws SQLException {
 
         Statement statement = connection.createStatement();
@@ -88,12 +111,16 @@ public class Database {
             return false;
     }
 
-    public ArrayList<Bug> getBugList () {
+    public ArrayList<Bug> getBugs() {
         return bugs;
     }
 
+    public ArrayList<String> getCoders () {
+        return coders;
+    }
+
     public Bug getBug(int id) throws SQLException {
-        refreshBugList();
+        refresh();
         for (Bug bug : bugs) {
             if (bug.getBug_id() == id)
                 return bug;
@@ -102,9 +129,11 @@ public class Database {
         throw new SQLException("Bug not found");
     }
 
-    public void refreshBugList () throws SQLException {
+    public void refresh() throws SQLException {
         bugs.clear();
         initializeBugList();
+        coders.clear();
+        initializeCoderList();
     }
 
     public synchronized void addBug (String newSummary, String newComment, User user)
@@ -119,7 +148,7 @@ public class Database {
                  "FROM bug), $$" + user.getUsername() + "$$, $$" +  user.getUsername() + "$$); " +
                  "COMMIT;";
         statement.execute(sqlStmt);
-        refreshBugList();
+        refresh();
     }
 
     public synchronized void updateBug (Bug v1bug, Bug v2bug, User user)
@@ -176,6 +205,6 @@ public class Database {
         }
         sqlStmt.append("COMMIT; ");
         statement.execute(sqlStmt.toString());
-        refreshBugList();
+        refresh();
      }
 }
