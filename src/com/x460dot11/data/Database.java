@@ -99,6 +99,9 @@ public class Database {
     }
 
     public boolean isOnEmailList (int id, String username) throws SQLException {
+        // we don't want to insert the default value of "unk" to the email table
+        if (username == "unk")
+            return true;
 
         Statement statement = connection.createStatement();
         String sqlStmt = "SELECT bug_id, username FROM email WHERE bug_id = " + id +
