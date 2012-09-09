@@ -30,7 +30,7 @@
 
     <h2>Update Information and then press submit</h2>
 
-    <form method="post" action="processEditBug.do">
+    <form method="post" action="processEditBug.do"/>
         <label for="bug_id">Bug ID</label>
         <input class="noWrite"
                id="bug_id"
@@ -94,7 +94,6 @@
         </table>
         <br>
         <button type="submit">Submit</button>
-    </f
-        +orm>
+    </form>
 </body>
 </html>
