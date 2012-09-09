@@ -3,9 +3,8 @@ package com.x460dot11.servlet;
 import com.x460dot11.data.Bug;
 import com.x460dot11.data.Database;
 import com.x460dot11.data.User;
-import com.x460dot11.mail.Gmail;
+// import com.x460dot11.mail.Gmail;
 
-import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +24,7 @@ public class Welcome extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+
         // TODO:2012-09-05:ambantis:Use cookies to track session
         // TODO:2012-09-05:ambantis:End session after x minutes or when server goes down
 
