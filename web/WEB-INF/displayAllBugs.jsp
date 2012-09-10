@@ -26,15 +26,17 @@
 
         <tbody>
             <c:forEach var="bug" items="${bugs}">
-                <tr>
-                    <td><c:out value="${bug.bug_id}"/></td>
-
-                    <td><c:out value="${bug.due_date}"/></td>
-                    <td><c:out value="${bug.close_date}"/></td>
-                    <td><c:out value="${bug.assignee}"/></td>
-                    <td><c:out value="${bug.priority}"/></td>
-                    <td><c:out value="${bug.summary}"/></td>
-                </tr>
+                <c:if test="${((user.role eq 'developer') && (user.username eq bug.assignee)) ||
+                               (user.role ne 'developer')}">
+                    <tr>
+                        <td><c:out value="${bug.bug_id}"/></td>
+                        <td><c:out value="${bug.due_date}"/></td>
+                        <td><c:out value="${bug.close_date}"/></td>
+                        <td><c:out value="${bug.assignee}"/></td>
+                        <td><c:out value="${bug.priority}"/></td>
+                        <td><c:out value="${bug.summary}"/></td>
+                    </tr>
+                </c:if>
             </c:forEach>
         </tbody>
     </table>
