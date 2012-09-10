@@ -127,10 +127,6 @@
         <listener-class>com.x460dot11.listener.ContextListener</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>com.x460dot11.listener.SessionListener</listener-class>
-    </listener>
-
     <context-param>
         <param-name>db-driver</param-name>
         <param-value>org.postgresql.Driver</param-value>

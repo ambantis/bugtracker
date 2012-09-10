@@ -67,8 +67,7 @@
 
     <p>
         <a href="welcome.do">Return to Welcome Page</a>
-        <a href="inputNewBug.do">New Bug</a>
-        <br>
+    <br>
     </p>
 
 </body>
