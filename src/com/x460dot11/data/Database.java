@@ -21,13 +21,25 @@ public class Database {
     private static Database database = null;
 
     private Database() {}
-
+    
+    /**
+     * If database is not created, create a new database
+     * Return current database
+     * @return database
+     */
+    
     public static Database getInstance () {
         if (database == null)
             database = new Database();
         return database;
     }
 
+    /**
+     * Establish database connection, and initialize Bug list
+     * @param newConnection
+     * @throws SQLException
+     */
+    
     public void init(Connection newConnection) throws SQLException {
         // TODO:2012-09-05:ambantis:Create DatabaseIsDownException
         connection = newConnection;
@@ -112,15 +124,29 @@ public class Database {
         else
             return false;
     }
-
+    
+    /**
+     * Return Bug list
+     * @return Bug List
+     */
+    
     public ArrayList<Bug> getBugs() {
         return bugs;
     }
 
+    
+    
     public ArrayList<String> getCoders () {
         return coders;
     }
 
+
+    /**
+     * Return Bug ID
+     * @param id
+     * @return
+     */
+    
     public Bug getBug(int id) throws SQLException {
         refresh();
         for (Bug bug : bugs) {
@@ -135,6 +161,11 @@ public class Database {
         return bugs.get(bugs.size() - 1);
     }
 
+    /**
+     * Update Bug list
+     * @throws SQLException
+     */
+    
     public void refresh() throws SQLException {
         bugs.clear();
         initializeBugList();
@@ -156,6 +187,12 @@ public class Database {
         return addresses;
     }
 
+    /**
+     * Add new Bug summary and comment into the database and update Bug list
+     * @param newSummary
+     * @param newComment
+     * @throws SQLException
+     */
 
     public synchronized void addBug (String newSummary, String newComment, User user)
             throws SQLException {
@@ -173,7 +210,13 @@ public class Database {
         refresh();
         Gmail.getInstance().sendHelloMessage(helloEmail, getLatestBug());
     }
-
+    /**
+     * Update Bug (due date, assignee, priority, summary, history, status)in the database.
+     * Update Bug list
+     * @param newBug
+     * @throws SQLException
+     */
+    
     public synchronized void updateBug (Bug v1bug, Bug v2bug, User user)
             throws SQLException, LostUpdateException {
         String byeEmail = null;

@@ -11,10 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+
 /**
+ * 
  * User: Alexandros Bantis
  * Date: 9/3/12
  * Time: 2:55 PM
+ * 
+ * This servlet gets the Bug ID input from user and retrieve the Bug object associated
+ * with Bug ID from the database, then forward to JSP page for editing.
  */
 public class DisplayBug extends HttpServlet {
 
