@@ -29,10 +29,11 @@ tomcat-users.xml file for implementation of the web app:
       <role rolename="bug-qa"/>
       <role rolename="bug-mngr"/>
       <role rolename="bug-dev"/>
-      <user username="acbantis@gmail.com" password="sunshine" roles="bug-mngr"/>
-      <user username="ambantis@gmail.com" password="jonathan" roles="bug-mngr"/>
-      <user username="annevo101@yahoo.com" password="allyson" roles="bug-dev"/>
-      <user username="lloydmxl@gmail.com" password="hellojstl" roles="bug-dev"/>
-      <user username="a.bantis@lausd.net" password="rm4203" roles="bug-qa"/>
-      <user username="anbant2010@gmail.com" password="athena" roles="bug-qa"/>
+      <user username="marge@simpsons.com" password="kiss" roles="bug-mngr"/>
+      <user username="burns@simpsons.com" password="money" roles="bug-mngr"/>
+      <user username="bart@simpsons.com"  password="cowabunga" roles="bug-dev"/>
+      <user username="lisa@simpsons.com"  password="flute" roles="bug-dev"/>
+      <user username="barney@simpsons.com" password="burp" roles="bug-qa"/>
+      <user username="homer@simpsons.com" password="donuts" roles="bug-qa"/>
+
     <!-- End of section for roles/users of the bugtracker web app -->
