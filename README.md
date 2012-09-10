@@ -33,6 +33,6 @@ tomcat-users.xml file for implementation of the web app:
       <user username="ambantis@gmail.com" password="jonathan" roles="bug-mngr"/>
       <user username="annevo101@yahoo.com" password="allyson" roles="bug-dev"/>
       <user username="lloydmxl@gmail.com" password="hellojstl" roles="bug-dev"/>
-      <user username="a.bantis@lausd.net" password="lausd" roles="bug-qa"/>
+      <user username="a.bantis@lausd.net" password="rm4203" roles="bug-qa"/>
       <user username="anbant2010@gmail.com" password="athena" roles="bug-qa"/>
     <!-- End of section for roles/users of the bugtracker web app -->

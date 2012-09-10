@@ -1,6 +1,7 @@
 package com.x460dot11.data;
 
 import com.x460dot11.exception.LostUpdateException;
+import com.x460dot11.mail.Gmail;
 import org.joda.time.LocalDate;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -94,8 +95,6 @@ public class Database {
         while (resultSet.next()) {
             coders.add(resultSet.getString("user_email"));
         }
-
-
     }
 
     public boolean isOnEmailList (int id, String username) throws SQLException {
@@ -132,6 +131,10 @@ public class Database {
         throw new SQLException("Bug not found");
     }
 
+    private Bug getLatestBug() {
+        return bugs.get(bugs.size() - 1);
+    }
+
     public void refresh() throws SQLException {
         bugs.clear();
         initializeBugList();
@@ -139,8 +142,24 @@ public class Database {
         initializeCoderList();
     }
 
+    private ArrayList<String> getEmailList(int bug_id) throws SQLException {
+        ArrayList<String> addresses = new ArrayList<String>();
+        String email;
+        Statement statement = connection.createStatement();
+        String sqlStmt = "SELECT username FROM email WHERE bug_id = " + bug_id;
+        statement.execute(sqlStmt);
+        ResultSet resultSet = statement.getResultSet();
+        while (resultSet.next()) {
+            email = resultSet.getString("username");
+            addresses.add(email);
+        }
+        return addresses;
+    }
+
+
     public synchronized void addBug (String newSummary, String newComment, User user)
             throws SQLException {
+        String helloEmail = user.getUsername();
         Statement statement = connection.createStatement();
         String sqlStmt =
                 "BEGIN; " +
@@ -152,16 +171,25 @@ public class Database {
                  "COMMIT;";
         statement.execute(sqlStmt);
         refresh();
+        Gmail.getInstance().sendHelloMessage(helloEmail, getLatestBug());
     }
 
     public synchronized void updateBug (Bug v1bug, Bug v2bug, User user)
             throws SQLException, LostUpdateException {
+        String byeEmail = null;
+
+        // if there was no change, then there is nothing to update
+        if (v1bug.hasSameValuesAs(v2bug))
+            return;
+        // if the pre-change version of the bug doesn't match what is currently in the
+        // database, then we have a lost update condition.
         if (!v1bug.hasSameValuesAs(getBug(v1bug.getBug_id())))
             throw new LostUpdateException("ERROR: cannot update bug ID"  + v1bug.getBug_id() +
                     " . Please refresh and try again");
 
         Statement statement = connection.createStatement();
         StringBuilder sqlStmt = new StringBuilder();
+        // do the sql update as a transaction, so everything must update or nothing at all
         sqlStmt.append(
                 "BEGIN; ");
         sqlStmt.append(
@@ -190,18 +218,19 @@ public class Database {
                 "modified = now(), " +
                 "modified_by = $$" + user.getUsername() + "$$ " +
                 "WHERE bug_id = " + v2bug.getBug_id() + "; ");
-        if (!isOnEmailList(v2bug.getBug_id(), v2bug.getAssignee()))
+        if (!isOnEmailList(v2bug.getBug_id(), v2bug.getAssignee())) {
             sqlStmt.append(
                     "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
                             ", $$" + v2bug.getAssignee() + "$$, $$" + user.getUsername() + "$$); ");
-
-        if (!isOnEmailList(v2bug.getBug_id(), user.getUsername()))
+        }
+        if (!isOnEmailList(v2bug.getBug_id(), user.getUsername())) {
             sqlStmt.append(
                     "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
                             ", $$" + user.getUsername() + "$$, $$" + user.getUsername() + "$$); ");
-
+        }
         if (!v1bug.getAssignee().equals(v2bug.getAssignee()) &&
                 isOnEmailList(v1bug.getBug_id(), v1bug.getAssignee())) {
+            byeEmail = v1bug.getAssignee();
             sqlStmt.append(
                     "DELETE FROM email WHERE bug_id = " + v1bug.getBug_id() + " AND username = $$" +
                             v1bug.getAssignee() + "$$; ");
@@ -209,5 +238,10 @@ public class Database {
         sqlStmt.append("COMMIT; ");
         statement.execute(sqlStmt.toString());
         refresh();
+        if (byeEmail != null) {
+            Gmail.getInstance().sendByeMessage(byeEmail, v2bug);
+        }
+        ArrayList<String> updateEmailAddresses = getEmailList(v2bug.getBug_id());
+        Gmail.getInstance().sendUpdateMessage(updateEmailAddresses, v2bug);
      }
 }

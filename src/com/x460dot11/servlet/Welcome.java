@@ -47,13 +47,6 @@ public class Welcome extends HttpServlet {
         ArrayList<String> coders = Database.getInstance().getCoders();
         session.setAttribute("coders", coders);
 
-        try {
-            Gmail.getInstance().sendMessage();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-
-
         // TODO:2012-09-05:ambantis:Implement page redirect based upon user role
         RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
         view.forward(request, response);
