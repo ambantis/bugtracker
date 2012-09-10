@@ -20,6 +20,8 @@ import static com.x460dot11.util.Converter.formatNewComment;
  * User: Alexandros Bantis
  * Date: 9/1/12
  * Time: 1:10 PM
+ * 
+ * This servlet updates database with new Bug data entered by user.
  */
 public class ProcessEditBug extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

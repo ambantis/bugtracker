@@ -18,6 +18,8 @@ import static com.x460dot11.util.Converter.formatNewComment;
  * User: Alexandros Bantis
  * Date: 9/1/12
  * Time: 1:10 PM
+ * 
+ * This servlet creates a new Bug in the database with Bug summary and comment.
  */
 public class ProcessNewBug extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

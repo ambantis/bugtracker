@@ -18,6 +18,11 @@ import java.sql.SQLException;
  */
 public class ContextListener implements ServletContextListener {
     @Override
+    /**
+     * Start monitoring the application and database connection
+     *
+     */
+    
     public void contextInitialized(ServletContextEvent event) {
         ServletContext servletContext = event.getServletContext();
         Connection connection;
@@ -45,6 +50,10 @@ public class ContextListener implements ServletContextListener {
     }
 
     @Override
+    
+    /**
+     * Close database connection
+     */
     public void contextDestroyed(ServletContextEvent event) {
 
         Connection connection = (Connection) event.getServletContext().getAttribute("connection");

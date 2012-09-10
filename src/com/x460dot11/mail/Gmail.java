@@ -27,18 +27,26 @@ public class Gmail {
     private final String PASSWORD = "x460dot11";
 
     private Gmail() {}
-
+    /**
+     * Return instance of Gmail
+     * @return smtp host and configuration properties
+     */
     public static Gmail getInstance() {
         if (gmail == null)
             gmail = new Gmail();
         return gmail;
     }
-
+    /**
+     * Initialize/create Gmail object
+     */
     public void init() {
         properties = new Properties();
         properties.put("mail.smtps.auth", "true");
     }
-
+    /**
+     * Send a hello message
+     * 
+     */
     public void sendHelloMessage(String address, Bug bug) {
         String recipients = address;
         String subject = "BugTracker: Hello Bug ID # " + bug.getBug_id();
@@ -50,7 +58,11 @@ public class Gmail {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Send update message
+     * 
+     */
+    
     public void sendUpdateMessage(ArrayList<String> addresses, Bug bug) {
         String recipients = convertToInternetAddressString(addresses);
         String subject = "Status Update on Bug # " + bug.getBug_id();
@@ -63,7 +75,11 @@ public class Gmail {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Send bye message
+     * 
+     */
+ 
 
     public void sendByeMessage(String address, Bug bug) {
         String recipients = address;
@@ -77,7 +93,11 @@ public class Gmail {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Send Congrats message
+     * 
+     */
+ 
     public void sendCongratsMessage(ArrayList<String> addresses, Bug bug) {
         String recipients = convertToInternetAddressString(addresses);
         String subject = "Congrats for Killing Bug # " + bug.getBug_id();
@@ -90,7 +110,10 @@ public class Gmail {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Send message
+     * @throws MessagingException
+     */
     private void sendMessage(String recipients, String subject, String body)
             throws MessagingException {
 

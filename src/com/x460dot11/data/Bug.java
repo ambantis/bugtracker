@@ -17,7 +17,17 @@ public class Bug {
     private String summary;
     private String history;
     private String final_result;
-
+    /**
+     * Constructor
+     * @param bug_id
+     * @param due_date 
+     * @param assignee
+     * @param priority
+     * @param summary
+     * @param history
+     * @param final_result
+     * @param is_open
+     */
     public Bug(int bug_id, LocalDate due_date, LocalDate close_date, String assignee, int priority,
                String summary, String history, String final_result) {
         this.bug_id = bug_id;
@@ -29,30 +39,50 @@ public class Bug {
         this.history = history;
         this.final_result = final_result;
     }
-
+    /**
+     * Constructor
+     */
     public Bug() {
     }
-
+    /**
+     * 
+     * @return Bug ID
+     */
     public int getBug_id() {
         return bug_id;
     }
-
+    /**
+     * Sets Bug ID
+     * @param bug_id
+     */
     public void setBug_id(int bug_id) {
         this.bug_id = bug_id;
     }
-
+    /**
+     * 
+     * @return Bug Priority
+     */
     public int getPriority() {
         return priority;
     }
-
+    /**
+     * Sets Bug Priority
+     * @param priority
+     */
     public void setPriority(int priority) {
         this.priority = priority;
     }
-
+    /**
+     * 
+     * @return Bug due date
+     */
     public LocalDate getDue_date() {
         return due_date;
     }
-
+    /**
+     * Sets Bug due date
+     * @param due_date
+     */
     public void setDue_date(LocalDate due_date) {
         this.due_date = due_date;
     }
@@ -64,35 +94,61 @@ public class Bug {
     public void setClose_date(LocalDate close_date) {
         this.close_date = close_date;
     }
-
+    /**
+     * 
+     * @return Bug Assignee
+     */
     public String getAssignee() {
         return assignee;
     }
-
+    /**
+     * Sets Bug Assignee
+     * @param assignee
+     */
     public void setAssignee(String assignee) {
         this.assignee = assignee;
     }
 
+    /**
+     * 
+     * @return Bug Summary
+     */
     public String getSummary() {
         return summary;
     }
-
+    /**
+     * Sets Bug Summary
+     * @param summary
+     */
     public void setSummary(String summary) {
         this.summary = summary;
     }
-
+    /**
+     * 
+     * @return Bug History
+     */
     public String getHistory() {
         return history;
     }
-
+    /**
+     * Sets Bug History
+     * @param history
+     */
     public void setHistory(String history) {
         this.history = history;
     }
-
+    /**
+     * 
+     * @return Bug final status
+     */
     public String getFinal_result() {
         return final_result;
     }
 
+    /**
+     * Sets Bug final status
+     * @param final_result
+     */
     public void setFinal_result(String final_result) {
         this.final_result = final_result;
     }
