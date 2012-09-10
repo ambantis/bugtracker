@@ -83,7 +83,7 @@
 
        <br>
         <table>
-        <tr><td><label class="noWrite" for="summary">Summary</label></td></tr>
+        <tr><td><label for="summary">Summary</label></td></tr>
         <tr><td><textarea class="noWrite" id="summary" name="summary" cols="80" readonly="readonly">${v2bug.summary}</textarea></td></tr>
         <tr><td><label for="history">Description</label></td></tr>
         <tr><td><textarea class="noWrite" id="history" name="history" cols="80" readonly="readonly">${v2bug.history}</textarea></td></tr>

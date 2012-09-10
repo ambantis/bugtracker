@@ -87,7 +87,8 @@ public class Database {
     private void initializeCoderList () throws SQLException {
         Statement statement = connection.createStatement();
         String sqlStmt =
-                "SELECT users.user_email FROM users, user_roles WHERE users.user_name = user_roles.user_name AND user_roles.role_name = $$coder$$;";
+                "SELECT users.user_email FROM users, user_roles " +
+                "WHERE users.user_name = user_roles.user_name AND user_roles.role_name = $$coder$$;";
 
         statement.execute(sqlStmt);
         ResultSet resultSet = statement.getResultSet();
@@ -235,7 +236,7 @@ public class Database {
                     "DELETE FROM email WHERE bug_id = " + v1bug.getBug_id() + " AND username = $$" +
                             v1bug.getAssignee() + "$$; ");
         }
-        sqlStmt.append("COMMIT; ");
+        sqlStmt.append("COMMIT;");
         statement.execute(sqlStmt.toString());
         refresh();
         if (byeEmail != null) {
@@ -244,4 +245,31 @@ public class Database {
         ArrayList<String> updateEmailAddresses = getEmailList(v2bug.getBug_id());
         Gmail.getInstance().sendUpdateMessage(updateEmailAddresses, v2bug);
      }
+
+    public synchronized void closeBug(Bug v1bug, Bug v2bug, User user)
+            throws SQLException, LostUpdateException {
+        ArrayList<String> congratsEmailList = getEmailList(v2bug.getBug_id());
+
+        // if the pre-change version of the bug doesn't match what is currently in the
+        // database, then we have a lost update condition.
+        if (!v1bug.hasSameValuesAs(getBug(v1bug.getBug_id())))
+            throw new LostUpdateException("ERROR: cannot update bug ID"  + v1bug.getBug_id() +
+                    " . Please refresh and try again");
+
+        Statement statement = connection.createStatement();
+        StringBuilder sqlStmt = new StringBuilder();
+        sqlStmt.append(
+                "BEGIN; ");
+        sqlStmt.append("INSERT INTO archive (SELECT * FROM bug WHERE bug_id = " +
+                v2bug.getBug_id() + "); ");
+        sqlStmt.append("" +
+                "UPDATE bug SET due_date = DEFAULT, close_date = current_date, assignee = DEFAULT, " +
+                "final_result = $$" + v2bug.getFinal_result() + "$$, modified = now(), " +
+                "modified_by = $$" + user.getUsername() + "$$ " +
+                "WHERE bug_id = " + v2bug.getBug_id() + "; ");
+        sqlStmt.append("COMMIT;");
+        statement.execute(sqlStmt.toString());
+        refresh();
+        Gmail.getInstance().sendUpdateMessage(congratsEmailList, v2bug);
+    }
 }

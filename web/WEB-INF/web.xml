@@ -63,7 +63,7 @@
         <servlet-name>Display A Bug</servlet-name>
         <url-pattern>/displayBug.do</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>Edit a Bug</servlet-name>
         <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
@@ -81,8 +81,26 @@
         <servlet-name>ProcessEditBug</servlet-name>
         <url-pattern>/processEditBug.do</url-pattern>
     </servlet-mapping>
-	
-	<servlet>
+
+    <servlet>
+        <servlet-name>ProcessCloseBug</servlet-name>
+        <servlet-class>com.x460dot11.servlet.ProcessCloseBug</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProcessCloseBug</servlet-name>
+        <url-pattern>/processCloseBug.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Display Close Bug</servlet-name>
+        <jsp-file>/WEB-INF/closeBug.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Display Close Bug</servlet-name>
+        <url-pattern>/closeBug.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Exit Page</servlet-name>
         <jsp-file>/WEB-INF/exit.jsp</jsp-file>
     </servlet>

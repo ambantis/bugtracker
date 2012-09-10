@@ -51,7 +51,19 @@
        <button type="submit">Submit</button>
     </form>
 
-
+    <c:if test="${user.role eq 'manager'}">
+        <h2>Close A Bug</h2>
+        <p>Enter bug id to to close it</p>
+        <form method="get" action="displayBug.do">
+            <label for="close_this_bug">Pick ID</label>
+            <select name="close_this_bug" id="close_this_bug">
+                <c:forEach var="bug" items="${bugs}">
+                    <option value="${bug.bug_id}">BugID ${bug.bug_id}</option>
+                </c:forEach>
+            </select>
+            <button type="submit">Close Bug</button>
+        </form>
+    </c:if>
 
     <p>
         <a href="welcome.do">Return to Welcome Page</a>

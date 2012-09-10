@@ -20,7 +20,18 @@ public class DisplayBug extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("pick_id"));
+        RequestDispatcher view;
+        boolean closeBug;
+        int id;
+        String close = request.getParameter("close_this_bug");
+        if (close == null || close.equals("")) {
+            id = Integer.parseInt(request.getParameter("pick_id"));
+            closeBug = false;
+        } else {
+            id = Integer.parseInt(request.getParameter("close_this_bug"));
+            closeBug = true;
+        }
+
         Bug v2Bug = null;
         try {
             v2Bug = Database.getInstance().getBug(id);
@@ -30,8 +41,10 @@ public class DisplayBug extends HttpServlet {
         request.getSession().setAttribute("bug", v2Bug);
         request.setAttribute("v2bug", v2Bug);
 
-        RequestDispatcher view = request.getRequestDispatcher("editBug.do");
+        if (closeBug)
+            view = request.getRequestDispatcher("closeBug.do");
+        else
+            view = request.getRequestDispatcher("editBug.do");
         view.forward(request, response);
-
     }
 }
