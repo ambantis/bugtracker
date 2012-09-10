@@ -3,8 +3,9 @@ package com.x460dot11.servlet;
 import com.x460dot11.data.Bug;
 import com.x460dot11.data.Database;
 import com.x460dot11.data.User;
-// import com.x460dot11.mail.Gmail;
+import com.x460dot11.mail.Gmail;
 
+import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -46,15 +47,11 @@ public class Welcome extends HttpServlet {
         ArrayList<String> coders = Database.getInstance().getCoders();
         session.setAttribute("coders", coders);
 
-//        try {
-//            Gmail.getInstance().sendTestMessage();
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-
-
-
-
+        try {
+            Gmail.getInstance().sendMessage();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
 
         // TODO:2012-09-05:ambantis:Implement page redirect based upon user role

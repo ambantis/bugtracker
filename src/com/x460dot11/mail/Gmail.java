@@ -1,18 +1,13 @@
 package com.x460dot11.mail;
 
 
-import sun.security.util.Password;
-
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
 
 /**
  * User: Alexandros Bantis
@@ -24,8 +19,8 @@ public class Gmail {
     Properties properties;
 
     private static Gmail gmail = null;
-    private final String userName = "username@gmail.com";
-    private final String password = "password";
+    private final String userName = "bugtrakker@gmail.com";
+    private final String password = "x460dot11";
 
     private Gmail() {}
 
@@ -40,14 +35,18 @@ public class Gmail {
         properties.put("mail.smtps.auth", "true");
     }
 
-    public void sendTestMessage() throws MessagingException {
+    public void sendMessage()
+            throws MessagingException {
 
         Session session = Session.getInstance(properties, null);
+
+
+
         MimeMessage message = new MimeMessage(session);
         message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("me@someplace.com"));
+                    InternetAddress.parse("ambantis@gmail.com,a.bantis@lausd.net"));
         message.setSubject("Testing Subject");
-        message.setText("Dear Developer, there is an update to bug#123");
+        message.setText("Dear Developer, this is a test to make sure that email works");
         Transport transport = session.getTransport("smtps");
         try {
             transport.connect(host, userName, password);
