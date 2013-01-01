@@ -29,7 +29,7 @@ public class ProcessNewBug extends HttpServlet {
         String history = "";
         String summary = request.getParameter("summary");
         String comment = request.getParameter("comment");
-        comment = formatNewComment(history, comment, user.getUsername());
+        comment = formatNewComment(history, comment, user.getUserId());
 
         bug.setSummary(summary);
         bug.setHistory(comment);

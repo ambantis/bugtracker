@@ -26,9 +26,9 @@ This application assumes use of tomcat7 web container. The following lines shoul
 tomcat-users.xml file for implementation of the web app:
 
     <!-- This section contains roles and users for the bugtracker web app -->
-      <role rolename="bug-qa"/>
-      <role rolename="bug-mngr"/>
-      <role rolename="bug-dev"/>
+      <roleId rolename="bug-qa"/>
+      <roleId rolename="bug-mngr"/>
+      <roleId rolename="bug-dev"/>
       <user username="marge@simpsons.com" password="kiss" roles="bug-mngr"/>
       <user username="burns@simpsons.com" password="money" roles="bug-mngr"/>
       <user username="bart@simpsons.com"  password="cowabunga" roles="bug-dev"/>

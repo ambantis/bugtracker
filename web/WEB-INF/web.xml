@@ -4,8 +4,16 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
+  <filter>
+    <filter-name>Authenticate</filter-name>
+    <filter-class>com.x460dot11.servlet.Authenticate</filter-class>
+  </filter>
+  <filter>
+    <filter-name>FLoginFilter</filter-name>
+    <filter-class>com.x460dot11.filter.LoginFilter</filter-class>
+  </filter>
 
-    <!-- ===================================================================-->
+  <!-- ===================================================================-->
     <!-- SERVLET DEFINITIONS                                                -->
     <!-- ===================================================================-->
 
@@ -192,15 +200,15 @@
 
     </login-config>
 
-    <security-role>
-        <role-name>bug-qa</role-name>
-    </security-role>
-    <security-role>
-        <role-name>bug-mngr</role-name>
-    </security-role>
-    <security-role>
-        <role-name>bug-dev</role-name>
-    </security-role>
+    <security-roleId>
+        <roleId-name>bug-qa</roleId-name>
+    </security-roleId>
+    <security-roleId>
+        <roleId-name>bug-mngr</roleId-name>
+    </security-roleId>
+    <security-roleId>
+        <roleId-name>bug-dev</roleId-name>
+    </security-roleId>
     
     <security-constraint>
         <web-resource-collection>
@@ -214,9 +222,9 @@
         </web-resource-collection>
 
         <auth-constraint>
-            <role-name>bug-qa</role-name>
-            <role-name>bug-mngr</role-name>
-            <role-name>bug-dev</role-name>
+            <roleId-name>bug-qa</roleId-name>
+            <roleId-name>bug-mngr</roleId-name>
+            <roleId-name>bug-dev</roleId-name>
         </auth-constraint>
     </security-constraint>
 

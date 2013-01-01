@@ -47,7 +47,7 @@ public class ProcessEditBug extends HttpServlet {
             v1bug = (Bug) request.getSession().getAttribute("bug");
 
             if (comment.length() > 0) {
-                history = formatNewComment(history, comment, user.getUsername());
+                history = formatNewComment(history, comment, user.getUserId());
             }
 
             v2bug = new Bug();

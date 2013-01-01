@@ -197,15 +197,15 @@ public class Database {
 
     public synchronized void addBug (String newSummary, String newComment, User user)
             throws SQLException {
-        String helloEmail = user.getUsername();
+        String helloEmail = user.getUserId();
         Statement statement = connection.createStatement();
         String sqlStmt =
                 "BEGIN; " +
                 "INSERT INTO bug (summary, history, created_by, modified_by) " +
                 "VALUES ($$" + newSummary + "$$, $$" + newComment + "$$, $$" +
-                 user.getUsername() + "$$, $$" + user.getUsername() + "$$); " +
+                 user.getUserId() + "$$, $$" + user.getUserId() + "$$); " +
                 "INSERT INTO email (bug_id, username, created_by) VALUES ((SELECT MAX(bug_id) " +
-                 "FROM bug), $$" + user.getUsername() + "$$, $$" +  user.getUsername() + "$$); " +
+                 "FROM bug), $$" + user.getUserId() + "$$, $$" +  user.getUserId() + "$$); " +
                  "COMMIT;";
         statement.execute(sqlStmt);
         refresh();
@@ -260,17 +260,17 @@ public class Database {
                 "history = $$" + v2bug.getHistory() + "$$, " +
                 "final_result = $$" + v2bug.getFinal_result() + "$$, " +
                 "modified = now(), " +
-                "modified_by = $$" + user.getUsername() + "$$ " +
+                "modified_by = $$" + user.getUserId() + "$$ " +
                 "WHERE bug_id = " + v2bug.getBug_id() + "; ");
         if (!isOnEmailList(v2bug.getBug_id(), v2bug.getAssignee())) {
             sqlStmt.append(
                     "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
-                            ", $$" + v2bug.getAssignee() + "$$, $$" + user.getUsername() + "$$); ");
+                            ", $$" + v2bug.getAssignee() + "$$, $$" + user.getUserId() + "$$); ");
         }
-        if (!isOnEmailList(v2bug.getBug_id(), user.getUsername())) {
+        if (!isOnEmailList(v2bug.getBug_id(), user.getUserId())) {
             sqlStmt.append(
                     "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
-                            ", $$" + user.getUsername() + "$$, $$" + user.getUsername() + "$$); ");
+                            ", $$" + user.getUserId() + "$$, $$" + user.getUserId() + "$$); ");
         }
         if (!v1bug.getAssignee().equals(v2bug.getAssignee()) &&
                 isOnEmailList(v1bug.getBug_id(), v1bug.getAssignee())) {
@@ -308,7 +308,7 @@ public class Database {
         sqlStmt.append("" +
                 "UPDATE bug SET due_date = DEFAULT, close_date = current_date, assignee = DEFAULT, " +
                 "final_result = $$" + v2bug.getFinal_result() + "$$, modified = now(), " +
-                "modified_by = $$" + user.getUsername() + "$$ " +
+                "modified_by = $$" + user.getUserId() + "$$ " +
                 "WHERE bug_id = " + v2bug.getBug_id() + "; ");
         sqlStmt.append("COMMIT;");
         statement.execute(sqlStmt.toString());
