@@ -10,57 +10,51 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Alexandros Bantis
- * Date: 8/31/12
- * Time: 6:38 AM
- */
 public class ContextListener implements ServletContextListener {
-    @Override
-    /**
-     * Start monitoring the application and database connection
-     *
-     */
-    
-    public void contextInitialized(ServletContextEvent event) {
-        ServletContext servletContext = event.getServletContext();
-        Connection connection;
-        String driver = servletContext.getInitParameter("db-driver");
-        String url = servletContext.getInitParameter("db-url");
-        String user = servletContext.getInitParameter("db-user");
-        String password = servletContext.getInitParameter("db-password");
+  @Override
+  /**
+   * Start monitoring the application and database connection
+   *
+   */
+
+  public void contextInitialized(ServletContextEvent event) {
+    ServletContext servletContext = event.getServletContext();
+    Connection connection;
+    String driver = servletContext.getInitParameter("db-driver");
+    String url = servletContext.getInitParameter("db-url");
+    String user = servletContext.getInitParameter("db-user");
+    String password = servletContext.getInitParameter("db-password");
 //        ArrayList<Bug> bugs;
 
-        try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, user, password);
-            Database.getInstance().init(connection);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    try {
+      Class.forName(driver);
+      connection = DriverManager.getConnection(url, user, password);
+      Database.getInstance().init(connection);
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
 //        String smtpAuth = servletContext.getInitParameter("mail.smtp.auth");
 //        String smtpStartTls = servletContext.getInitParameter("mail.smtp.starttls.enable");
 //        String smtpHost = servletContext.getInitParameter("mail.smtp.host");
 //        String smtpPort = servletContext.getInitParameter("mail.smtp.port");
-        Gmail.getInstance().init();
-    }
+    Gmail.getInstance().init();
+  }
 
-    @Override
-    
-    /**
-     * Close database connection
-     */
-    public void contextDestroyed(ServletContextEvent event) {
+  @Override
 
-        Connection connection = (Connection) event.getServletContext().getAttribute("connection");
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+  /**
+   * Close database connection
+   */
+  public void contextDestroyed(ServletContextEvent event) {
+
+    Connection connection = (Connection) event.getServletContext().getAttribute("connection");
+    try {
+      connection.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
+  }
 }

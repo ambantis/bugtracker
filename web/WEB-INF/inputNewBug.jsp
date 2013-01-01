@@ -8,20 +8,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Create New Bug</title>
+  <title>Create New Bug</title>
 </head>
 <body>
-    <%--TODO:2012-09-05:ambantis:Change NewBug textarea fields to require input--%>
-    <form method="post" action="processNewBug.do">
-        <p>Enter a new bug with this form</p>
-        <table>
-        <tr><td><label for="summary">Summary</label></td></tr>
-        <tr><td><textarea name="summary" id="summary" cols="80" maxlength="100"></textarea></td></tr>
-        <tr><td><label for="comment">Comment</label></td></tr>
-        <tr><td><textarea id="comment" name="comment" cols="80" maxlength="500"></textarea></td></tr>
-        </table>
-        <button type="submit">Submit</button>
-    </form>
+<%--TODO:2012-09-05:ambantis:Change NewBug textarea fields to require input--%>
+<form method="post" action="processNewBug.do">
+  <p>Enter a new bug with this form</p>
+  <table>
+    <tr><td><label for="summary">Summary</label></td></tr>
+    <tr><td><textarea name="summary" id="summary" cols="80" maxlength="100"></textarea></td></tr>
+    <tr><td><label for="comment">Comment</label></td></tr>
+    <tr><td><textarea id="comment" name="comment" cols="80" maxlength="500"></textarea></td></tr>
+  </table>
+  <button type="submit">Submit</button>
+</form>
 </body>
 </html>
 

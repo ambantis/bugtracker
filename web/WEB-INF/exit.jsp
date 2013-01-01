@@ -10,14 +10,14 @@
 
 <html>
 <head>
-    <title></title>
+  <title></title>
 </head>
 <body>
-    <jsp:include page="header.jsp"/>
-    <h3>
-        Thanks <c:out value="${user.username}"/>!!!
-        You are now logged off!!
-    </h3>
-    <jsp:include page="footer.jsp"/>
+<jsp:include page="header.jsp"/>
+<h3>
+  Thanks <c:out value="${user.username}"/>!!!
+  You are now logged off!!
+</h3>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

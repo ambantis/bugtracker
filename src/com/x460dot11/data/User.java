@@ -1,11 +1,6 @@
 package com.x460dot11.data;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Alexandros Bantis
- * Date: 8/31/12
- * Time: 8:27 AM
- */
+
 public class User {
   private String userId;
   private String password;
@@ -14,34 +9,28 @@ public class User {
   private String email;
 
 
-  /**
-   * Initialize User object
-   * @param userId - user name (i.e. John Doe)
-   * @param roleId - roleId (i.e. manager)
-   */
+  public User() {
+  }
 
 
-  public User(String userId, String password, String fullName, String roleId, String email) {
+  public User(String userId, String roleId) {
     this.userId = userId;
     this.roleId = roleId;
   }
-  /**
-   * Initialize User object
-   * Default userId is "John Doe", and roleId is "manager"
-   */
-  public User() {
+
+  public User(String userId, String password, String fullName, String roleId, String email) {
+    this.userId = userId;
+    this.password = password;
+    this.fullName = fullName;
+    this.roleId = roleId;
+    this.email = email;
   }
-  /**
-   * Return User name
-   * @return user name
-   */
+
+
   public String getUserId() {
     return userId;
   }
-  /**
-   * Return User roleId
-   * @return roleId
-   */
+
   public String getRoleId() {
     return roleId;
   }

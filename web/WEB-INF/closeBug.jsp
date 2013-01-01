@@ -9,21 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Close A Bug</title>
-
-    <script type="text/javascript"
-            src="../shared/js/modernizr.com/Modernizr-2.5.3.forms.js">
-    </script>
-    <script type="text/javascript" data-webforms2-support="date,validation"
-            data-lang="en" src="../shared/js/html5Forms.js">
-    </script>
-
-    <style type="text/css">
-        .noWrite {
-            color: grey;
-            background-color: #F0F0F0;
-        }
-    </style>
+  <title>Close A Bug</title>
 
 </head>
 <body>
@@ -46,11 +32,11 @@
        readonly="readonly">
 <br>
 <label for="assignee">Coder</label>
-    <input id="assignee"
-           name="assignee"
-           value="${v2bug.assignee}"
-           class="noWrite"
-           readonly="readonly">
+<input id="assignee"
+       name="assignee"
+       value="${v2bug.assignee}"
+       class="noWrite"
+       readonly="readonly">
 <br>
 <label for="priority">Priority (from 1-10, 10=highest)</label>
 <input id="priority"
@@ -61,12 +47,12 @@
        readonly="readonly">
 <br>
 <table>
-    <tr><td><label for="summary">Summary</label></td></tr>
-    <tr><td><textarea class="noWrite" id="summary" name="summary" cols="80" readonly="readonly">${v2bug.summary}</textarea></td></tr>
-    <tr><td><label for="history">Description</label></td></tr>
-    <tr><td><textarea class="noWrite" id="history" name="history" cols="80" readonly="readonly">${v2bug.history}</textarea></td></tr>
-    <tr><td><label for="final_result">Final Result</label></td></tr>
-    <tr><td><textarea id="final_result" name="final_result"  cols="80">${v2bug.final_result}</textarea></td></tr>
+  <tr><td><label for="summary">Summary</label></td></tr>
+  <tr><td><textarea class="noWrite" id="summary" name="summary" cols="80" readonly="readonly">${v2bug.summary}</textarea></td></tr>
+  <tr><td><label for="history">Description</label></td></tr>
+  <tr><td><textarea class="noWrite" id="history" name="history" cols="80" readonly="readonly">${v2bug.history}</textarea></td></tr>
+  <tr><td><label for="final_result">Final Result</label></td></tr>
+  <tr><td><textarea id="final_result" name="final_result"  cols="80">${v2bug.final_result}</textarea></td></tr>
 </table>
 <br>
 <button type="submit">Close Bug</button>

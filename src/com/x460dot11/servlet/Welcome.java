@@ -19,39 +19,39 @@ import java.util.ArrayList;
  * User: Alexandros Bantis
  * Date: 8/31/12
  * Time: 7:39 AM
- * 
+ *
  * This servlet redirects to role-specific page based on user role input.  
- * 
+ *
  */
 public class Welcome extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+    HttpSession session = request.getSession();
 
-        ArrayList<Bug> bugs = Database.getInstance().getBugs();
-        session.setAttribute("bugs", bugs);
-        session.setAttribute("bug", new Bug());
+    ArrayList<Bug> bugs = Database.getInstance().getBugs();
+    session.setAttribute("bugs", bugs);
+    session.setAttribute("bug", new Bug());
 
-        String username;
-        String role;
-        username = request.getUserPrincipal().getName();
-        if (request.isUserInRole("bug-qa"))
-            role = "qa";
-        else if (request.isUserInRole("bug-mngr"))
-            role = "manager";
-        else if (request.isUserInRole("bug-dev"))
-            role = "developer";
-        else
-            return;
-        User user = new User(username, role);
-        session.setAttribute("user", user);
+    String username;
+    String role;
+    username = request.getUserPrincipal().getName();
+    if (request.isUserInRole("bug-qa"))
+      role = "qa";
+    else if (request.isUserInRole("bug-mngr"))
+      role = "manager";
+    else if (request.isUserInRole("bug-dev"))
+      role = "developer";
+    else
+      return;
+    User user = new User(username, role);
+    session.setAttribute("user", user);
 
-        ArrayList<String> coders = Database.getInstance().getCoders();
-        session.setAttribute("coders", coders);
+    ArrayList<String> coders = Database.getInstance().getCoders();
+    session.setAttribute("coders", coders);
 
-        // TODO:2012-09-05:ambantis:Implement page redirect based upon user role
-        RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
-        view.forward(request, response);
-    }
+    // TODO:2012-09-05:ambantis:Implement page redirect based upon user role
+    RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
+    view.forward(request, response);
+  }
 }

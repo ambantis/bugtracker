@@ -7,11 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-/**
- * User: Alexandros Bantis
- * Date: 12/30/12
- * Time: 7:48 PM
- */
 public class Authenticate implements javax.servlet.Filter {
   public void destroy() {
   }

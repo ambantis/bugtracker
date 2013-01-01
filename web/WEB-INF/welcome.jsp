@@ -9,23 +9,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title></title>
+  <title></title>
 </head>
 <body>
-    <h3>
-        Welcome <c:out value="${user.username}"/>!!!
-        You are logged in as a <c:out value="${user.role}"/>
-    </h3>
+<h3>
+  Welcome <c:out value="${user.username}"/>!!!
+  You are logged in as a <c:out value="${user.role}"/>
+</h3>
 
-    <p>
-        <c:if test="${user.role eq 'qa'}">
-            <a href="inputNewBug.do">Make A Bug</a>
-            <br>
-        </c:if>
-        <a href="displayAllBugs.do">Display All Bugs</a>
-        <br>
-        <a href="invalidate.do">Exit Bug Tracking</a>
-    </p>
+<p>
+  <c:if test="${user.role eq 'qa'}">
+    <a href="inputNewBug.do">Make A Bug</a>
+    <br>
+  </c:if>
+  <a href="displayAllBugs.do">Display All Bugs</a>
+  <br>
+  <a href="invalidate.do">Exit Bug Tracking</a>
+</p>
 <%--
   <% 
 if(request.getAttribute("userRole")=="qa"){
