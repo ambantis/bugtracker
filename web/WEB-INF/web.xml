@@ -4,237 +4,216 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
-  <filter>
-    <filter-name>Authenticate</filter-name>
-    <filter-class>com.x460dot11.servlet.Authenticate</filter-class>
-  </filter>
-  <filter>
-    <filter-name>FLoginFilter</filter-name>
-    <filter-class>com.x460dot11.filter.LoginFilter</filter-class>
-  </filter>
+
 
   <!-- ===================================================================-->
-    <!-- SERVLET DEFINITIONS                                                -->
-    <!-- ===================================================================-->
+  <!-- SERVLET DEFINITIONS                                                -->
+  <!-- ===================================================================-->
 
-    <servlet>
-        <servlet-name>Enter</servlet-name>
-        <servlet-class>com.x460dot11.servlet.Welcome</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Enter</servlet-name>
-        <url-pattern>/enter.do</url-pattern>
-    </servlet-mapping>
+  <servlet>
+    <servlet-name>Enter</servlet-name>
+    <servlet-class>com.x460dot11.servlet.Welcome</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Enter</servlet-name>
+    <url-pattern>/enter.do</url-pattern>
+  </servlet-mapping>
 
-    <servlet>
-        <servlet-name>Welcome Page</servlet-name>
-        <jsp-file>/WEB-INF/welcome.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Welcome Page</servlet-name>
-        <url-pattern>/welcome.do</url-pattern>
-    </servlet-mapping>
+  <servlet>
+    <servlet-name>Welcome Page</servlet-name>
+    <jsp-file>/WEB-INF/welcome.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Welcome Page</servlet-name>
+    <url-pattern>/welcome.do</url-pattern>
+  </servlet-mapping>
 
-    <servlet>
-        <servlet-name>New Bug</servlet-name>
-        <jsp-file>/WEB-INF/inputNewBug.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>New Bug</servlet-name>
-        <url-pattern>/inputNewBug.do</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>Display All Bugs</servlet-name>
-        <jsp-file>/WEB-INF/displayAllBugs.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Display All Bugs</servlet-name>
-        <url-pattern>/displayAllBugs.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Process New Bug</servlet-name>
-        <servlet-class>com.x460dot11.servlet.ProcessNewBug</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Process New Bug</servlet-name>
-        <url-pattern>/processNewBug.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Display A Bug</servlet-name>
-        <servlet-class>com.x460dot11.servlet.DisplayBug</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Display A Bug</servlet-name>
-        <url-pattern>/displayBug.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Edit a Bug</servlet-name>
-        <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Edit a Bug</servlet-name>
-        <url-pattern>/editBug.do</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>ProcessEditBug</servlet-name>
-        <servlet-class>com.x460dot11.servlet.ProcessEditBug</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProcessEditBug</servlet-name>
-        <url-pattern>/processEditBug.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ProcessCloseBug</servlet-name>
-        <servlet-class>com.x460dot11.servlet.ProcessCloseBug</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProcessCloseBug</servlet-name>
-        <url-pattern>/processCloseBug.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Display Close Bug</servlet-name>
-        <jsp-file>/WEB-INF/closeBug.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Display Close Bug</servlet-name>
-        <url-pattern>/closeBug.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Exit Page</servlet-name>
-        <jsp-file>/WEB-INF/exit.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Exit Page</servlet-name>
-        <url-pattern>/exit.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Invalidate Session</servlet-name>
-        <servlet-class>com.x460dot11.servlet.InvalidateSession</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Invalidate Session</servlet-name>
-        <url-pattern>/invalidate.do</url-pattern>
-    </servlet-mapping>
+  <servlet>
+    <servlet-name>New Bug</servlet-name>
+    <jsp-file>/WEB-INF/inputNewBug.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>New Bug</servlet-name>
+    <url-pattern>/inputNewBug.do</url-pattern>
+  </servlet-mapping>
 
 
-    <!-- ===================================================================-->
-    <!-- CONTEXT LISTENER & PARAMETERS                                      -->
-    <!-- ===================================================================-->
+  <servlet>
+    <servlet-name>Display All Bugs</servlet-name>
+    <jsp-file>/WEB-INF/displayAllBugs.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Display All Bugs</servlet-name>
+    <url-pattern>/displayAllBugs.do</url-pattern>
+  </servlet-mapping>
 
-    <listener>
-        <listener-class>com.x460dot11.listener.ContextListener</listener-class>
-    </listener>
+  <servlet>
+    <servlet-name>Process New Bug</servlet-name>
+    <servlet-class>com.x460dot11.servlet.ProcessNewBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Process New Bug</servlet-name>
+    <url-pattern>/processNewBug.do</url-pattern>
+  </servlet-mapping>
 
-    <context-param>
-        <param-name>db-driver</param-name>
-        <param-value>org.postgresql.Driver</param-value>
-    </context-param>
+  <servlet>
+    <servlet-name>Display A Bug</servlet-name>
+    <servlet-class>com.x460dot11.servlet.DisplayBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Display A Bug</servlet-name>
+    <url-pattern>/displayBug.do</url-pattern>
+  </servlet-mapping>
 
-    <context-param>
-        <param-name>db-url</param-name>
-        <param-value>jdbc:postgresql://54.245.109.81:5432/bugdb</param-value>
-    </context-param>
+  <servlet>
+    <servlet-name>Edit a Bug</servlet-name>
+    <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Edit a Bug</servlet-name>
+    <url-pattern>/editBug.do</url-pattern>
+  </servlet-mapping>
 
-    <context-param>
-        <param-name>db-user</param-name>
-        <param-value>roach</param-value>
-    </context-param>
+  <servlet>
+    <servlet-name>ProcessEditBug</servlet-name>
+    <servlet-class>com.x460dot11.servlet.ProcessEditBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProcessEditBug</servlet-name>
+    <url-pattern>/processEditBug.do</url-pattern>
+  </servlet-mapping>
 
-    <context-param>
-        <param-name>db-password</param-name>
-        <param-value>motel</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>mail.smtp.host</param-name>
-        <param-value>smtp.gmail.com</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>mail.gmtp.socketFactory.port</param-name>
-        <param-value>465</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>mail.smtp.socketFactory.class</param-name>
-        <param-value>javax.net.ssl.SSLLocketFactory</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>mail.smtp.auth</param-name>
-        <param-value>true</param-value>
-    </context-param>
+  <servlet>
+    <servlet-name>ProcessCloseBug</servlet-name>
+    <servlet-class>com.x460dot11.servlet.ProcessCloseBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProcessCloseBug</servlet-name>
+    <url-pattern>/processCloseBug.do</url-pattern>
+  </servlet-mapping>
 
-    <context-param>
-        <param-name>mail.smtp.starttls.enable</param-name>
-        <param-value>true</param-value>
-    </context-param>
+  <servlet>
+    <servlet-name>Display Close Bug</servlet-name>
+    <jsp-file>/WEB-INF/closeBug.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Display Close Bug</servlet-name>
+    <url-pattern>/closeBug.do</url-pattern>
+  </servlet-mapping>
 
-    <context-param>
-        <param-name>mail.smtp.port</param-name>
-        <param-value>587</param-value>
-    </context-param>
-    
-    
+  <servlet>
+    <servlet-name>Exit Page</servlet-name>
+    <jsp-file>/WEB-INF/exit.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Exit Page</servlet-name>
+    <url-pattern>/exit.do</url-pattern>
+  </servlet-mapping>
 
-    <!-- ===================================================================-->
-    <!-- SECURITY DEFINITIONS                                               -->
-    <!-- ===================================================================-->
+  <servlet>
+    <servlet-name>Invalidate Session</servlet-name>
+    <servlet-class>com.x460dot11.servlet.InvalidateSession</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Invalidate Session</servlet-name>
+    <url-pattern>/invalidate.do</url-pattern>
+  </servlet-mapping>
 
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/loginPage.html</form-login-page>
-            <form-error-page>/loginError.html</form-error-page>
-        </form-login-config>
 
-    </login-config>
+  <!-- ===================================================================-->
+  <!-- CONTEXT LISTENER & PARAMETERS                                      -->
+  <!-- ===================================================================-->
 
-    <security-roleId>
-        <roleId-name>bug-qa</roleId-name>
-    </security-roleId>
-    <security-roleId>
-        <roleId-name>bug-mngr</roleId-name>
-    </security-roleId>
-    <security-roleId>
-        <roleId-name>bug-dev</roleId-name>
-    </security-roleId>
-    
-    <security-constraint>
-        <web-resource-collection>
+  <listener>
+    <listener-class>com.x460dot11.listener.ContextListener</listener-class>
+  </listener>
 
-            <web-resource-name>UpdateRecipes</web-resource-name>
-            <url-pattern>/*</url-pattern>
+  <context-param>
+    <param-name>db-driver</param-name>
+    <param-value>org.postgresql.Driver</param-value>
+  </context-param>
 
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
+  <context-param>
+    <param-name>db-url</param-name>
+    <param-value>jdbc:postgresql://54.245.109.81:5432/bugdb</param-value>
+  </context-param>
 
-        </web-resource-collection>
+  <context-param>
+    <param-name>db-user</param-name>
+    <param-value>roach</param-value>
+  </context-param>
 
-        <auth-constraint>
-            <roleId-name>bug-qa</roleId-name>
-            <roleId-name>bug-mngr</roleId-name>
-            <roleId-name>bug-dev</roleId-name>
-        </auth-constraint>
-    </security-constraint>
+  <context-param>
+    <param-name>db-password</param-name>
+    <param-value>motel</param-value>
+  </context-param>
 
-    <!-- ===================================================================-->
-    <!-- SESSION CONFIG                                                     -->
-    <!-- ===================================================================-->
+  <context-param>
+    <param-name>mail.smtp.host</param-name>
+    <param-value>smtp.gmail.com</param-value>
+  </context-param>
 
-    <session-config>
-        <session-timeout>15</session-timeout>
-    </session-config>
+  <context-param>
+    <param-name>mail.gmtp.socketFactory.port</param-name>
+    <param-value>465</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>mail.smtp.socketFactory.class</param-name>
+    <param-value>javax.net.ssl.SSLLocketFactory</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>mail.smtp.auth</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>mail.smtp.starttls.enable</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>mail.smtp.port</param-name>
+    <param-value>587</param-value>
+  </context-param>
+
+
+
+  <!-- ===================================================================-->
+  <!-- SECURITY DEFINITIONS                                               -->
+  <!-- ===================================================================-->
+
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/loginPage.html</form-login-page>
+      <form-error-page>/loginError.html</form-error-page>
+    </form-login-config>
+
+  </login-config>
+
+
+  <security-constraint>
+    <web-resource-collection>
+
+      <web-resource-name>UpdateRecipes</web-resource-name>
+      <url-pattern>/*</url-pattern>
+
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+
+    </web-resource-collection>
+
+  </security-constraint>
+
+  <!-- ===================================================================-->
+  <!-- SESSION CONFIG                                                     -->
+  <!-- ===================================================================-->
+
+  <session-config>
+    <session-timeout>15</session-timeout>
+  </session-config>
 
 
 </web-app>
