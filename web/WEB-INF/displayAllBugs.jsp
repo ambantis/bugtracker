@@ -26,8 +26,8 @@
 
   <tbody>
   <c:forEach var="bug" items="${bugs}">
-    <c:if test="${((user.role eq 'developer') && (user.username eq bug.assignee)) ||
-                               (user.role ne 'developer')}">
+    <c:if test="${((sessionScope.user.roleId eq 'dev') && (sessionScope.user.userId eq bug.assignee)) ||
+                               (sessionScope.user.roleId ne 'dev')}">
       <tr>
         <td><c:out value="${bug.bug_id}"/></td>
         <td><c:out value="${bug.due_date}"/></td>
@@ -53,7 +53,7 @@
   <button type="submit">Submit</button>
 </form>
 
-<c:if test="${user.role eq 'manager'}">
+<c:if test="${sessionScope.user.roleId eq 'mgr'}">
   <h2>Close A Bug</h2>
   <p>Enter bug id to to close it</p>
   <form method="get" action="displayBug.do">

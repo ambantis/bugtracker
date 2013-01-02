@@ -15,7 +15,7 @@
 <body>
 <h2>Update Information and then press submit</h2>
 
-<form method="post" action="processCloseBug.do"/>
+<form method="post" action="processCloseBug.do">
 <label for="bug_id">Bug ID</label>
 <input class="noWrite"
        id="bug_id"

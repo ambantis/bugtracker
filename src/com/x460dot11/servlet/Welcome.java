@@ -3,9 +3,7 @@ package com.x460dot11.servlet;
 import com.x460dot11.data.Bug;
 import com.x460dot11.data.Database;
 import com.x460dot11.data.User;
-import com.x460dot11.mail.Gmail;
 
-import javax.mail.MessagingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -35,18 +34,28 @@ public class Welcome extends HttpServlet {
 
     String username;
     String role;
-    username = request.getUserPrincipal().getName();
-    if (request.isUserInRole("bug-qa"))
-      role = "qa";
-    else if (request.isUserInRole("bug-mngr"))
-      role = "manager";
-    else if (request.isUserInRole("bug-dev"))
-      role = "developer";
-    else
-      return;
-    User user = new User(username, role);
-    session.setAttribute("user", user);
+//    username = request.getUserPrincipal().getName();
+//    if (request.isUserInRole("bug-qa"))
+//      role = "qa";
+//    else if (request.isUserInRole("bug-mngr"))
+//      role = "manager";
+//    else if (request.isUserInRole("bug-dev"))
+//      role = "developer";
+//    else
+//      return;
+    String userId = request.getParameter("username");
+    String password = request.getParameter("password");
+    User user = null;
 
+    try {
+      user = Database.getInstance().validateUser(userId, password);
+    } catch (SQLException e) {
+      RequestDispatcher view = request.getRequestDispatcher("login.html");
+      view.forward(request, response);
+      return;
+    }
+
+    session.setAttribute("user", user);
     ArrayList<String> coders = Database.getInstance().getCoders();
     session.setAttribute("coders", coders);
 

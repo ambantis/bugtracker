@@ -12,7 +12,6 @@ public class User {
   public User() {
   }
 
-
   public User(String userId, String roleId) {
     this.userId = userId;
     this.roleId = roleId;

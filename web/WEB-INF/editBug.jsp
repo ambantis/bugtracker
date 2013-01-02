@@ -19,7 +19,7 @@
 
 <h2>Update Information and then press submit</h2>
 
-<form method="post" action="processEditBug.do"/>
+<form method="post" action="processEditBug.do">
 <label for="bug_id">Bug ID</label>
 <input class="noWrite"
        id="bug_id"
@@ -32,26 +32,26 @@
        name="due_date"
        type="date"
        value="${v2bug.due_date}"
-<c:if test="${user.role ne 'manager'}">
+<c:if test="${sessionScope.user.roleId ne 'mgr'}">
        class="noWrite"
        readonly="readonly"
 </c:if>>
 <br>
 
 <label for="assignee">Coder</label>
-<c:if test="${user.role ne 'manager'}">
+<c:if test="${sessionScope.user.roleId ne 'mgr'}">
   <input id="assignee"
          name="assignee"
          value="${v2bug.assignee}"
          class="noWrite"
          readonly="readonly">
 </c:if>
-<c:if test="${user.role eq 'manager'}">
+<c:if test="${sessionScope.user.roleId eq 'mgr'}">
   <select name="assignee" id="assignee">
-    <option value="${v2bug.assignee}" selected>${v2bug.assignee}</option>
+    <option value="${v2bug.assignee}">${v2bug.assignee}</option>
     <c:forEach var="coder" items="${coders}">
       <c:if test="${coder != v2bug.assignee}">
-        <option value="${coder}">${coder}></option>
+        <option value="${coder}">${coder}</option>
       </c:if>
     </c:forEach>
   </select>
@@ -65,7 +65,7 @@
        pattern="[1-9]|10?"
        type="number"
        value="${v2bug.priority}"
-<c:if test="${user.role ne 'manager'}">
+<c:if test="${sessionScope.user.roleId ne 'mgr'}">
        class="noWrite"
        readonly="readonly"
 </c:if>>

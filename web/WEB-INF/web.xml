@@ -135,7 +135,8 @@
 
   <context-param>
     <param-name>db-url</param-name>
-    <param-value>jdbc:postgresql://54.245.109.81:5432/bugdb</param-value>
+    <!--<param-value>jdbc:postgresql://54.245.109.81:5432/bugdb</param-value>-->
+    <param-value>jdbc:postgresql://localhost:5432/bugdb</param-value>
   </context-param>
 
   <context-param>
@@ -184,28 +185,46 @@
   <!-- SECURITY DEFINITIONS                                               -->
   <!-- ===================================================================-->
 
-  <login-config>
-    <auth-method>FORM</auth-method>
-    <form-login-config>
-      <form-login-page>/loginPage.html</form-login-page>
-      <form-error-page>/loginError.html</form-error-page>
-    </form-login-config>
+  <!--<login-config>-->
+    <!--<auth-method>FORM</auth-method>-->
+    <!--<form-login-config>-->
+      <!--<form-login-page>/login.html</form-login-page>-->
+      <!--<form-error-page>/error.html</form-error-page>-->
+    <!--</form-login-config>-->
+  <!--</login-config>-->
 
-  </login-config>
+  <!--<security-role>-->
+    <!--<role-name>adm</role-name>-->
+  <!--</security-role>-->
+  <!--<security-role>-->
+    <!--<role-name>mgr</role-name>-->
+  <!--</security-role>-->
+  <!--<security-role>-->
+    <!--<role-name>dev</role-name>-->
+  <!--</security-role>-->
+  <!--<security-role>-->
+    <!--<role-name>qat</role-name>-->
+  <!--</security-role>-->
 
 
-  <security-constraint>
-    <web-resource-collection>
+  <!--<security-constraint>-->
+    <!--<web-resource-collection>-->
 
-      <web-resource-name>UpdateRecipes</web-resource-name>
-      <url-pattern>/*</url-pattern>
+      <!--<web-resource-name>UpdateRecipes</web-resource-name>-->
+      <!--<url-pattern>/*</url-pattern>-->
 
-      <http-method>GET</http-method>
-      <http-method>POST</http-method>
+      <!--<http-method>GET</http-method>-->
+      <!--<http-method>POST</http-method>-->
 
-    </web-resource-collection>
+    <!--</web-resource-collection>-->
 
-  </security-constraint>
+    <!--<auth-constraint>-->
+      <!--<role-name>adm</role-name>-->
+      <!--<role-name>mgr</role-name>-->
+      <!--<role-name>dev</role-name>-->
+      <!--<role-name>qat</role-name>-->
+    <!--</auth-constraint>-->
+  <!--</security-constraint>-->
 
   <!-- ===================================================================-->
   <!-- SESSION CONFIG                                                     -->

@@ -13,12 +13,12 @@
 </head>
 <body>
 <h3>
-  Welcome <c:out value="${user.username}"/>!!!
-  You are logged in as a <c:out value="${user.role}"/>
+  Welcome <c:out value="${sessionScope.user.fullName}"/>!!!
+  You are logged in as a <c:out value="${sessionScope.user.roleId}"/>
 </h3>
 
 <p>
-  <c:if test="${user.role eq 'qa'}">
+  <c:if test="${sessionScope.user.roleId eq 'qat'}">
     <a href="inputNewBug.do">Make A Bug</a>
     <br>
   </c:if>

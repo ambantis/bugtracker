@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Database {
   private ArrayList<Bug> bugs = null;
   private ArrayList<String> coders = null;
+  private ArrayList<User> users = null;
   private Connection connection = null;
   private static Database database = null;
 
@@ -27,12 +28,14 @@ public class Database {
     connection = newConnection;
     bugs = new ArrayList<Bug>();
     coders = new ArrayList<String>();
+    users = new ArrayList<User>();
     initialize();
   }
 
   private void initialize() throws SQLException {
     initializeBugList();
-    initializeCoderList();
+    initializeDeveloperList();
+    initializeUserList();
   }
 
 
@@ -78,46 +81,85 @@ public class Database {
     }
   }
 
-  private void initializeCoderList () throws SQLException {
+  private void initializeDeveloperList() throws SQLException {
     Statement statement = connection.createStatement();
     String sqlStmt =
-        "SELECT users.user_email FROM users, user_roles " +
-            "WHERE users.user_name = user_roles.user_name AND user_roles.role_name = $$coder$$;";
+        "SELECT users.user_id FROM users WHERE users.role_id = $$dev$$;";
 
     statement.execute(sqlStmt);
     ResultSet resultSet = statement.getResultSet();
 
     while (resultSet.next()) {
-      coders.add(resultSet.getString("user_email"));
+      coders.add(resultSet.getString("user_id"));
     }
   }
 
-  public boolean isOnEmailList (int id, String username) throws SQLException {
-    // we don't want to insert the default value of "unk" to the email table
-    if (username.equals("unk"))
-      return true;
-
+  private void initializeUserList () throws SQLException {
     Statement statement = connection.createStatement();
-    String sqlStmt = "SELECT bug_id, username FROM email WHERE bug_id = " + id +
-        " AND username = $$" + username + "$$;";
+    String sqlStmt =
+        "SELECT users.user_id, users.password, users.full_name, users.role_id, users.email FROM users;";
+
     statement.execute(sqlStmt);
     ResultSet resultSet = statement.getResultSet();
-    if (resultSet.next())
-      return true;
-    else
-      return false;
+
+    while (resultSet.next()) {
+      String userId = resultSet.getString("user_id");
+      String password = resultSet.getString("password");
+      String fullName = resultSet.getString("full_name");
+      String roleId = resultSet.getString("role_id");
+      String email = resultSet.getString("email");
+      users.add(new User(userId, password, fullName, roleId, email));
+    }
   }
+
+//  public boolean isOnEmailList (int id, String username) throws SQLException {
+//    // we don't want to insert the default value of "unk" to the email table
+//    if (username.equals("unk"))
+//      return true;
+//
+//    Statement statement = connection.createStatement();
+//    String sqlStmt = "SELECT bug_id, username FROM email WHERE bug_id = " + id +
+//        " AND username = $$" + username + "$$;";
+//    statement.execute(sqlStmt);
+//    ResultSet resultSet = statement.getResultSet();
+//    if (resultSet.next())
+//      return true;
+//    else
+//      return false;
+//  }
 
   public ArrayList<Bug> getBugs() {
     return bugs;
   }
 
+  public ArrayList<User> getUsers() {
+    return users;
+  }
 
-
-  public ArrayList<String> getCoders () {
+  public ArrayList<String> getCoders() {
     return coders;
   }
 
+  public User getUser(String id) throws SQLException {
+    refresh();
+    for (User user : users) {
+      if (user.getUserId().equals(id))
+        return user;
+    }
+
+    //  todo:2013-01-02:ambantis:Create UserNotFoundException
+    throw new SQLException("User not found");
+  }
+
+  public User validateUser(String id, String password) throws SQLException {
+    refresh();
+    for (User user : users) {
+      if (user.getUserId().equals(id) && user.getPassword().equals(password) && !user.getUserId().equals("unk"))
+        return user;
+    }
+    //  todo:2013-01-02:ambantis:Create UserNotFoundException
+    throw new SQLException("User name and/or password invalid");
+  }
 
   public Bug getBug(int id) throws SQLException {
     refresh();
@@ -125,19 +167,21 @@ public class Database {
       if (bug.getBug_id() == id)
         return bug;
     }
-    // TODO:2012-09-05:ambantis:Create BugNoFoundException
+    // TODO:2012-09-05:ambantis:Create BugNotFoundException
     throw new SQLException("Bug not found");
   }
 
-  private Bug getLatestBug() {
-    return bugs.get(bugs.size() - 1);
-  }
+//  private Bug getLatestBug() {
+//    return bugs.get(bugs.size() - 1);
+//  }
 
   public void refresh() throws SQLException {
     bugs.clear();
     initializeBugList();
     coders.clear();
-    initializeCoderList();
+    initializeDeveloperList();
+    users.clear();
+    initializeUserList();
   }
 
   public synchronized void addBug (String newSummary, String newComment, User user)
@@ -148,8 +192,8 @@ public class Database {
             "INSERT INTO bug (summary, history, created_by, modified_by) " +
             "VALUES ($$" + newSummary + "$$, $$" + newComment + "$$, $$" +
             user.getUserId() + "$$, $$" + user.getUserId() + "$$); " +
-            "INSERT INTO email (bug_id, username, created_by) VALUES ((SELECT MAX(bug_id) " +
-            "FROM bug), $$" + user.getUserId() + "$$, $$" +  user.getUserId() + "$$); " +
+//            "INSERT INTO email (bug_id, username, created_by) VALUES ((SELECT MAX(bug_id) " +
+//            "FROM bug), $$" + user.getUserId() + "$$, $$" +  user.getUserId() + "$$); " +
             "COMMIT;";
     statement.execute(sqlStmt);
     refresh();
@@ -197,22 +241,22 @@ public class Database {
             "modified = now(), " +
             "modified_by = $$" + user.getUserId() + "$$ " +
             "WHERE bug_id = " + v2bug.getBug_id() + "; ");
-    if (!isOnEmailList(v2bug.getBug_id(), v2bug.getAssignee())) {
-      sqlStmt.append(
-          "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
-              ", $$" + v2bug.getAssignee() + "$$, $$" + user.getUserId() + "$$); ");
-    }
-    if (!isOnEmailList(v2bug.getBug_id(), user.getUserId())) {
-      sqlStmt.append(
-          "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
-              ", $$" + user.getUserId() + "$$, $$" + user.getUserId() + "$$); ");
-    }
-    if (!v1bug.getAssignee().equals(v2bug.getAssignee()) &&
-        isOnEmailList(v1bug.getBug_id(), v1bug.getAssignee())) {
-      sqlStmt.append(
-          "DELETE FROM email WHERE bug_id = " + v1bug.getBug_id() + " AND username = $$" +
-              v1bug.getAssignee() + "$$; ");
-    }
+//    if (!isOnEmailList(v2bug.getBug_id(), v2bug.getAssignee())) {
+//      sqlStmt.append(
+//          "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
+//              ", $$" + v2bug.getAssignee() + "$$, $$" + user.getUserId() + "$$); ");
+//    }
+//    if (!isOnEmailList(v2bug.getBug_id(), user.getUserId())) {
+//      sqlStmt.append(
+//          "INSERT INTO email(bug_id, username, created_by) VALUES (" + v2bug.getBug_id() +
+//              ", $$" + user.getUserId() + "$$, $$" + user.getUserId() + "$$); ");
+//    }
+//    if (!v1bug.getAssignee().equals(v2bug.getAssignee()) &&
+//        isOnEmailList(v1bug.getBug_id(), v1bug.getAssignee())) {
+//      sqlStmt.append(
+//          "DELETE FROM email WHERE bug_id = " + v1bug.getBug_id() + " AND username = $$" +
+//              v1bug.getAssignee() + "$$; ");
+//    }
     sqlStmt.append("COMMIT;");
     statement.execute(sqlStmt.toString());
     refresh();
