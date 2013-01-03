@@ -1,4 +1,4 @@
-bugtracker
+Bugtracker
 ==========
 
 A web application used to track application defects (i.e., bugs).
