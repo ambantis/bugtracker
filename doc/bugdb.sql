@@ -26,7 +26,8 @@ CREATE TABLE bug (
   history       VARCHAR(4000),
   final_result  VARCHAR(4000) DEFAULT 'n/a',
   created       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-  created_by    VARCHAR(30) NOT NULL,
+  created_by    VARCHAR(30) NOT
+                            NULL,
   modified      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
   modified_by   VARCHAR(30) NOT NULL,
   CHECK (priority > -1 AND priority < 11),

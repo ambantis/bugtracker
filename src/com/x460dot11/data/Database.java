@@ -278,7 +278,7 @@ public class Database {
     sqlStmt.append("INSERT INTO archive (SELECT * FROM bug WHERE bug_id = " +
         v2bug.getBug_id() + "); ");
     sqlStmt.append("" +
-        "UPDATE bug SET due_date = DEFAULT, close_date = current_date, assignee = DEFAULT, " +
+        "UPDATE bug SET due_date = NULL, close_date = current_date, assignee = DEFAULT, " +
         "final_result = $$" + v2bug.getFinal_result() + "$$, modified = now(), " +
         "modified_by = $$" + user.getUserId() + "$$ " +
         "WHERE bug_id = " + v2bug.getBug_id() + "; ");
