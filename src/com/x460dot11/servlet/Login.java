@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
     try {
       user = Database.getInstance().validateUser(userId, password);
     } catch (SQLException e) {
-      RequestDispatcher view = request.getRequestDispatcher("index.html");
+      RequestDispatcher view = request.getRequestDispatcher("error.html");
       view.forward(request, response);
       return;
     }

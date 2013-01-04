@@ -2,9 +2,40 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+                             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
+  <!-- ===================================================================-->
+  <!-- CONTEXT PARAMETERS                                                 -->
+  <!-- ===================================================================-->
+
+  <context-param>
+    <param-name>db-driver</param-name>
+    <param-value>org.postgresql.Driver</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>db-url</param-name>
+    <param-value>jdbc:postgresql://54.245.109.81:5432/bugdb</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>db-user</param-name>
+    <param-value>roach</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>db-password</param-name>
+    <param-value>motel</param-value>
+  </context-param>
+
+  <!-- ===================================================================-->
+  <!-- CONTEXT LISTENER                                                   -->
+  <!-- ===================================================================-->
+
+  <listener>
+    <listener-class>com.x460dot11.listener.ContextListener</listener-class>
+  </listener>
 
   <!-- ===================================================================-->
   <!-- SERVLET DEFINITIONS                                                -->
@@ -36,7 +67,6 @@
     <servlet-name>New Bug</servlet-name>
     <url-pattern>/inputNewBug.do</url-pattern>
   </servlet-mapping>
-
 
   <servlet>
     <servlet-name>Display All Bugs</servlet-name>
@@ -119,112 +149,6 @@
     <url-pattern>/invalidate.do</url-pattern>
   </servlet-mapping>
 
-
-  <!-- ===================================================================-->
-  <!-- CONTEXT LISTENER & PARAMETERS                                      -->
-  <!-- ===================================================================-->
-
-  <listener>
-    <listener-class>com.x460dot11.listener.ContextListener</listener-class>
-  </listener>
-
-  <context-param>
-    <param-name>db-driver</param-name>
-    <param-value>org.postgresql.Driver</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>db-url</param-name>
-    <param-value>jdbc:postgresql://54.245.109.81:5432/bugdb</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>db-user</param-name>
-    <param-value>roach</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>db-password</param-name>
-    <param-value>motel</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>mail.smtp.host</param-name>
-    <param-value>smtp.gmail.com</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>mail.gmtp.socketFactory.port</param-name>
-    <param-value>465</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>mail.smtp.socketFactory.class</param-name>
-    <param-value>javax.net.ssl.SSLLocketFactory</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>mail.smtp.auth</param-name>
-    <param-value>true</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>mail.smtp.starttls.enable</param-name>
-    <param-value>true</param-value>
-  </context-param>
-
-  <context-param>
-    <param-name>mail.smtp.port</param-name>
-    <param-value>587</param-value>
-  </context-param>
-
-
-
-  <!-- ===================================================================-->
-  <!-- SECURITY DEFINITIONS                                               -->
-  <!-- ===================================================================-->
-
-  <!--<login-config>-->
-    <!--<auth-method>FORM</auth-method>-->
-    <!--<form-login-config>-->
-      <!--<form-login-page>/login.html</form-login-page>-->
-      <!--<form-error-page>/error.html</form-error-page>-->
-    <!--</form-login-config>-->
-  <!--</login-config>-->
-
-  <!--<security-role>-->
-    <!--<role-name>adm</role-name>-->
-  <!--</security-role>-->
-  <!--<security-role>-->
-    <!--<role-name>mgr</role-name>-->
-  <!--</security-role>-->
-  <!--<security-role>-->
-    <!--<role-name>dev</role-name>-->
-  <!--</security-role>-->
-  <!--<security-role>-->
-    <!--<role-name>qat</role-name>-->
-  <!--</security-role>-->
-
-
-  <!--<security-constraint>-->
-    <!--<web-resource-collection>-->
-
-      <!--<web-resource-name>UpdateRecipes</web-resource-name>-->
-      <!--<url-pattern>/*</url-pattern>-->
-
-      <!--<http-method>GET</http-method>-->
-      <!--<http-method>POST</http-method>-->
-
-    <!--</web-resource-collection>-->
-
-    <!--<auth-constraint>-->
-      <!--<role-name>adm</role-name>-->
-      <!--<role-name>mgr</role-name>-->
-      <!--<role-name>dev</role-name>-->
-      <!--<role-name>qat</role-name>-->
-    <!--</auth-constraint>-->
-  <!--</security-constraint>-->
-
   <!-- ===================================================================-->
   <!-- SESSION CONFIG                                                     -->
   <!-- ===================================================================-->
@@ -233,5 +157,57 @@
     <session-timeout>15</session-timeout>
   </session-config>
 
+  <!-- ===================================================================-->
+  <!-- SECURITY DEFINITIONS                                               -->
+  <!-- ===================================================================-->
+
+  <!--<login-config>-->
+  <!--<auth-method>FORM</auth-method>-->
+  <!--<form-login-config>-->
+  <!--<form-login-page>/login.html</form-login-page>-->
+  <!--<form-error-page>/error.html</form-error-page>-->
+  <!--</form-login-config>-->
+  <!--</login-config>-->
+
+  <!--<security-role>-->
+  <!--<role-name>adm</role-name>-->
+  <!--</security-role>-->
+  <!--<security-role>-->
+  <!--<role-name>mgr</role-name>-->
+  <!--</security-role>-->
+  <!--<security-role>-->
+  <!--<role-name>dev</role-name>-->
+  <!--</security-role>-->
+  <!--<security-role>-->
+  <!--<role-name>qat</role-name>-->
+  <!--</security-role>-->
+
+
+  <!--<security-constraint>-->
+  <!--<web-resource-collection>-->
+
+  <!--<web-resource-name>UpdateRecipes</web-resource-name>-->
+  <!--<url-pattern>/*</url-pattern>-->
+
+  <!--<http-method>GET</http-method>-->
+  <!--<http-method>POST</http-method>-->
+
+  <!--</web-resource-collection>-->
+
+  <!--<auth-constraint>-->
+  <!--<role-name>adm</role-name>-->
+  <!--<role-name>mgr</role-name>-->
+  <!--<role-name>dev</role-name>-->
+  <!--<role-name>qat</role-name>-->
+  <!--</auth-constraint>-->
+  <!--</security-constraint>-->
+
+  <!-- ===================================================================-->
+  <!-- WELCOME FILE                                                       -->
+  <!-- ===================================================================-->
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
 
 </web-app>
