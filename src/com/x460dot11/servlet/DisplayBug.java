@@ -1,7 +1,10 @@
 package com.x460dot11.servlet;
 
-import com.x460dot11.data.Bug;
-import com.x460dot11.data.Database;
+//import com.x460dot11.data.Bug;
+//import com.x460dot11.data.Database;
+import com.x460dot11.model.Bug;
+import com.x460dot11.model.DaoFactory;
+import com.x460dot11.model.DaoException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,8 +42,9 @@ public class DisplayBug extends HttpServlet {
 
     Bug v2Bug = null;
     try {
-      v2Bug = Database.getInstance().getBug(id);
-    } catch (SQLException e) {
+//      v2Bug = Database.getInstance().getBug(id);
+        v2Bug = DaoFactory.getInstance().getBugDao().find(id);
+    } catch (DaoException e) {
       e.printStackTrace();
     }
     request.getSession().setAttribute("bug", v2Bug);

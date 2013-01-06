@@ -1,8 +1,13 @@
 package com.x460dot11.servlet;
 
-import com.x460dot11.data.Bug;
-import com.x460dot11.data.Database;
-import com.x460dot11.data.User;
+//import com.x460dot11.data.Bug;
+//import com.x460dot11.data.Database;
+//import com.x460dot11.data.User;
+
+import com.x460dot11.model.Bug;
+import com.x460dot11.model.DaoException;
+import com.x460dot11.model.User;
+import com.x460dot11.model.DaoFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -34,8 +39,10 @@ public class ProcessNewBug extends HttpServlet {
     bug.setSummary(summary);
     bug.setHistory(comment);
     try {
-      Database.getInstance().addBug(summary, comment, user);
-    } catch (SQLException e) {
+      DaoFactory.getInstance().getBugDao().create(bug, user);
+//      Database.getInstance().addBug(summary, comment, user);
+//    } catch (SQLException e) {
+      } catch (DaoException e) {
       e.printStackTrace();
     }
 

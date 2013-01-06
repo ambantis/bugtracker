@@ -63,6 +63,11 @@ public final class DaoUtil {
     close(statement);
     close(connection);
   }
+  public static void close(Connection connection, Statement statement1, Statement statement2) {
+    close(statement1);
+    close(statement2);
+    close(connection);
+  }
 
   public static void close(Connection connection, Statement statement, ResultSet resultSet) {
     close(resultSet);
@@ -70,4 +75,18 @@ public final class DaoUtil {
     close(connection);
   }
 
+  public static void close(Connection connection, Statement statement1, Statement statement2, Statement statement3) {
+    close(statement3);
+    close(statement2);
+    close(statement1);
+    close(connection);
+  }
+
+  public static void close(Connection connection, Statement statement1, Statement statement2, Statement statement3, ResultSet resultSet) {
+    close(resultSet);
+    close(statement3);
+    close(statement2);
+    close(statement1);
+    close(connection);
+  }
 }

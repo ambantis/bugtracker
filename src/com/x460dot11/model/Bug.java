@@ -86,6 +86,34 @@ public class Bug implements Serializable {
     this.finalResult = finalResult;
   }
 
+  public boolean hasSameValues(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Bug other = (Bug) obj;
+    if (!(this.getBugId().equals(other.getBugId())))
+      return false;
+    if (!(this.getDueDate().equals(other.getDueDate())))
+      return false;
+    if (!(this.getCloseDate().equals(other.getCloseDate())))
+      return false;
+    if (!(this.getAssignee().equals(other.getAssignee())))
+      return false;
+    if (!(this.getPriority().equals(other.getPriority())))
+      return false;
+    if (!(this.getSummary().equals(other.getSummary())))
+      return false;
+    if (!(this.getHistory().equals(other.getHistory())))
+      return false;
+    if (!(this.getFinalResult().equals(other.getFinalResult())))
+      return false;
+
+    return true;
+  }
+
   @Override
   public int hashCode() {
     if (bugId == null)

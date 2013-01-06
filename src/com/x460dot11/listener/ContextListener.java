@@ -1,7 +1,7 @@
 package com.x460dot11.listener;
 
 import com.x460dot11.data.Database;
-//import com.x460dot11.mail.Gmail;
+import com.x460dot11.model.DaoFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -24,7 +24,8 @@ public class ContextListener implements ServletContextListener {
     String url = servletContext.getInitParameter("db-url");
     String user = servletContext.getInitParameter("db-user");
     String password = servletContext.getInitParameter("db-password");
-//        ArrayList<Bug> bugs;
+
+    DaoFactory.init(driver, url, user, password);
 
     try {
       Class.forName(driver);
@@ -36,14 +37,8 @@ public class ContextListener implements ServletContextListener {
       e.printStackTrace();
     }
 
-//        String smtpAuth = servletContext.getInitParameter("mail.smtp.auth");
-//        String smtpStartTls = servletContext.getInitParameter("mail.smtp.starttls.enable");
-//        String smtpHost = servletContext.getInitParameter("mail.smtp.host");
-//        String smtpPort = servletContext.getInitParameter("mail.smtp.port");
-//    Gmail.getInstance().init();
   }
 
-//  @Override
 
   /**
    * Close database connection

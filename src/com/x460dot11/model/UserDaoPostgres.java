@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.x460dot11.model.DaoUtil.*;
 
@@ -22,6 +21,8 @@ public class UserDaoPostgres implements UserDao {
       "SELECT user_id, password, full_name, role_id, email FROM users WHERE user_id = ? AND password = MD5(?)";
   private static final String SQL_LIST_ORDER_BY_ID =
       "SELECT user_id, password, full_name, role_id, email FROM users ORDER BY user_id";
+  private static final String SQL_LIST_FIND_DEVELOPERS =
+      "SELECT user_id FROM users WHERE role_id = 'dev'";
   private static final String SQL_INSERT =
       "INSERT INTO users (user_id, password, full_name, role_id, email) VALUES (?, MD5(?), ?, ?, ?)";
   private static final String SQL_UPDATE =
@@ -45,8 +46,8 @@ public class UserDaoPostgres implements UserDao {
   }
 
   @Override
-  public User find(String email, String password) throws DaoException {
-    return find(SQL_FIND_BY_EMAIL_AND_PASSWORD, email, password);
+  public User find(String userId, String password) throws DaoException {
+    return find(SQL_FIND_BY_EMAIL_AND_PASSWORD, userId, password);
   }
 
   private User find(String sql, Object... values) throws DaoException {
@@ -71,11 +72,33 @@ public class UserDaoPostgres implements UserDao {
   }
 
   @Override
-  public List<User> list() throws DaoException {
+  public ArrayList<String> developers() throws DaoException {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
-    List<User> users = new ArrayList<User>();
+    ArrayList<String> coders = new ArrayList<String>();
+
+    try {
+      connection = daoFactory.getConnection();
+      preparedStatement = connection.prepareStatement(SQL_LIST_FIND_DEVELOPERS);
+      resultSet = preparedStatement.getResultSet();
+      while (resultSet.next()) {
+        coders.add(resultSet.getString("user_id"));
+      }
+    } catch (SQLException e) {
+      throw new DaoException(e);
+    } finally {
+      close(connection, preparedStatement, resultSet);
+    }
+      return coders;
+  }
+
+  @Override
+  public ArrayList<User> list() throws DaoException {
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    ArrayList<User> users = new ArrayList<User>();
 
     try {
       connection = daoFactory.getConnection();

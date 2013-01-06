@@ -1,7 +1,5 @@
 package com.x460dot11.model;
 
-import org.apache.taglibs.standard.lang.jstl.test.StaticFunctionTests;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,44 +10,48 @@ import java.sql.SQLException;
  * Time: 11:27 AM
  */
 public class DaoFactoryPostgres extends DaoFactory {
+  private String driver = null;
   private String url = null;
   private String userName = null;
   private String password = null;
 
   private static DaoFactoryPostgres daoFactoryPostgres = null;
+  private DaoFactoryPostgres() {}
 
-  public static DaoFactoryPostgres getInstance(String url, String userName, String password) {
+  public static DaoFactoryPostgres getInstance() {
     if (daoFactoryPostgres == null)
-      daoFactoryPostgres = new DaoFactoryPostgres(url, userName, password);
+      throw new DaoConfigurationException("Database has not been initialized.");
     return daoFactoryPostgres;
   }
 
-
-
-
-  DaoFactoryPostgres(String url, String userName, String password) {
-    this.url = url;
-    this.userName = userName;
-    this.password = password;
+  public static void init(String driver, String url, String userName, String password) {
+    if (daoFactoryPostgres != null) {
+      throw new DaoConfigurationException("Database has already been initialized.");
+    } else {
+      daoFactoryPostgres = new DaoFactoryPostgres();
+      daoFactoryPostgres.driver = driver;
+      daoFactoryPostgres.url = url;
+      daoFactoryPostgres.userName = userName;
+      daoFactoryPostgres.password = password;
+    }
   }
 
   @Override
-  Connection getConnection() throws SQLException {
-    Connection connection = null;
+  Connection getConnection() throws DaoConfigurationException {
+    Connection connection;
     try {
-      String url = "jdbc:postgresql://54.245.109.81:5432/bugdb";
-      String user = "roach";
-      String password = "motel";
-
-      connection = DriverManager.getConnection(url, user, password);
+      Class.forName(driver);
+      connection = DriverManager.getConnection(url, userName, password);
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new DaoConfigurationException(e);
+    } catch (ClassNotFoundException e) {
+        throw new DaoConfigurationException(e);
     }
     return connection;
   }
 
   public BugDao getBugDao() {
-    return null;
+    return new BugDaoPostgres(this);
   }
 
   public UserDao getUserDao() {

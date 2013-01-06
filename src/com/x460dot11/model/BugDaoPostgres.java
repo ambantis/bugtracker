@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.x460dot11.model.DaoUtil.*;
 /**
@@ -17,24 +16,37 @@ import static com.x460dot11.model.DaoUtil.*;
  */
 public class BugDaoPostgres implements BugDao {
   private static final String SQL_FIND_BY_ID =
-      "SELECT bug_id, due_date, close_date, assignee, priority, summary, history, final_result FROM bug WHERE bug_id = ?";
+      "SELECT bug_id, due_date, close_date, assignee, priority, summary, history, final_result " +
+          "FROM bug " +
+          "WHERE bug_id = ?";
 
   private static final String SQL_LIST_ORDER_BY_ID =
-      "SELECT bug_id, due_date, close_date, assignee, priority, summary, history, final_result FROM bug ORDER BY bug_id";
+      "SELECT bug_id, due_date, close_date, assignee, priority, summary, history, final_result " +
+          "FROM bug " +
+          "ORDER BY bug_id";
 
   private static final String SQL_LIST_ORDER_BY_ID_FIND_BY_ASSIGNEE =
-      "SELECT bug_id, due_date, close_date, assignee, priority, summary, history, final_result FROM bug " +
-          "ORDER BY bug_id WHERE assignee = ?";
+      "SELECT bug_id, due_date, close_date, assignee, priority, summary, history, final_result " +
+          "FROM bug " +
+          "ORDER BY bug_id " +
+          "WHERE assignee = ?";
 
   private static final String SQL_INSERT =
-      "INSERT INTO bug (due_date, close_date, assignee, priority, summary, history, final_result) " +
-          "VALUES (?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO bug (due_date, close_date, assignee, priority, summary, history, final_result, created_by, " +
+          "modified_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   private static final String SQL_UPDATE =
-      "UPDATE bug SET due_date = ?, close_date = ?, assignee = ?, priority = ?, summary = ?, history = ?, final_result = ?)";
+      "UPDATE bug SET due_date = ?, close_date = ?, assignee = ?, priority = ?, summary = ?, history = ?, " +
+          "final_result = ?, modified = now(), modified_by = ?)";
 
   private static final String SQL_DELETE =
       "DELETE FROM bug WHERE user_id = ?";
+
+  private static final String SQL_UPDATE_MODIFIED_BY =
+      "UPDATE bug SET modified = now(), modified_by = ? WHERE bug_id = ?";
+
+  private static final String SQL_ARCHIVE =
+      "INSERT INTO archive (SELECT * FROM bug WHERE bug_id = ?)";
 
   private DaoFactory daoFactory;
 
@@ -43,33 +55,207 @@ public class BugDaoPostgres implements BugDao {
   }
 
   @Override
-  public Bug find(Integer bugId) throws DaoException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  public Bug find(Integer id) throws DaoException {
+
+    Object[] values = {
+        id
+    };
+
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    Bug bug = null;
+
+    try {
+      connection = daoFactory.getConnection();
+      preparedStatement = prepareStatement(connection, SQL_FIND_BY_ID, false, values);
+      resultSet = preparedStatement.getResultSet();
+      if (resultSet.next())
+        bug = map(resultSet);
+    } catch (SQLException e) {
+      throw new DaoException(e);
+    } finally {
+      close(connection, preparedStatement, resultSet);
+    }
+    return bug;
   }
 
   @Override
-  public List<Bug> list() throws DaoException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  public ArrayList<Bug> list() throws DaoException {
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    ArrayList<Bug> bugs = new ArrayList<Bug>();
+
+    try {
+      connection = daoFactory.getConnection();
+      preparedStatement = connection.prepareStatement(SQL_LIST_ORDER_BY_ID);
+      resultSet = preparedStatement.getResultSet();
+      while (resultSet.next())
+        bugs.add(map(resultSet));
+    } catch (SQLException e) {
+      throw new DaoException(e);
+    } finally {
+      close(connection, preparedStatement, resultSet);
+    }
+    return bugs;
   }
 
   @Override
-  public List<Bug> list(String assignee) throws DaoException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  public ArrayList<Bug> list(String assignee) throws DaoException {
+    Object[] values = {
+        assignee
+    };
+
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+    ArrayList<Bug> bugs = new ArrayList<Bug>();
+
+    try {
+      connection = daoFactory.getConnection();
+      preparedStatement = prepareStatement(connection, SQL_LIST_ORDER_BY_ID_FIND_BY_ASSIGNEE, false, values);
+      resultSet = preparedStatement.getResultSet();
+      while (resultSet.next())
+        bugs.add(map(resultSet));
+    } catch (SQLException e) {
+      throw new DaoException(e);
+    } finally {
+      close(connection, preparedStatement, resultSet);
+    }
+    return bugs;
   }
 
   @Override
-  public void create(Bug bug) throws IllegalArgumentException, DaoException {
-    //To change body of implemented methods use File | Settings | File Templates.
+  public void create(Bug bug, User user) throws IllegalArgumentException, DaoException {
+    if (bug.getBugId() != null)
+      throw new IllegalArgumentException("Bug is already created, the bug ID is not null.");
+
+    Object[] values = {
+        bug.getDueDate(),
+        bug.getCloseDate(),
+        bug.getAssignee(),
+        bug.getPriority(),
+        bug.getSummary(),
+        bug.getHistory(),
+        bug.getFinalResult(),
+        user.getUserId(),
+        user.getUserId()
+    };
+
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet generatedKeys = null;
+
+    try {
+      connection = daoFactory.getConnection();
+      preparedStatement = prepareStatement(connection, SQL_INSERT, true, values);
+      int affectedRows = preparedStatement.executeUpdate();
+      if (affectedRows == 0) {
+        throw new DaoException("Creating bug failed, no rows affected.");
+      }
+      generatedKeys = preparedStatement.getGeneratedKeys();
+      if (generatedKeys.next()) {
+        bug.setBugId(generatedKeys.getInt(1));
+      } else {
+        throw new DaoException("Creating user failed, no generated key obtained.");
+      }
+    } catch (SQLException e) {
+      throw new DaoException(e);
+    } finally {
+      close(connection, preparedStatement, generatedKeys);
+    }
   }
 
   @Override
-  public void update(Bug bug) throws IllegalArgumentException, DaoException {
-    //To change body of implemented methods use File | Settings | File Templates.
+  public void update(Bug bugOld, Bug bugNew, User user) throws IllegalArgumentException, DaoException {
+    if (bugNew.getBugId() == null)
+      throw new IllegalArgumentException("Bug is not created yet, bug ID is null.");
+    if (bugOld.hasSameValues(bugNew))
+      throw new IllegalArgumentException("Bug is unchanged, nothing to update.");
+
+    Object[] archiveValues = {
+        bugNew.getBugId()
+    };
+
+    Object[] updateValues = {
+        bugNew.getDueDate().toString(),
+        bugNew.getCloseDate().toString(),
+        bugNew.getAssignee(),
+        bugNew.getPriority(),
+        bugNew.getSummary(),
+        bugNew.getHistory(),
+        bugNew.getFinalResult(),
+        user.getUserId()
+    };
+
+    Connection connection = null;
+    PreparedStatement testLostUpdatePreparedStmt = null;
+    ResultSet testLostUpdateResultSet = null;
+    PreparedStatement archivePreparedStmt = null;
+    PreparedStatement updatePreparedStmt = null;
+
+    try {
+      connection = daoFactory.getConnection();
+      testLostUpdatePreparedStmt = prepareStatement(connection, SQL_FIND_BY_ID, false, archiveValues);
+      archivePreparedStmt = prepareStatement(connection, SQL_ARCHIVE, false, archiveValues);
+      updatePreparedStmt = prepareStatement(connection, SQL_UPDATE, false, updateValues);
+      connection.setAutoCommit(false);
+      testLostUpdateResultSet = testLostUpdatePreparedStmt.getResultSet();
+      if (testLostUpdateResultSet.next())
+        if (!(bugOld.hasSameValues(map(testLostUpdateResultSet))))
+          throw new DaoException("Cannot update bug ID due to another update. Please refresh and try again.");
+      int archiveAffectedRows = archivePreparedStmt.executeUpdate();
+      int updateAffectedRows = updatePreparedStmt.executeUpdate();
+      if (archiveAffectedRows == 0 || updateAffectedRows == 0) {
+        throw new DaoException("Updating bug failed, no rows affected");
+      }
+      connection.commit();
+    } catch (SQLException e) {
+      throw new DaoException(e);
+    } finally {
+      close(connection, testLostUpdatePreparedStmt, archivePreparedStmt, updatePreparedStmt, testLostUpdateResultSet);
+    }
   }
 
   @Override
-  public void delete(Bug bug) throws DaoException {
-    //To change body of implemented methods use File | Settings | File Templates.
+  public void delete(Bug bug, User user) throws DaoException {
+    if (bug.getBugId() == 0) {
+      throw new IllegalArgumentException("Bug not created yet, the bug ID is null");
+    }
+
+    Object[] deleteValues = {
+        bug.getBugId()
+    };
+
+    Object[] updateModifiedByValues = {
+        bug.getBugId(),
+        user.getUserId()
+    };
+
+    Connection connection = null;
+    PreparedStatement updateModifiedByStatement = null;
+    PreparedStatement archivePreparedStatement = null;
+    PreparedStatement deletePreparedStatement = null;
+
+    try {
+      connection = daoFactory.getConnection();
+      archivePreparedStatement = prepareStatement(connection, SQL_ARCHIVE, false, deleteValues);
+      updateModifiedByStatement = prepareStatement(connection, SQL_UPDATE_MODIFIED_BY, false, updateModifiedByValues);
+      deletePreparedStatement = prepareStatement(connection, SQL_DELETE, false, deleteValues);
+      connection.setAutoCommit(false);
+      int modifiedByRowsAffected = updateModifiedByStatement.executeUpdate();
+      int archiveRowsAffected = archivePreparedStatement.executeUpdate();
+      int deleteRowsAffected = deletePreparedStatement.executeUpdate();
+      if (modifiedByRowsAffected == 0 || archiveRowsAffected == 0 || deleteRowsAffected == 0) {
+        throw new DaoException("Deleting bug failed, no rows affected");
+      }
+      connection.commit();
+    } catch (SQLException e) {
+      throw new DaoException(e);
+    } finally {
+      close(connection, updateModifiedByStatement, archivePreparedStatement, deletePreparedStatement);
+    }
   }
 
   private static Bug map(ResultSet resultSet) throws SQLException {

@@ -1,8 +1,6 @@
 package com.x460dot11.model;
 
-import java.util.List;
-import com.x460dot11.model.User;
-
+import java.util.ArrayList;
 
 /**
  * User: Alexandros Bantis
@@ -13,9 +11,11 @@ public interface UserDao {
 
   public User find(String userId) throws DaoException;
 
-  public User find(String email, String password) throws DaoException;
+  public User find(String userId, String password) throws DaoException;
 
-  public List<User> list() throws DaoException;
+  public ArrayList<String> developers() throws DaoException;
+
+  public ArrayList<User> list() throws DaoException;
 
   public void create(User user) throws IllegalArgumentException, DaoException;
 

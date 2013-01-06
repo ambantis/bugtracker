@@ -9,15 +9,24 @@ import java.sql.SQLException;
  * Time: 11:09 AM
  */
 public abstract class DaoFactory {
+  private String url;
+  private String userName;
+  private String password;
+
   private static DaoFactory daoFactory;
 
-  public static DaoFactory getInstance(String url, String userName, String password) throws DaoConfigurationException {
+  public static DaoFactory getInstance() {
     if (daoFactory == null)
-      daoFactory = DaoFactoryPostgres.getInstance(url, userName, password);
+      daoFactory = DaoFactoryPostgres.getInstance();
     return daoFactory;
   }
 
-  abstract Connection getConnection() throws SQLException;
+  public static void init(String driver, String url, String userName, String password) throws DaoConfigurationException {
+    if (daoFactory == null)
+      DaoFactoryPostgres.getInstance().init(driver, url, userName, password);
+  }
+
+  abstract Connection getConnection() throws DaoConfigurationException;
 
   public BugDao getBugDao() {
     return new BugDaoPostgres(this);

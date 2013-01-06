@@ -1,7 +1,8 @@
 package com.x460dot11.model;
 
 import com.x460dot11.model.Bug;
-import java.util.List;
+
+import java.util.ArrayList;
 
 /**
  * User: Alexandros Bantis
@@ -11,15 +12,13 @@ import java.util.List;
 public interface BugDao {
   public Bug find(Integer bugId) throws DaoException;
 
-  public List<Bug> list() throws DaoException;
+  public ArrayList<Bug> list() throws DaoException;
 
-  public List<Bug> list(String assignee) throws DaoException;
+  public ArrayList<Bug> list(String assignee) throws DaoException;
 
-  public void create(Bug bug) throws IllegalArgumentException, DaoException;
+  public void create(Bug bug, User user) throws IllegalArgumentException, DaoException;
 
-  public void update(Bug bug) throws IllegalArgumentException, DaoException;
+  public void update(Bug bugOld, Bug bugNew, User user) throws IllegalArgumentException, DaoException;
 
-  public void delete(Bug bug) throws DaoException;
-
-
+  public void delete(Bug bug, User user) throws IllegalArgumentException, DaoException;
 }
