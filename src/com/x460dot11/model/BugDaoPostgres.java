@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 
 import static com.x460dot11.model.DaoUtil.*;
 /**
@@ -33,11 +34,11 @@ public class BugDaoPostgres implements BugDao {
 
   private static final String SQL_INSERT =
       "INSERT INTO bug (due_date, close_date, assignee, priority, summary, history, final_result, created_by, " +
-          "modified_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "modified_by) VALUES (current_date, '1970-01-01', ?, ?, ?, ?, ?, ?, ?)";
 
   private static final String SQL_UPDATE =
       "UPDATE bug SET due_date = ?, close_date = ?, assignee = ?, priority = ?, summary = ?, history = ?, " +
-          "final_result = ?, modified = now(), modified_by = ?)";
+          "final_result = ?, modified = now(), modified_by = ? WHERE bug_id = ?";
 
   private static final String SQL_DELETE =
       "DELETE FROM bug WHERE user_id = ?";
@@ -69,6 +70,7 @@ public class BugDaoPostgres implements BugDao {
     try {
       connection = daoFactory.getConnection();
       preparedStatement = prepareStatement(connection, SQL_FIND_BY_ID, false, values);
+      preparedStatement.execute();
       resultSet = preparedStatement.getResultSet();
       if (resultSet.next())
         bug = map(resultSet);
@@ -90,6 +92,7 @@ public class BugDaoPostgres implements BugDao {
     try {
       connection = daoFactory.getConnection();
       preparedStatement = connection.prepareStatement(SQL_LIST_ORDER_BY_ID);
+      preparedStatement.execute();
       resultSet = preparedStatement.getResultSet();
       while (resultSet.next())
         bugs.add(map(resultSet));
@@ -115,6 +118,7 @@ public class BugDaoPostgres implements BugDao {
     try {
       connection = daoFactory.getConnection();
       preparedStatement = prepareStatement(connection, SQL_LIST_ORDER_BY_ID_FIND_BY_ASSIGNEE, false, values);
+      preparedStatement.execute();
       resultSet = preparedStatement.getResultSet();
       while (resultSet.next())
         bugs.add(map(resultSet));
@@ -128,12 +132,10 @@ public class BugDaoPostgres implements BugDao {
 
   @Override
   public void create(Bug bug, User user) throws IllegalArgumentException, DaoException {
-    if (bug.getBugId() != null)
-      throw new IllegalArgumentException("Bug is already created, the bug ID is not null.");
+    if (bug.getBugId() != 0)
+      throw new IllegalArgumentException("Bug is already created, the bug ID is not zero.");
 
     Object[] values = {
-        bug.getDueDate(),
-        bug.getCloseDate(),
         bug.getAssignee(),
         bug.getPriority(),
         bug.getSummary(),
@@ -169,8 +171,8 @@ public class BugDaoPostgres implements BugDao {
 
   @Override
   public void update(Bug bugOld, Bug bugNew, User user) throws IllegalArgumentException, DaoException {
-    if (bugNew.getBugId() == null)
-      throw new IllegalArgumentException("Bug is not created yet, bug ID is null.");
+    if (bugNew.getBugId() == 0)
+      throw new IllegalArgumentException("Bug is not created yet, bug ID is 0.");
     if (bugOld.hasSameValues(bugNew))
       throw new IllegalArgumentException("Bug is unchanged, nothing to update.");
 
@@ -179,14 +181,15 @@ public class BugDaoPostgres implements BugDao {
     };
 
     Object[] updateValues = {
-        bugNew.getDueDate().toString(),
-        bugNew.getCloseDate().toString(),
+        new Date(bugNew.getDueDate().toDate().getTime()),
+        new Date(bugNew.getCloseDate().toDate().getTime()),
         bugNew.getAssignee(),
         bugNew.getPriority(),
         bugNew.getSummary(),
         bugNew.getHistory(),
         bugNew.getFinalResult(),
-        user.getUserId()
+        user.getUserId(),
+        bugNew.getBugId()
     };
 
     Connection connection = null;
@@ -201,6 +204,9 @@ public class BugDaoPostgres implements BugDao {
       archivePreparedStmt = prepareStatement(connection, SQL_ARCHIVE, false, archiveValues);
       updatePreparedStmt = prepareStatement(connection, SQL_UPDATE, false, updateValues);
       connection.setAutoCommit(false);
+      testLostUpdatePreparedStmt.execute();
+      archivePreparedStmt.execute();
+      updatePreparedStmt.execute();
       testLostUpdateResultSet = testLostUpdatePreparedStmt.getResultSet();
       if (testLostUpdateResultSet.next())
         if (!(bugOld.hasSameValues(map(testLostUpdateResultSet))))
@@ -260,6 +266,7 @@ public class BugDaoPostgres implements BugDao {
 
   private static Bug map(ResultSet resultSet) throws SQLException {
     Bug bug = new Bug();
+
     bug.setBugId(resultSet.getInt("bug_id"));
     bug.setDueDate(LocalDate.parse(resultSet.getString("due_date")));
     bug.setCloseDate(LocalDate.parse(resultSet.getString("close_date")));

@@ -57,6 +57,7 @@ public class Login extends HttpServlet {
     if (user == null) {
       RequestDispatcher view = request.getRequestDispatcher("error.html");
       view.forward(request, response);
+      return;
     }
 
 

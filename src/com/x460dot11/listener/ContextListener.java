@@ -1,6 +1,7 @@
 package com.x460dot11.listener;
 
-import com.x460dot11.data.Database;
+//import com.x460dot11.data.Database;
+import com.x460dot11.model.DaoException;
 import com.x460dot11.model.DaoFactory;
 
 import javax.servlet.ServletContext;
@@ -19,24 +20,27 @@ public class ContextListener implements ServletContextListener {
 
   public void contextInitialized(ServletContextEvent event) {
     ServletContext servletContext = event.getServletContext();
-    Connection connection;
+//    Connection connection;
     String driver = servletContext.getInitParameter("db-driver");
     String url = servletContext.getInitParameter("db-url");
     String user = servletContext.getInitParameter("db-user");
     String password = servletContext.getInitParameter("db-password");
 
-    DaoFactory.init(driver, url, user, password);
+
 
     try {
-      Class.forName(driver);
-      connection = DriverManager.getConnection(url, user, password);
-      Database.getInstance().init(connection);
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    } catch (SQLException e) {
+//      Class.forName(driver);
+//      connection = DriverManager.getConnection(url, user, password);
+          DaoFactory.init(driver, url, user, password);
+//      Database.getInstance().init(connection);
+//    } catch (ClassNotFoundException e) {
+//      e.printStackTrace();
+//    } catch (SQLException e) {
+//      e.printStackTrace();
+//    }
+    } catch (DaoException e) {
       e.printStackTrace();
     }
-
   }
 
 

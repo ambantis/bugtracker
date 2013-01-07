@@ -1,7 +1,6 @@
 package com.x460dot11.model;
 
 import org.joda.time.LocalDate;
-
 import java.io.Serializable;
 
 /**
@@ -21,6 +20,17 @@ public class Bug implements Serializable {
   private String summary;
   private String history;
   private String finalResult;
+
+  public Bug () {
+    this.bugId = 0;
+    this.dueDate = new LocalDate();
+    this.closeDate = new LocalDate("1970-01-01");
+    this.assignee = "unk";
+    this.priority = 0;
+    this.summary = "";
+    this.history = "";
+    this.finalResult = "n/a";
+  }
 
   public Integer getBugId() {
     return bugId;
@@ -96,6 +106,7 @@ public class Bug implements Serializable {
     Bug other = (Bug) obj;
     if (!(this.getBugId().equals(other.getBugId())))
       return false;
+
     if (!(this.getDueDate().equals(other.getDueDate())))
       return false;
     if (!(this.getCloseDate().equals(other.getCloseDate())))
@@ -111,7 +122,7 @@ public class Bug implements Serializable {
     if (!(this.getFinalResult().equals(other.getFinalResult())))
       return false;
 
-    return true;
+      return true;
   }
 
   @Override

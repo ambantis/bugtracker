@@ -24,14 +24,14 @@
 <input class="noWrite"
        id="bug_id"
        name="bug_id"
-       value="${v2bug.bug_id}"
+       value="${v2bug.bugId}"
        readonly="readonly">
 <br>
 <label for="due_date">Due Date</label>
 <input id="due_date"
        name="due_date"
        type="date"
-       value="${v2bug.due_date}"
+       value="${v2bug.dueDate}"
 <c:if test="${sessionScope.user.roleId ne 'mgr'}">
        class="noWrite"
        readonly="readonly"
@@ -79,7 +79,7 @@
   <tr><td><label for="new_comment">New Comment</label></td></tr>
   <tr><td><textarea id="new_comment" name="new_comment" cols="80"></textarea></td></tr>
   <tr><td><label for="final_result">Final Result</label></td></tr>
-  <tr><td><textarea class="noWrite" id="final_result" name="final_result"  cols="80" readonly="readonly">${v2bug.final_result}</textarea></td></tr>
+  <tr><td><textarea class="noWrite" id="final_result" name="final_result"  cols="80" readonly="readonly">${v2bug.finalResult}</textarea></td></tr>
 </table>
 <br>
 <button type="submit">Submit</button>

@@ -36,6 +36,7 @@ public class ProcessNewBug extends HttpServlet {
     String comment = request.getParameter("comment");
     comment = formatNewComment(history, comment, user.getUserId());
 
+    bug.setBugId(0);
     bug.setSummary(summary);
     bug.setHistory(comment);
     try {

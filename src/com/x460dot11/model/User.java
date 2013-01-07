@@ -20,7 +20,15 @@ public class User implements Serializable {
   private String email;
 
   // Getters/setters-------------------------------------------------------------------------------
+  public User() {
+    this.userId = "";
+    this.password = "";
+    this.fullName = "";
+    this.roleId = "";
+    this.email = "";
+  }
 
+  // Getters/setters-------------------------------------------------------------------------------
   public String getUserId() {
     return userId;
   }
@@ -62,7 +70,6 @@ public class User implements Serializable {
   }
 
   // Object overrides -----------------------------------------------------------------------------
-
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -88,10 +95,4 @@ public class User implements Serializable {
     return String.format("User[id=%s,email=%s,fullName=%s,roleId=%s,email=%s]",
         userId, email, fullName, roleId, email);
   }
-
-
-
-
-
-
 }

@@ -23,7 +23,7 @@ public abstract class DaoFactory {
 
   public static void init(String driver, String url, String userName, String password) throws DaoConfigurationException {
     if (daoFactory == null)
-      DaoFactoryPostgres.getInstance().init(driver, url, userName, password);
+      DaoFactoryPostgres.init(driver, url, userName, password);
   }
 
   abstract Connection getConnection() throws DaoConfigurationException;

@@ -18,13 +18,13 @@ public class UserDaoPostgres implements UserDao {
   private static final String SQL_FIND_BY_ID =
       "SELECT user_id, password, full_name, role_id, email FROM users WHERE user_id = ?";
   private static final String SQL_FIND_BY_EMAIL_AND_PASSWORD =
-      "SELECT user_id, password, full_name, role_id, email FROM users WHERE user_id = ? AND password = MD5(?)";
+      "SELECT user_id, password, full_name, role_id, email FROM users WHERE user_id = ? AND password = ?";
   private static final String SQL_LIST_ORDER_BY_ID =
       "SELECT user_id, password, full_name, role_id, email FROM users ORDER BY user_id";
   private static final String SQL_LIST_FIND_DEVELOPERS =
       "SELECT user_id FROM users WHERE role_id = 'dev'";
   private static final String SQL_INSERT =
-      "INSERT INTO users (user_id, password, full_name, role_id, email) VALUES (?, MD5(?), ?, ?, ?)";
+      "INSERT INTO users (user_id, password, full_name, role_id, email) VALUES (?, ?, ?, ?, ?)";
   private static final String SQL_UPDATE =
       "UPDATE users SET full_name = ?, role_id = ?, email = ? WHERE user_id = ?";
   private static final String SQL_DELETE =
@@ -81,6 +81,7 @@ public class UserDaoPostgres implements UserDao {
     try {
       connection = daoFactory.getConnection();
       preparedStatement = connection.prepareStatement(SQL_LIST_FIND_DEVELOPERS);
+      preparedStatement.execute();
       resultSet = preparedStatement.getResultSet();
       while (resultSet.next()) {
         coders.add(resultSet.getString("user_id"));

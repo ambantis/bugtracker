@@ -40,9 +40,9 @@ public class ProcessEditBug extends HttpServlet {
       int bug_id = Integer.parseInt(request.getParameter("bug_id"));
       String date;
       LocalDate due_date = ((date = request.getParameter("due_date")) == null)
-          ? null : LocalDate.parse(date);
+          ? new LocalDate() : LocalDate.parse(date);
       LocalDate close_date = ((date = request.getParameter("close_date")) == null)
-          ? null : LocalDate.parse(date);
+          ? new LocalDate("1970-01-01") : LocalDate.parse(date);
       String assignee = request.getParameter("assignee");
       int priority = Integer.parseInt(request.getParameter("priority"));
       String summary = request.getParameter("summary");

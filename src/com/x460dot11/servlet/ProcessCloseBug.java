@@ -32,10 +32,7 @@ public class ProcessCloseBug extends HttpServlet {
 
     try {
       int bug_id = Integer.parseInt(request.getParameter("bug_id"));
-      String date;
-      LocalDate due_date = null;
-//      LocalDate due_date = ((date = request.getParameter("due_date")) == null)
-//          ? null : LocalDate.parse(date);
+      LocalDate due_date = new LocalDate("1970-01-01");
       String assignee = request.getParameter("assignee");
       int priority = Integer.parseInt(request.getParameter("priority"));
       String summary = request.getParameter("summary");

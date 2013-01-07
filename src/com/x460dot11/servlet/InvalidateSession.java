@@ -15,7 +15,7 @@ public class InvalidateSession extends HttpServlet {
     if (session != null)
       session.invalidate();
 
-    RequestDispatcher view = request.getRequestDispatcher("/index-old.html");
+    RequestDispatcher view = request.getRequestDispatcher("index.html");
     view.forward(request, response);
   }
 
