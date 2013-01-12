@@ -45,7 +45,7 @@ public class DaoFactoryPostgres extends DaoFactory {
     } catch (SQLException e) {
       throw new DaoConfigurationException(e);
     } catch (ClassNotFoundException e) {
-        throw new DaoConfigurationException(e);
+      throw new DaoConfigurationException(e);
     }
     return connection;
   }

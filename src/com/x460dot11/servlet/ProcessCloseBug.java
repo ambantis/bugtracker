@@ -33,6 +33,7 @@ public class ProcessCloseBug extends HttpServlet {
     try {
       int bug_id = Integer.parseInt(request.getParameter("bug_id"));
       LocalDate due_date = new LocalDate("1970-01-01");
+      LocalDate close_date = new LocalDate();
       String assignee = request.getParameter("assignee");
       int priority = Integer.parseInt(request.getParameter("priority"));
       String summary = request.getParameter("summary");
@@ -49,6 +50,7 @@ public class ProcessCloseBug extends HttpServlet {
 //      v2bug.setDue_date(due_date);
       v2bug.setBugId(bug_id);
       v2bug.setDueDate(due_date);
+      v2bug.setCloseDate(close_date);
       v2bug.setAssignee(assignee);
       v2bug.setPriority(priority);
       v2bug.setSummary(summary);

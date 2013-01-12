@@ -6,12 +6,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="bugs" value="${applicationScope.db.bugDao.list()}"/>
 <html>
 <head>
   <title>Display All Bugs</title>
 </head>
 
 <body>
+
 <table>
   <thead>
   <tr>

@@ -170,7 +170,7 @@ public class BugDaoPostgres implements BugDao {
   }
 
   @Override
-  public void update(Bug bugOld, Bug bugNew, User user) throws IllegalArgumentException, DaoException {
+  public synchronized void update(Bug bugOld, Bug bugNew, User user) throws IllegalArgumentException, DaoException {
     if (bugNew.getBugId() == 0)
       throw new IllegalArgumentException("Bug is not created yet, bug ID is 0.");
     if (bugOld.hasSameValues(bugNew))

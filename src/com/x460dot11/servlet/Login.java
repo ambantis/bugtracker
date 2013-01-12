@@ -31,9 +31,9 @@ public class Login extends HttpServlet {
     HttpSession session = request.getSession();
 
 //    ArrayList<Bug> bugs = Database.getInstance().getBugs();
-    ArrayList<Bug> bugs = (ArrayList<Bug>) DaoFactory.getInstance().getBugDao().list();
-    session.setAttribute("bugs", bugs);
-    session.setAttribute("bug", new Bug());
+//    ArrayList<Bug> bugs = (ArrayList<Bug>) DaoFactory.getInstance().getBugDao().list();
+//    session.setAttribute("bugs", bugs);
+//    session.setAttribute("bug", new Bug());
 
     String username;
     String role;

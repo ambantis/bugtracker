@@ -9,9 +9,9 @@ import java.sql.SQLException;
  * Time: 11:09 AM
  */
 public abstract class DaoFactory {
-  private String url;
-  private String userName;
-  private String password;
+//  private String url;
+//  private String userName;
+//  private String password;
 
   private static DaoFactory daoFactory;
 
