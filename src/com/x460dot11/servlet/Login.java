@@ -81,7 +81,7 @@ public class Login extends HttpServlet {
     session.setAttribute("coders", coders);
 
     // TODO:2012-09-05:ambantis:Implement page redirect based upon user role
-    RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
+    RequestDispatcher view = request.getRequestDispatcher("listBugs.do");
     view.forward(request, response);
   }
 }

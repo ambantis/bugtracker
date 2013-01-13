@@ -84,5 +84,13 @@
 <br>
 <button type="submit">Submit</button>
 </form>
+
+<br>
+<br>
+  <form method="get" action="closeBug.do">
+    <input type="hidden" id="close_this_bug" name="close_this_bug" value="${v2bug.bugId}">
+    <button type="submit">Close Bug</button>
+  </form>
+
 </body>
 </html>

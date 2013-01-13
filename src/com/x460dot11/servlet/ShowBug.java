@@ -24,7 +24,7 @@ import java.sql.SQLException;
  * This servlet gets the Bug ID input from user and retrieve the Bug object associated
  * with Bug ID from the database, then forward to JSP page for editing.
  */
-public class DisplayBug extends HttpServlet {
+public class ShowBug extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -53,7 +53,7 @@ public class DisplayBug extends HttpServlet {
     if (closeBug)
       view = request.getRequestDispatcher("closeBug.do");
     else
-      view = request.getRequestDispatcher("editBug.do");
+      view = request.getRequestDispatcher("showBug.do");
     view.forward(request, response);
   }
 }

@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="targetId" value="${param.close_this_bug}"/>
+<c:set var="v2bug" value="${applicationScope.db.bugDao.find(targetId)}"/>
 <html>
 <head>
   <title>Close A Bug</title>

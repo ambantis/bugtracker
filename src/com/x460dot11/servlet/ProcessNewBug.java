@@ -47,7 +47,7 @@ public class ProcessNewBug extends HttpServlet {
       e.printStackTrace();
     }
 
-    RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
+    RequestDispatcher view = request.getRequestDispatcher("/listBugs.do");
     view.forward(request, response);
   }
 }

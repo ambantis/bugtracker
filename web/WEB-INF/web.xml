@@ -61,20 +61,20 @@
 
   <servlet>
     <servlet-name>New Bug</servlet-name>
-    <jsp-file>/WEB-INF/inputNewBug.jsp</jsp-file>
+    <jsp-file>/WEB-INF/newBug.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>New Bug</servlet-name>
-    <url-pattern>/inputNewBug.do</url-pattern>
+    <url-pattern>/newBug.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>Display All Bugs</servlet-name>
-    <jsp-file>/WEB-INF/displayAllBugs.jsp</jsp-file>
+    <servlet-name>List Bugs</servlet-name>
+    <jsp-file>/WEB-INF/listBugs.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Display All Bugs</servlet-name>
-    <url-pattern>/displayAllBugs.do</url-pattern>
+    <servlet-name>List Bugs</servlet-name>
+    <url-pattern>/listBugs.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -88,7 +88,7 @@
 
   <servlet>
     <servlet-name>Display A Bug</servlet-name>
-    <servlet-class>com.x460dot11.servlet.DisplayBug</servlet-class>
+    <servlet-class>com.x460dot11.servlet.ShowBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Display A Bug</servlet-name>
@@ -96,12 +96,12 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>Edit a Bug</servlet-name>
-    <jsp-file>/WEB-INF/editBug.jsp</jsp-file>
+    <servlet-name>Show Bug</servlet-name>
+    <jsp-file>/WEB-INF/showBug.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Edit a Bug</servlet-name>
-    <url-pattern>/editBug.do</url-pattern>
+    <servlet-name>Show Bug</servlet-name>
+    <url-pattern>/showBug.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -141,12 +141,12 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>Invalidate Session</servlet-name>
-    <servlet-class>com.x460dot11.servlet.InvalidateSession</servlet-class>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>com.x460dot11.servlet.Logout</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Invalidate Session</servlet-name>
-    <url-pattern>/invalidate.do</url-pattern>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/logout.do</url-pattern>
   </servlet-mapping>
 
   <!-- ===================================================================-->

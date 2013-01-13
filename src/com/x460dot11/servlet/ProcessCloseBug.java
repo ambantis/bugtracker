@@ -64,7 +64,7 @@ public class ProcessCloseBug extends HttpServlet {
     } catch (DaoException e) {
       e.printStackTrace();
     }
-    RequestDispatcher view = request.getRequestDispatcher("/welcome.do");
+    RequestDispatcher view = request.getRequestDispatcher("/listBugs.do");
     view.forward(request, response);
 
   }
