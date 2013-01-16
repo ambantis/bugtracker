@@ -14,12 +14,11 @@
       <li class="divider-vertical"></li>
       <li class="active"><a href="#">Home</a></li>
       <li><a href="#">Contact Us</a></li>
-      <li>
-        <form class="navbar-search pull-left">
-          <input type="text" class="search-query" placeholder="Search">
-        </form>
-      </li>
     </ul>
+    <form class="navbar-search">
+      <input type="text" class="search-query" placeholder="Search">
+    </form>
+
     <ul class="nav pull-right">
       <li>
         <p class="navbar-text pull-right">Logged in as

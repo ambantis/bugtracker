@@ -77,7 +77,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
 				// Remove the middle elements
 				$('li:gt(0)', an[i]).filter(':not(:last)').remove();
 
-				// Add the new list items and their event handlers
+				// Add the new listAll items and their event handlers
 				for ( j=iStart ; j<=iEnd ; j++ ) {
 					sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
 					$('<li '+sClass+'><a href="#">'+j+'</a></li>')
@@ -143,16 +143,3 @@ if ( $.fn.DataTable.TableTools ) {
 		}
 	} );
 }
-
-
-/* Table initialisation */
-// http://stackoverflow.com/questions/1012140/delaying-a-jquery-script-until-everything-else-has-loaded
-$(window).load(function() {
-	$('#bug-list').dataTable( {
-		"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
-		"sPaginationType": "bootstrap",
-		"oLanguage": {
-			"sLengthMenu": "_MENU_ records per page"
-		}
-	} );
-} );

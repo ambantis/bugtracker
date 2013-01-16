@@ -30,11 +30,33 @@
   </context-param>
 
   <!-- ===================================================================-->
+  <!-- FILTER DEFINITIONS                                                 -->
+  <!-- ===================================================================-->
+
+  <filter>
+    <filter-name>NewBugFilter</filter-name>
+    <filter-class>com.ambantis.btracker.filter.NewBugFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>NewBugFilter</filter-name>
+    <url-pattern>/newBug.do</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>CloseBugFilter</filter-name>
+    <filter-class>com.ambantis.btracker.filter.CloseBugFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CloseBugFilter</filter-name>
+    <url-pattern>/closeBug.do</url-pattern>
+  </filter-mapping>
+
+  <!-- ===================================================================-->
   <!-- CONTEXT LISTENER                                                   -->
   <!-- ===================================================================-->
 
   <listener>
-    <listener-class>com.x460dot11.listener.ContextListener</listener-class>
+    <listener-class>com.ambantis.btracker.listener.ContextListener</listener-class>
   </listener>
 
   <!-- ===================================================================-->
@@ -43,20 +65,11 @@
 
   <servlet>
     <servlet-name>Login</servlet-name>
-    <servlet-class>com.x460dot11.servlet.Login</servlet-class>
+    <servlet-class>com.ambantis.btracker.servlet.Login</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/login.do</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>Welcome Page</servlet-name>
-    <jsp-file>/WEB-INF/welcome.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Welcome Page</servlet-name>
-    <url-pattern>/welcome.do</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -71,6 +84,7 @@
   <servlet>
     <servlet-name>List Bugs</servlet-name>
     <jsp-file>/WEB-INF/listBugs.jsp</jsp-file>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>List Bugs</servlet-name>
@@ -79,7 +93,7 @@
 
   <servlet>
     <servlet-name>Process New Bug</servlet-name>
-    <servlet-class>com.x460dot11.servlet.ProcessNewBug</servlet-class>
+    <servlet-class>com.ambantis.btracker.servlet.ProcessNewBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Process New Bug</servlet-name>
@@ -88,7 +102,7 @@
 
   <servlet>
     <servlet-name>Display A Bug</servlet-name>
-    <servlet-class>com.x460dot11.servlet.ShowBug</servlet-class>
+    <servlet-class>com.ambantis.btracker.servlet.ShowBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Display A Bug</servlet-name>
@@ -106,7 +120,7 @@
 
   <servlet>
     <servlet-name>ProcessEditBug</servlet-name>
-    <servlet-class>com.x460dot11.servlet.ProcessEditBug</servlet-class>
+    <servlet-class>com.ambantis.btracker.servlet.ProcessEditBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ProcessEditBug</servlet-name>
@@ -115,7 +129,7 @@
 
   <servlet>
     <servlet-name>ProcessCloseBug</servlet-name>
-    <servlet-class>com.x460dot11.servlet.ProcessCloseBug</servlet-class>
+    <servlet-class>com.ambantis.btracker.servlet.ProcessCloseBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ProcessCloseBug</servlet-name>
@@ -142,7 +156,7 @@
 
   <servlet>
     <servlet-name>Logout</servlet-name>
-    <servlet-class>com.x460dot11.servlet.Logout</servlet-class>
+    <servlet-class>com.ambantis.btracker.servlet.Logout</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Logout</servlet-name>
@@ -209,5 +223,14 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+
+  <!-- ===================================================================-->
+  <!-- ERROR PAGES                                                        -->
+  <!-- ===================================================================-->
+
+  <error-page>
+    <error-code>403</error-code>
+    <location>/403.html</location>
+  </error-page>
 
 </web-app>

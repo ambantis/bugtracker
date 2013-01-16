@@ -37,37 +37,43 @@
             </tr>
           </thead>
           <tbody>
-            <c:set var="bugs" value="${applicationScope.db.bugDao.list()}"/>
             <c:set var="user" value="${sessionScope.user}"/>
-            <c:forEach var="bug" items="${bugs}">
-              <c:if test="${((user.roleId eq 'dev') && (user.userId eq bug.assignee)) || (user.roleId ne 'dev')}">
-                <tr>
-                  <th><a href="displayBug.do?pick_id=${bug.bugId}"><c:out value="${bug.bugId}"/></a></th>
-                  <th><c:out value="${bug.assignee}"/></th>
-                  <th>
-                    <c:choose>
-                      <c:when test="${bug.dueDate eq '1970-01-01'}">
-                        n/a
-                      </c:when>
-                      <c:otherwise>
-                        <c:out value="${bug.dueDate}"/>
-                      </c:otherwise>
-                    </c:choose>
-                  </th>
+            <c:choose>
+              <c:when test="${user.roleId eq 'dev'}">
+                <c:set var="bugs" value="${applicationScope.db.bugDao.listAll(user.userId)}"/>
+              </c:when>
+              <c:otherwise>
+                <c:set var="bugs" value="${applicationScope.db.bugDao.listAll()}"/>
+              </c:otherwise>
+            </c:choose>
 
-                  <th>
-                    <c:choose>
-                      <c:when test="${bug.closeDate eq '1970-01-01'}">
-                        n/a
-                      </c:when>
-                      <c:otherwise>
-                        <c:out value="${bug.closeDate}"/>
-                      </c:otherwise>
-                    </c:choose>
-                  </th>
-                  <th><c:out value="${bug.summary}"/></th>
+            <c:forEach var="bug" items="${bugs}">
+              <tr>
+                <th><a href="displayBug.do?pick_id=${bug.bugId}"><c:out value="${bug.bugId}"/></a></th>
+                <th><c:out value="${bug.assignee}"/></th>
+                <th>
+                  <c:choose>
+                    <c:when test="${bug.dueDate eq '1970-01-01'}">
+                      closed
+                    </c:when>
+                    <c:otherwise>
+                      <c:out value="${bug.dueDate}"/>
+                    </c:otherwise>
+                  </c:choose>
+                </th>
+
+                <th>
+                  <c:choose>
+                    <c:when test="${bug.closeDate eq '1970-01-01'}">
+                      open
+                    </c:when>
+                    <c:otherwise>
+                      <c:out value="${bug.closeDate}"/>
+                    </c:otherwise>
+                  </c:choose>
+                </th>
+                <th><c:out value="${bug.summary}"/></th>
                 </tr>
-              </c:if>
             </c:forEach>
           </tbody>
         </table>
@@ -78,5 +84,14 @@
   <script type="text/javascript" src="../shared/js/jquery-1.8.3.min.js"></script>
   <script type="text/javascript" src="../shared/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="../shared/js/DT_bootstrap.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#bug-list').dataTable( {
+//        "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+        "sPaginationType": "bootstrap",
+        "oLanguage": {"sLengthMenu": "_MENU_ records per page"}
+      });
+    });
+  </script>
 </body>
 </html>
