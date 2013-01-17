@@ -9,7 +9,7 @@
 <html>
 <head>
   <title>Display All Bugs</title>
-  <link rel="stylesheet" type="text/css" href="../shared/css/bootstrap.min.css" media="all">
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css">
   <link rel="stylesheet" type="text/css" href="../shared/css/DT_bootstrap.css" media="all">
 </head>
 
@@ -81,13 +81,12 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="../shared/js/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script type="text/javascript" src="../shared/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="../shared/js/DT_bootstrap.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('#bug-list').dataTable( {
-//        "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
         "sPaginationType": "bootstrap",
         "oLanguage": {"sLengthMenu": "_MENU_ records per page"}
       });

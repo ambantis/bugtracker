@@ -60,12 +60,5 @@
 <button type="submit">Close Bug</button>
 </form>
 
-
-
-
-
-
-
-
 </body>
 </html>

@@ -1,3 +1,3 @@
 <p><small>
-  &copy; Copyright 2012 UCI Java Class II
+  &copy; Copyright 2013 Okosmos
 </small></p>
