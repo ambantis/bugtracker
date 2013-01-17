@@ -29,13 +29,18 @@
     <param-value>motel</param-value>
   </context-param>
 
+  <context-param>
+    <param-name>log4j-properties-file</param-name>
+    <param-value>WEB-INF/lib/log4j.properties</param-value>
+  </context-param>
+
   <!-- ===================================================================-->
   <!-- FILTER DEFINITIONS                                                 -->
   <!-- ===================================================================-->
 
   <filter>
     <filter-name>NewBugFilter</filter-name>
-    <filter-class>com.ambantis.btracker.filter.NewBugFilter</filter-class>
+    <filter-class>com.ambantis.bugtracker.filter.NewBugFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>NewBugFilter</filter-name>
@@ -44,7 +49,7 @@
 
   <filter>
     <filter-name>CloseBugFilter</filter-name>
-    <filter-class>com.ambantis.btracker.filter.CloseBugFilter</filter-class>
+    <filter-class>com.ambantis.bugtracker.filter.CloseBugFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>CloseBugFilter</filter-name>
@@ -56,7 +61,7 @@
   <!-- ===================================================================-->
 
   <listener>
-    <listener-class>com.ambantis.btracker.listener.ContextListener</listener-class>
+    <listener-class>com.ambantis.bugtracker.listener.ContextListener</listener-class>
   </listener>
 
   <!-- ===================================================================-->
@@ -65,7 +70,7 @@
 
   <servlet>
     <servlet-name>Login</servlet-name>
-    <servlet-class>com.ambantis.btracker.servlet.Login</servlet-class>
+    <servlet-class>com.ambantis.bugtracker.servlet.Login</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -93,7 +98,7 @@
 
   <servlet>
     <servlet-name>Process New Bug</servlet-name>
-    <servlet-class>com.ambantis.btracker.servlet.ProcessNewBug</servlet-class>
+    <servlet-class>com.ambantis.bugtracker.servlet.ProcessNewBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Process New Bug</servlet-name>
@@ -102,7 +107,7 @@
 
   <servlet>
     <servlet-name>Display A Bug</servlet-name>
-    <servlet-class>com.ambantis.btracker.servlet.ShowBug</servlet-class>
+    <servlet-class>com.ambantis.bugtracker.servlet.ShowBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Display A Bug</servlet-name>
@@ -120,7 +125,7 @@
 
   <servlet>
     <servlet-name>ProcessEditBug</servlet-name>
-    <servlet-class>com.ambantis.btracker.servlet.ProcessEditBug</servlet-class>
+    <servlet-class>com.ambantis.bugtracker.servlet.ProcessEditBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ProcessEditBug</servlet-name>
@@ -129,7 +134,7 @@
 
   <servlet>
     <servlet-name>ProcessCloseBug</servlet-name>
-    <servlet-class>com.ambantis.btracker.servlet.ProcessCloseBug</servlet-class>
+    <servlet-class>com.ambantis.bugtracker.servlet.ProcessCloseBug</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ProcessCloseBug</servlet-name>
@@ -156,7 +161,7 @@
 
   <servlet>
     <servlet-name>Logout</servlet-name>
-    <servlet-class>com.ambantis.btracker.servlet.Logout</servlet-class>
+    <servlet-class>com.ambantis.bugtracker.servlet.Logout</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Logout</servlet-name>
