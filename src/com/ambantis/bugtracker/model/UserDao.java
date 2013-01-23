@@ -1,5 +1,9 @@
 package com.ambantis.bugtracker.model;
 
+import com.ambantis.bugtracker.exception.DaoConfigurationException;
+import com.ambantis.bugtracker.exception.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoException;
+
 import java.util.ArrayList;
 
 /**

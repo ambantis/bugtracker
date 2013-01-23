@@ -1,5 +1,9 @@
 package com.ambantis.bugtracker.model;
 
+import com.ambantis.bugtracker.exception.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoException;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +18,8 @@ import static com.ambantis.bugtracker.model.DaoUtil.*;
  * Time: 6:20 PM
  */
 public class UserDaoPostgres implements UserDao {
+
+  private static Logger logger = Logger.getLogger(UserDaoPostgres.class);
 
   private static final String SQL_FIND_BY_ID =
       "SELECT user_id, password, full_name, role_id, email FROM users WHERE user_id = ?";
@@ -64,6 +70,7 @@ public class UserDaoPostgres implements UserDao {
         user = map(resultSet);
       }
     } catch (SQLException e) {
+      logger.error("unable to find user", e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -87,6 +94,7 @@ public class UserDaoPostgres implements UserDao {
         coders.add(resultSet.getString("user_id"));
       }
     } catch (SQLException e) {
+      logger.error("unable to retrieve developers list", e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -109,6 +117,7 @@ public class UserDaoPostgres implements UserDao {
         users.add(map(resultSet));
       }
     } catch (SQLException e) {
+      logger.error("unable to retrieve user list", e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -137,9 +146,11 @@ public class UserDaoPostgres implements UserDao {
       preparedStatement = prepareStatement(connection, SQL_INSERT, true, values);
       int affectedRows = preparedStatement.executeUpdate();
       if (affectedRows == 0) {
+        logger.error("unable to create user: " + user);
         throw new DaoException("Creating user failed, no rows affected.");
       }
     } catch (SQLException e) {
+      logger.error("unable to create user: " + user, e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement);
@@ -166,9 +177,11 @@ public class UserDaoPostgres implements UserDao {
       preparedStatement = prepareStatement(connection, SQL_UPDATE, false, values);
       int affectedRows = preparedStatement.executeUpdate();
       if (affectedRows == 0) {
+        logger.error("unable to update user: " + user);
         throw new DaoException("Updating user failed, no rows affected.");
       }
     } catch (SQLException e) {
+      logger.error("unable to update user: " + user, e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement);
@@ -189,11 +202,13 @@ public class UserDaoPostgres implements UserDao {
       preparedStatement = prepareStatement(connection, SQL_DELETE, false, values);
       int affectedRows = preparedStatement.executeUpdate();
       if (affectedRows == 0) {
+        logger.error("unable to delete user: " + user);
         throw new DaoException("Deleting user failed, no rows affected.");
       } else {
         user.setUserId(null);
       }
     } catch (SQLException e) {
+      logger.error("unable to delete user: " + user, e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement);
@@ -217,6 +232,7 @@ public class UserDaoPostgres implements UserDao {
       resultSet = preparedStatement.executeQuery();
       exist = resultSet.next();
     } catch (SQLException e) {
+      logger.error("unable to validate that this user id exists: " + userId);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -243,9 +259,11 @@ public class UserDaoPostgres implements UserDao {
       preparedStatement = prepareStatement(connection, SQL_CHANGE_PASSWORD, false, values);
       int affectedRows = preparedStatement.executeUpdate();
       if (affectedRows == 0) {
+        logger.error("unable to update password for user: " + user);
         throw new DaoException("Changing password failed, no rows affected.");
       }
     } catch (SQLException e) {
+      logger.error("unable to update password for user: " + user, e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement);

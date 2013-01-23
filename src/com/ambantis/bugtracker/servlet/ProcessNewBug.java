@@ -1,9 +1,7 @@
 package com.ambantis.bugtracker.servlet;
 
-//import com.ambantis.data.Bug;
-//import com.ambantis.data.Database;
-//import com.ambantis.data.User;
-
+import com.ambantis.bugtracker.exception.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoException;
 import com.ambantis.bugtracker.model.*;
 
 import javax.servlet.RequestDispatcher;
@@ -37,12 +35,10 @@ public class ProcessNewBug extends HttpServlet {
     bug.setHistory(comment);
     try {
       DaoFactory.getInstance().getBugDao().create(bug, user);
-//      Database.getInstance().addBug(summary, comment, user);
-//    } catch (SQLException e) {
       } catch (DaoException e) {
       e.printStackTrace();
     } catch (DaoConnectionException e) {
-      e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+      e.printStackTrace();
     }
 
     RequestDispatcher view = request.getRequestDispatcher("/listBugs.do");

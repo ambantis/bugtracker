@@ -1,4 +1,4 @@
-package com.ambantis.bugtracker.model;
+package com.ambantis.bugtracker.exception;
 
 /**
  * User: Alexandros Bantis

@@ -1,10 +1,7 @@
 package com.ambantis.bugtracker.servlet;
 
-//import com.ambantis.data.Bug;
-//import com.ambantis.data.Database;
-//import com.ambantis.data.User;
-//import com.ambantis.bugtracker.exception.LostUpdateException;
-
+import com.ambantis.bugtracker.exception.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoException;
 import com.ambantis.bugtracker.model.*;
 
 import org.joda.time.LocalDate;
@@ -53,9 +50,6 @@ public class ProcessEditBug extends HttpServlet {
       }
 
       v2bug = new Bug();
-//      v2bug.setBug_id(bug_id);
-//      v2bug.setDue_date(due_date);
-//      v2bug.setClose_date(close_date);
       v2bug.setBugId(bug_id);
       v2bug.setDueDate(due_date);
       v2bug.setCloseDate(close_date);
@@ -72,15 +66,11 @@ public class ProcessEditBug extends HttpServlet {
       //TODO:2012-09-07:ambantis:Include edit bug fields close_date and final_result
 
     } catch (IllegalArgumentException e) {
-      // this is in the case of an illegal format exception for parsing the dates.
       e.printStackTrace();
-//    } catch (LostUpdateException e) {
       } catch (DaoException e) {
       e.printStackTrace();
-//    } catch (SQLException e) {
-//      e.printStackTrace();
     } catch (DaoConnectionException e) {
-      e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+      e.printStackTrace();
     }
     RequestDispatcher view = request.getRequestDispatcher("/listBugs.do");
     view.forward(request, response);

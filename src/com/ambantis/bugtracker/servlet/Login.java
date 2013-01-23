@@ -1,9 +1,7 @@
 package com.ambantis.bugtracker.servlet;
 
-//import com.ambantis.data.Bug;
-//import com.ambantis.data.Database;
-//import com.ambantis.data.User;
-
+import com.ambantis.bugtracker.exception.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoException;
 import com.ambantis.bugtracker.model.*;
 
 import javax.servlet.RequestDispatcher;

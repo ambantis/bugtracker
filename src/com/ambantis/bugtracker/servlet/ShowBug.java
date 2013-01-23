@@ -1,11 +1,9 @@
 package com.ambantis.bugtracker.servlet;
 
-//import com.ambantis.data.Bug;
-//import com.ambantis.data.Database;
 import com.ambantis.bugtracker.model.Bug;
-import com.ambantis.bugtracker.model.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoConnectionException;
 import com.ambantis.bugtracker.model.DaoFactory;
-import com.ambantis.bugtracker.model.DaoException;
+import com.ambantis.bugtracker.exception.DaoException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,7 +40,6 @@ public class ShowBug extends HttpServlet {
 
     Bug v2Bug = null;
     try {
-//      v2Bug = Database.getInstance().getBug(id);
         v2Bug = DaoFactory.getInstance().getBugDao().find(id);
     } catch (DaoException e) {
       e.printStackTrace();

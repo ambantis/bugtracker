@@ -1,5 +1,9 @@
 package com.ambantis.bugtracker.model;
 
+import com.ambantis.bugtracker.exception.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoException;
+import com.ambantis.bugtracker.exception.DaoLostUpdateException;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 
 import java.sql.Connection;
@@ -16,6 +20,9 @@ import static com.ambantis.bugtracker.model.DaoUtil.*;
  * Time: 8:17 PM
  */
 public class BugDaoPostgres implements BugDao {
+
+  private static Logger logger = Logger.getLogger(BugDaoPostgres.class);
+
   private static final String SQL_FIND_BY_ID =
       "SELECT bug_id, due_date, close_date, assignee, priority, summary, history, final_result " +
           "FROM bug " +
@@ -99,6 +106,7 @@ public class BugDaoPostgres implements BugDao {
       if (resultSet.next())
         bug = map(resultSet);
     } catch (SQLException e) {
+      logger.error("unable to locate bug id #" + id, e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -121,6 +129,7 @@ public class BugDaoPostgres implements BugDao {
       while (resultSet.next())
         bugs.add(map(resultSet));
     } catch (SQLException e) {
+      logger.error("unable to retrieve list of all bugs", e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -147,6 +156,7 @@ public class BugDaoPostgres implements BugDao {
       while (resultSet.next())
         bugs.add(map(resultSet));
     } catch (SQLException e) {
+      logger.error("unable to retrieve all bugs for assignee: " + assignee, e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -169,6 +179,7 @@ public class BugDaoPostgres implements BugDao {
       while (resultSet.next())
         bugs.add(map(resultSet));
     } catch (SQLException e) {
+      logger.error("unable to retrieve list of all open bugs", e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -195,6 +206,7 @@ public class BugDaoPostgres implements BugDao {
       while (resultSet.next())
         bugs.add(map(resultSet));
     } catch (SQLException e) {
+      logger.error("unable to open list of open bugs for assignee: " + assignee, e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -217,6 +229,7 @@ public class BugDaoPostgres implements BugDao {
       while (resultSet.next())
         bugs.add(map(resultSet));
     } catch (SQLException e) {
+      logger.error("unable to open list of closed bugs", e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -243,6 +256,7 @@ public class BugDaoPostgres implements BugDao {
       while (resultSet.next())
         bugs.add(map(resultSet));
     } catch (SQLException e) {
+      logger.error("unable to access list of closed bugs for assignee: " + assignee, e);
       throw new DaoException(e);
     } finally {
       close(connection, preparedStatement, resultSet);
@@ -254,8 +268,10 @@ public class BugDaoPostgres implements BugDao {
 
   @Override
   public void create(Bug bug, User user) throws IllegalArgumentException, DaoException, DaoConnectionException {
-    if (bug.getBugId() != 0)
+    if (bug.getBugId() != 0) {
+      logger.error("unable to create bug: " + bug + " for user: " + user + ". Bug is already created, the bug ID is not zero.");
       throw new IllegalArgumentException("Bug is already created, the bug ID is not zero.");
+    }
 
     Object[] values = {
         bug.getAssignee(),
@@ -276,13 +292,15 @@ public class BugDaoPostgres implements BugDao {
       preparedStatement = prepareStatement(connection, SQL_INSERT, true, values);
       int affectedRows = preparedStatement.executeUpdate();
       if (affectedRows == 0) {
+        logger.error("unable to create bug: " + bug + " for user: " + user + ". Creating bug failed, no rows affected.");
         throw new DaoException("Creating bug failed, no rows affected.");
       }
       generatedKeys = preparedStatement.getGeneratedKeys();
       if (generatedKeys.next()) {
         bug.setBugId(generatedKeys.getInt(1));
       } else {
-        throw new DaoException("Creating user failed, no generated key obtained.");
+        logger.error("unable to create bug " + bug + " for user " + user + ", no generated key obtained.");
+        throw new DaoException("Creating bug failed, no generated key obtained.");
       }
     } catch (SQLException e) {
       throw new DaoException(e);
@@ -293,10 +311,14 @@ public class BugDaoPostgres implements BugDao {
 
   @Override
   public synchronized void update(Bug bugOld, Bug bugNew, User user) throws IllegalArgumentException, DaoException, DaoConnectionException {
-    if (bugNew.getBugId() == 0)
+    if (bugNew.getBugId() == 0) {
+      logger.error("unable to update bug (not created yet): " + bugNew);
       throw new IllegalArgumentException("Bug is not created yet, bug ID is 0.");
-    if (bugOld.hasSameValues(bugNew))
+    }
+    if (bugOld.hasSameValues(bugNew)) {
+      logger.error("unable to update bug as values are unchanged, old version: " + bugOld + ". New version: " + bugNew);
       throw new IllegalArgumentException("Bug is unchanged, nothing to update.");
+    }
 
     Object[] archiveValues = {
         bugNew.getBugId()
@@ -331,15 +353,19 @@ public class BugDaoPostgres implements BugDao {
       updatePreparedStmt.execute();
       testLostUpdateResultSet = testLostUpdatePreparedStmt.getResultSet();
       if (testLostUpdateResultSet.next())
-        if (!(bugOld.hasSameValues(map(testLostUpdateResultSet))))
-          throw new DaoException("Cannot update bug ID due to another update. Please refresh and try again.");
+        if (!(bugOld.hasSameValues(map(testLostUpdateResultSet)))) {
+          logger.error("Cannot update bug (lost update exception): " + bugNew);
+          throw new DaoLostUpdateException("Cannot update bug ID due to another update. Please refresh and try again.");
+        }
       int archiveAffectedRows = archivePreparedStmt.executeUpdate();
       int updateAffectedRows = updatePreparedStmt.executeUpdate();
       if (archiveAffectedRows == 0 || updateAffectedRows == 0) {
+        logger.error("Updating bug failed, no rows affected: " + bugNew);
         throw new DaoException("Updating bug failed, no rows affected");
       }
       connection.commit();
     } catch (SQLException e) {
+      logger.error("Unable to process update for bug: " + bugNew, e);
       throw new DaoException(e);
     } finally {
       close(connection, testLostUpdatePreparedStmt, archivePreparedStmt, updatePreparedStmt, testLostUpdateResultSet);
@@ -376,10 +402,12 @@ public class BugDaoPostgres implements BugDao {
       int archiveRowsAffected = archivePreparedStatement.executeUpdate();
       int deleteRowsAffected = deletePreparedStatement.executeUpdate();
       if (modifiedByRowsAffected == 0 || archiveRowsAffected == 0 || deleteRowsAffected == 0) {
+        logger.error("unable to delete bug: " + bug);
         throw new DaoException("Deleting bug failed, no rows affected");
       }
       connection.commit();
     } catch (SQLException e) {
+      logger.error("unable to execute delete request for bug: " + bug, e);
       throw new DaoException(e);
     } finally {
       close(connection, updateModifiedByStatement, archivePreparedStatement, deletePreparedStatement);

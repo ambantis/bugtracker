@@ -1,9 +1,7 @@
 package com.ambantis.bugtracker.servlet;
 
-//import com.ambantis.data.Bug;
-//import com.ambantis.data.Database;
-//import com.ambantis.data.User;
-
+import com.ambantis.bugtracker.exception.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoException;
 import com.ambantis.bugtracker.model.*;
 
 
@@ -40,8 +38,6 @@ public class ProcessCloseBug extends HttpServlet {
       //TODO:2012-09-09:ambantis:get rid of closeDate from ProcessEditBug
 
       v2bug = new Bug();
-//      v2bug.setBug_id(bug_id);
-//      v2bug.setDue_date(due_date);
       v2bug.setBugId(bug_id);
       v2bug.setDueDate(due_date);
       v2bug.setCloseDate(close_date);
@@ -49,16 +45,14 @@ public class ProcessCloseBug extends HttpServlet {
       v2bug.setPriority(priority);
       v2bug.setSummary(summary);
       v2bug.setHistory(history);
-//    v2bug.setFinal_result(final_result);
       v2bug.setFinalResult(final_result);
 
       DaoFactory.getInstance().getBugDao().update(v1bug, v2bug, user);
-//      Database.getInstance().closeBug(v1bug, v2bug, user);
 
     } catch (DaoException e) {
       e.printStackTrace();
     } catch (DaoConnectionException e) {
-      e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+      e.printStackTrace();
     }
     RequestDispatcher view = request.getRequestDispatcher("/listBugs.do");
     view.forward(request, response);

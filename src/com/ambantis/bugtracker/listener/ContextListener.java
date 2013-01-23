@@ -1,7 +1,7 @@
 package com.ambantis.bugtracker.listener;
 
-import com.ambantis.bugtracker.model.DaoConfigurationException;
-import com.ambantis.bugtracker.model.DaoConnectionException;
+import com.ambantis.bugtracker.exception.DaoConfigurationException;
+import com.ambantis.bugtracker.exception.DaoConnectionException;
 import com.ambantis.bugtracker.model.DaoFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 public class ContextListener implements ServletContextListener {
-  static Logger logger = null;
+  private static Logger logger = null;
 
   public void contextInitialized(ServletContextEvent event) {
     ServletContext servletContext = event.getServletContext();
@@ -32,7 +32,7 @@ public class ContextListener implements ServletContextListener {
       System.err.println("*** No log4j-properties-file found, so initializing log4j with BasicConfigurator");
       BasicConfigurator.configure();
     }
-    logger = Logger.getRootLogger();
+    logger = Logger.getLogger(ContextListener.class);
   }
 
   private void initBugDb(ServletContext servletContext) {
@@ -47,10 +47,9 @@ public class ContextListener implements ServletContextListener {
       DaoFactory dao = DaoFactory.getInstance();
       servletContext.setAttribute("db", dao);
     } catch (DaoConfigurationException e) {
-      logger.error("Unable to configure database", e);
-      System.err.println("Unable to connect to database");
+      e.printStackTrace();
     } catch (DaoConnectionException e) {
-      logger.error("Unable to connect to database", e);
+      e.printStackTrace();
     }
   }
 

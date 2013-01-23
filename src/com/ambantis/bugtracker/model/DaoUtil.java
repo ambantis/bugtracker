@@ -1,6 +1,9 @@
 package com.ambantis.bugtracker.model;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
+
 
 /**
  * User: Alexandros Bantis
@@ -8,6 +11,8 @@ import java.sql.*;
  * Time: 5:28 PM
  */
 public final class DaoUtil {
+
+  private static Logger logger = Logger.getLogger(DaoUtil.class);
 
   private DaoUtil() {}
 
@@ -31,8 +36,7 @@ public final class DaoUtil {
       try {
         connection.close();
       } catch (SQLException e) {
-        System.err.println("Closing Connection failed: " + e.getMessage());
-        e.printStackTrace();
+        logger.error("unable to close database connection", e);
       }
     }
   }
@@ -42,8 +46,7 @@ public final class DaoUtil {
       try {
         statement.close();
       } catch (SQLException e) {
-        System.err.println("Closing Statement failed: " + e.getMessage());
-        e.printStackTrace();
+        logger.error("unable to close database connection", e);
       }
     }
   }
@@ -53,8 +56,7 @@ public final class DaoUtil {
       try {
         resultSet.close();
       } catch (SQLException e) {
-        System.err.println("Closing ResultSet failed: " + e.getMessage());
-        e.printStackTrace();
+        logger.error("unable to close database connection", e);
       }
     }
   }
