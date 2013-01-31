@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+  <!-- ===================================================================-->
+  <!-- CONTEXT PARAMETERS                                                 -->
+  <!-- ===================================================================-->
+
+  <context-param>
+    <param-name>db-driver</param-name>
+    <param-value>org.postgresql.Driver</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>db-url</param-name>
+    <param-value>jdbc:postgresql://54.245.109.81:5432/bugdb</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>db-user</param-name>
+    <param-value>roach</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>db-password</param-name>
+    <param-value>motel</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>log4j-properties-file</param-name>
+    <param-value>WEB-INF/lib/log4j.properties</param-value>
+  </context-param>
+
+  <!-- ===================================================================-->
+  <!-- FILTER DEFINITIONS                                                 -->
+  <!-- ===================================================================-->
+
+  <filter>
+    <filter-name>NewBugFilter</filter-name>
+    <filter-class>com.ambantis.bugtracker.filter.NewBugFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>NewBugFilter</filter-name>
+    <url-pattern>/newBug.do</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>CloseBugFilter</filter-name>
+    <filter-class>com.ambantis.bugtracker.filter.CloseBugFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>LoggerFilter</filter-name>
+    <filter-class>com.ambantis.bugtracker.filter.LoggerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CloseBugFilter</filter-name>
+    <url-pattern>/closeBug.do</url-pattern>
+  </filter-mapping>
+
+  <!-- ===================================================================-->
+  <!-- CONTEXT LISTENER                                                   -->
+  <!-- ===================================================================-->
+
+  <listener>
+    <listener-class>com.ambantis.bugtracker.listener.ContextListener</listener-class>
+  </listener>
+
+  <!-- ===================================================================-->
+  <!-- SERVLET DEFINITIONS                                                -->
+  <!-- ===================================================================-->
+
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>com.ambantis.bugtracker.servlet.Login</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/login.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>New Bug</servlet-name>
+    <jsp-file>/WEB-INF/newBug.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>New Bug</servlet-name>
+    <url-pattern>/newBug.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>List Bugs</servlet-name>
+    <jsp-file>/WEB-INF/listBugs.jsp</jsp-file>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>List Bugs</servlet-name>
+    <url-pattern>/listBugs.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Process New Bug</servlet-name>
+    <servlet-class>com.ambantis.bugtracker.servlet.ProcessNewBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Process New Bug</servlet-name>
+    <url-pattern>/processNewBug.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Display A Bug</servlet-name>
+    <servlet-class>com.ambantis.bugtracker.servlet.ShowBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Display A Bug</servlet-name>
+    <url-pattern>/displayBug.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Show Bug</servlet-name>
+    <jsp-file>/WEB-INF/showBug.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Show Bug</servlet-name>
+    <url-pattern>/showBug.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ProcessEditBug</servlet-name>
+    <servlet-class>com.ambantis.bugtracker.servlet.ProcessEditBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProcessEditBug</servlet-name>
+    <url-pattern>/processEditBug.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ProcessCloseBug</servlet-name>
+    <servlet-class>com.ambantis.bugtracker.servlet.ProcessCloseBug</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProcessCloseBug</servlet-name>
+    <url-pattern>/processCloseBug.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Display Close Bug</servlet-name>
+    <jsp-file>/WEB-INF/closeBug.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Display Close Bug</servlet-name>
+    <url-pattern>/closeBug.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Exit Page</servlet-name>
+    <jsp-file>/WEB-INF/exit.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Exit Page</servlet-name>
+    <url-pattern>/exit.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>com.ambantis.bugtracker.servlet.Logout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/logout.do</url-pattern>
+  </servlet-mapping>
+
+  <!-- ===================================================================-->
+  <!-- SESSION CONFIG                                                     -->
+  <!-- ===================================================================-->
+
+  <session-config>
+    <session-timeout>15</session-timeout>
+  </session-config>
+
+  <!-- ===================================================================-->
+  <!-- WELCOME FILE                                                       -->
+  <!-- ===================================================================-->
+
+  <welcome-file-list>
+    <welcome-file>/index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <!-- ===================================================================-->
+  <!-- ERROR PAGES                                                        -->
+  <!-- ===================================================================-->
+
+  <error-page>
+    <error-code>403</error-code>
+    <location>/403.html</location>
+  </error-page>
+
+</web-app>
